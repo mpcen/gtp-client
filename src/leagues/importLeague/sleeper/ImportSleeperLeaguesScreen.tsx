@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Input, Button, ListItem } from 'react-native-elements';
 
 import { RootState } from '../../../store/rootReducer';
-import { findSleeperLeaguesForUser } from '../../store/actionCreators';
+import {
+    findSleeperLeaguesForUser,
+    addSleeperLeague,
+} from '../../store/actionCreators';
+import { ImportedSleeperLeague } from '../../store/storeTypes';
 
 export const ImportSleeperLeaguesScreen = () => {
     const [username, setUsername] = useState('');
@@ -23,6 +27,7 @@ export const ImportSleeperLeaguesScreen = () => {
 
             <Button
                 title='Search'
+                disabled={isLoading}
                 onPress={() => dispatch(findSleeperLeaguesForUser(username))}
             />
 
@@ -34,18 +39,27 @@ export const ImportSleeperLeaguesScreen = () => {
                 </Text>
             ) : null}
 
-            {importSleeperLeagues.leagues.map((league) => (
-                <ListItem
-                    style={{ marginTop: 20 }}
-                    key={league.leagueId}
-                    title={league.name}
-                    subtitle={`Season: ${league.seasonId} Teams: ${league.totalTeams}`}
-                    onPress={() => {}}
-                    chevron
-                    topDivider
-                    bottomDivider
-                />
-            ))}
+            {importSleeperLeagues.leagues.map(
+                (league: ImportedSleeperLeague) => {
+                    return (
+                        <ListItem
+                            style={{ marginTop: 20 }}
+                            key={league.leagueId}
+                            title={league.name}
+                            subtitle={`Season: ${league.seasonId} Teams: ${league.totalTeams}`}
+                            onPress={() =>
+                                dispatch(addSleeperLeague(league.leagueId))
+                            }
+                            topDivider
+                            bottomDivider
+                            rightIcon={{
+                                name: league.added ? 'minus' : 'plus',
+                                type: 'material-community',
+                            }}
+                        />
+                    );
+                }
+            )}
         </View>
     );
 };

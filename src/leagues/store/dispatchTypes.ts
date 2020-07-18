@@ -1,5 +1,5 @@
 import { LeagueActionTypes } from './actionTypes';
-import { ImportedSleeperLeague } from './reducer';
+import { SleeperLeague, ImportedSleeperLeague } from './storeTypes';
 
 // FIND_SLEEPER_LEAGUES_FOR_USER
 type FindSleeperLeaguesForUser = {
@@ -7,9 +7,7 @@ type FindSleeperLeaguesForUser = {
 };
 type FindSleeperLeaguesForUser_success = {
     type: LeagueActionTypes.FIND_SLEEPER_LEAGUES_FOR_USER_SUCCESS;
-    payload: {
-        leagues: ImportedSleeperLeague[];
-    };
+    payload: ImportedSleeperLeague[];
 };
 type FindSleeperLeaguesForUser_fail = {
     type: LeagueActionTypes.FIND_SLEEPER_LEAGUES_FOR_USER_FAIL;
@@ -22,4 +20,27 @@ type FindSleeperLeaguesForUserDispatchTypes =
     | FindSleeperLeaguesForUser_success
     | FindSleeperLeaguesForUser_fail;
 
-export type LeagueDispatchTypes = FindSleeperLeaguesForUserDispatchTypes;
+// ADD_SLEEPER_LEAGUE
+type AddSleeperLeague = {
+    type: LeagueActionTypes.ADD_SLEEPER_LEAGUE;
+};
+type AddSleeperLeague_success = {
+    type: LeagueActionTypes.ADD_SLEEPER_LEAGUE_SUCCESS;
+    payload: {
+        addedSleeperLeague: SleeperLeague;
+    };
+};
+type AddSleeperLeague_fail = {
+    type: LeagueActionTypes.ADD_SLEEPER_LEAGUE_FAIL;
+    payload: {
+        error: string;
+    };
+};
+type AddSleeperLeagueDispatchTypes =
+    | AddSleeperLeague
+    | AddSleeperLeague_success
+    | AddSleeperLeague_fail;
+
+export type LeagueDispatchTypes =
+    | FindSleeperLeaguesForUserDispatchTypes
+    | AddSleeperLeagueDispatchTypes;

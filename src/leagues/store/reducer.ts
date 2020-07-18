@@ -1,25 +1,13 @@
 import { LeagueActionTypes } from './actionTypes';
 import { LeagueDispatchTypes } from './dispatchTypes';
-
-export type ImportedSleeperLeague = {
-    leagueId: string;
-    seasonId: string;
-    name: string;
-    avatar: string | null;
-    totalTeams: number;
-};
-
-export type LeagueState = {
-    importSleeperLeagues: {
-        leagues: ImportedSleeperLeague[];
-    };
-    isLoading: boolean;
-    error: string;
-};
+import { LeagueState, ImportedSleeperLeague } from './storeTypes';
 
 const INITIAL_STATE: LeagueState = {
     importSleeperLeagues: {
         leagues: [],
+    },
+    userLeagues: {
+        sleeper: [],
     },
     isLoading: false,
     error: '',
@@ -40,7 +28,7 @@ export const leagueReducer = (
             return {
                 ...state,
                 importSleeperLeagues: {
-                    leagues: action.payload.leagues,
+                    leagues: action.payload,
                 },
                 isLoading: false,
                 error: '',
@@ -48,8 +36,53 @@ export const leagueReducer = (
         case LeagueActionTypes.FIND_SLEEPER_LEAGUES_FOR_USER_FAIL:
             return {
                 ...state,
+                importSleeperLeagues: {
+                    leagues: [],
+                },
                 isLoading: false,
                 error: action.payload.error,
+            };
+
+        // ADD_SLEEPER_LEAGUE
+        case LeagueActionTypes.ADD_SLEEPER_LEAGUE:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case LeagueActionTypes.ADD_SLEEPER_LEAGUE_SUCCESS:
+            const updatedImportSleeperLeagues = state.importSleeperLeagues.leagues.map(
+                (league: ImportedSleeperLeague) => {
+                    if (
+                        league.leagueId ===
+                        action.payload.addedSleeperLeague.leagueId
+                    ) {
+                        return {
+                            ...league,
+                            added: true,
+                        };
+                    }
+                    return league;
+                }
+            );
+
+            return {
+                ...state,
+                isLoading: false,
+                importSleeperLeagues: {
+                    leagues: [...updatedImportSleeperLeagues],
+                },
+                userLeagues: {
+                    sleeper: [
+                        ...state.userLeagues.sleeper,
+                        action.payload.addedSleeperLeague,
+                    ],
+                },
+            };
+        case LeagueActionTypes.ADD_SLEEPER_LEAGUE_FAIL:
+            return {
+                ...state,
+                isLoading: false,
+                error: 'Error adding Sleeper league',
             };
 
         // DEFAULT
