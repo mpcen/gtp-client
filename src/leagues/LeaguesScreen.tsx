@@ -10,7 +10,10 @@ export const LeaguesScreen = () => {
         <View
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         >
-            <Button title='Add League' onPress={() => navigate('AddLeague')} />
+            <Button
+                title='Import Sleeper'
+                onPress={() => navigate('ImportSleeperLeagues')}
+            />
         </View>
     );
 };

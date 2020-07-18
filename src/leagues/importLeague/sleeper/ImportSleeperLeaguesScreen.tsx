@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
-import { Input, Button } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
+import { Input, Button, ListItem } from 'react-native-elements';
 
-import { RootState } from '../store/rootReducer';
-import { findUser } from './store/actionCreators';
+import { RootState } from '../../../store/rootReducer';
+import { findSleeperLeaguesForUser } from '../../store/actionCreators';
 
-export const AddSleeperLeagueScreen = () => {
+export const ImportSleeperLeaguesScreen = () => {
     const [username, setUsername] = useState('');
     const dispatch = useDispatch();
-    const { addLeagueState, isLoading, error } = useSelector(
+    const { importSleeperLeagues, isLoading, error } = useSelector(
         (state: RootState) => state.leagues
     );
 
     return (
-        <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        >
+        <View>
             <Input
                 placeholder='Enter Sleeper username'
                 value={username}
@@ -25,7 +23,7 @@ export const AddSleeperLeagueScreen = () => {
 
             <Button
                 title='Search'
-                onPress={() => dispatch(findUser(username))}
+                onPress={() => dispatch(findSleeperLeaguesForUser(username))}
             />
 
             {isLoading && <ActivityIndicator size='large' />}
@@ -36,13 +34,18 @@ export const AddSleeperLeagueScreen = () => {
                 </Text>
             ) : null}
 
-            {addLeagueState.username ? (
-                <Button
-                    type='outline'
-                    title={addLeagueState.username}
+            {importSleeperLeagues.leagues.map((league) => (
+                <ListItem
+                    style={{ marginTop: 20 }}
+                    key={league.leagueId}
+                    title={league.name}
+                    subtitle={`Season: ${league.seasonId} Teams: ${league.totalTeams}`}
                     onPress={() => {}}
+                    chevron
+                    topDivider
+                    bottomDivider
                 />
-            ) : null}
+            ))}
         </View>
     );
 };

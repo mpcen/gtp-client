@@ -1,21 +1,25 @@
 import { LeagueActionTypes } from './actionTypes';
 import { LeagueDispatchTypes } from './dispatchTypes';
 
+export type ImportedSleeperLeague = {
+    leagueId: string;
+    seasonId: string;
+    name: string;
+    avatar: string | null;
+    totalTeams: number;
+};
+
 export type LeagueState = {
-    addLeagueState: {
-        username: string;
-        displayname: string;
-        avatar: string;
+    importSleeperLeagues: {
+        leagues: ImportedSleeperLeague[];
     };
     isLoading: boolean;
     error: string;
 };
 
 const INITIAL_STATE: LeagueState = {
-    addLeagueState: {
-        username: '',
-        displayname: '',
-        avatar: '',
+    importSleeperLeagues: {
+        leagues: [],
     },
     isLoading: false,
     error: '',
@@ -26,24 +30,22 @@ export const leagueReducer = (
     action: LeagueDispatchTypes
 ): LeagueState => {
     switch (action.type) {
-        // FIND_SLEEPER_USER
-        case LeagueActionTypes.FIND_SLEEPER_USER:
+        // FIND_SLEEPER_LEAGUES_FOR_USER
+        case LeagueActionTypes.FIND_SLEEPER_LEAGUES_FOR_USER:
             return {
                 ...state,
                 isLoading: true,
             };
-        case LeagueActionTypes.FIND_SLEEPER_USER_SUCCESS:
+        case LeagueActionTypes.FIND_SLEEPER_LEAGUES_FOR_USER_SUCCESS:
             return {
                 ...state,
+                importSleeperLeagues: {
+                    leagues: action.payload.leagues,
+                },
                 isLoading: false,
                 error: '',
-                addLeagueState: {
-                    username: action.payload.username,
-                    displayname: action.payload.displayName,
-                    avatar: action.payload.avatar,
-                },
             };
-        case LeagueActionTypes.FIND_SLEEPER_USER_FAIL:
+        case LeagueActionTypes.FIND_SLEEPER_LEAGUES_FOR_USER_FAIL:
             return {
                 ...state,
                 isLoading: false,

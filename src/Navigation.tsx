@@ -10,8 +10,7 @@ import { LeaguesScreen } from './leagues/LeaguesScreen';
 import { RootState } from './store/rootReducer';
 import { resolveAuth } from './auth/store/actionCreators';
 import { AccountScreen } from './account/AccountScreen';
-import { AddLeagueScreen } from './leagues/AddLeagueScreen';
-import { AddSleeperLeagueScreen } from './leagues/AddSleeperLeagueScreen';
+import { ImportSleeperLeaguesScreen } from './leagues/importLeague/sleeper/ImportSleeperLeaguesScreen';
 
 const Tabs = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
@@ -21,10 +20,9 @@ const LeaguesStackScreen = () => {
     return (
         <LeaguesStack.Navigator>
             <LeaguesStack.Screen name='Leagues' component={LeaguesScreen} />
-            <LeaguesStack.Screen name='AddLeague' component={AddLeagueScreen} />
             <LeaguesStack.Screen
-                name='AddSleeperLeague'
-                component={AddSleeperLeagueScreen}
+                name='ImportSleeperLeagues'
+                component={ImportSleeperLeaguesScreen}
             />
         </LeaguesStack.Navigator>
     );
