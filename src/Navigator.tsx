@@ -12,6 +12,7 @@ import { AccountScreen } from './account/AccountScreen';
 import { ImportSleeperLeaguesScreen } from './leagues/importLeague/sleeper/ImportSleeperLeaguesScreen';
 import { ResolvingAuthScreen } from './auth/ResolvingAuthScreen';
 import { PreloadingDataScreen } from './auth/PreloadingDataScreen';
+import { GarbageTimeMatchupsScreen } from './garbageTimeMatchups/GarbageTimeMatchupsScreen';
 
 export type LeaguesStackParamList = {
     Leagues: undefined;
@@ -22,6 +23,18 @@ export type LeaguesStackParamList = {
 const Tabs = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
 const LeaguesStack = createStackNavigator<LeaguesStackParamList>();
+const GarbageTimeMatchupsStack = createStackNavigator();
+
+const GarbageTimeMatchupsStackScreen = () => {
+    return (
+        <GarbageTimeMatchupsStack.Navigator>
+            <GarbageTimeMatchupsStack.Screen
+                name='GarbageTimeMatchups'
+                component={GarbageTimeMatchupsScreen}
+            />
+        </GarbageTimeMatchupsStack.Navigator>
+    );
+};
 
 const LeaguesStackScreen = () => {
     return (
@@ -64,6 +77,12 @@ export const Navigator = () => {
                         name='Leagues'
                         component={LeaguesStackScreen}
                     />
+
+                    <Tabs.Screen
+                        name='GarbageTimeMatchups'
+                        component={GarbageTimeMatchupsScreen}
+                    />
+
                     <Tabs.Screen name='Account' component={AccountScreen} />
                 </Tabs.Navigator>
             </NavigationContainer>
