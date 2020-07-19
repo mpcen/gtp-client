@@ -14,23 +14,11 @@ export const LeaguesCard = ({ platform, leagues }: Props) => {
     const { navigate } = useNavigation();
 
     return (
-        <View style={{ backgroundColor: 'white' }}>
-            <View
-                style={{
-                    justifyContent: 'space-between',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    paddingLeft: 14,
-                    paddingTop: 20,
-                    paddingBottom: 20,
-                    paddingRight: 20,
-                }}
-            >
-                <Text style={{ fontSize: 18 }}>{platform} Leagues</Text>
+        <View style={styles.container}>
+            <View style={styles.headerContainer}>
+                <Text style={styles.headerText}>{platform} Leagues</Text>
                 <Button
-                    buttonStyle={{
-                        padding: 0,
-                    }}
+                    buttonStyle={styles.headerButton}
                     type='clear'
                     icon={{ name: 'plus', type: 'material-community' }}
                     onPress={() => navigate('ImportSleeperLeagues')}
@@ -55,4 +43,21 @@ export const LeaguesCard = ({ platform, leagues }: Props) => {
     );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'white',
+    },
+    headerContainer: {
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingLeft: 14,
+        paddingTop: 20,
+        paddingBottom: 20,
+        paddingRight: 20,
+    },
+    headerText: { fontSize: 18 },
+    headerButton: {
+        padding: 0,
+    },
+});
