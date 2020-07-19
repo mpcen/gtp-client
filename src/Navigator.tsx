@@ -13,9 +13,15 @@ import { ImportSleeperLeaguesScreen } from './leagues/importLeague/sleeper/Impor
 import { ResolvingAuthScreen } from './auth/ResolvingAuthScreen';
 import { PreloadingDataScreen } from './auth/PreloadingDataScreen';
 
+export type LeaguesStackParamList = {
+    Leagues: undefined;
+    ImportSleeperLeagues: undefined;
+    LeagueHome: { leagueId: string };
+};
+
 const Tabs = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
-const LeaguesStack = createStackNavigator();
+const LeaguesStack = createStackNavigator<LeaguesStackParamList>();
 
 const LeaguesStackScreen = () => {
     return (
