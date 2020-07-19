@@ -4,6 +4,7 @@ import { Dispatch } from 'redux';
 
 import { AuthActionTypes } from './actionTypes';
 import { AuthDispatchTypes } from './dispatchTypes';
+import { LeagueDispatchTypes } from '../../leagues/store/dispatchTypes';
 
 export const resolveAuth = () => {
     return async (dispatch: Dispatch<AuthDispatchTypes>) => {
@@ -17,6 +18,39 @@ export const resolveAuth = () => {
         }
 
         dispatch({ type: AuthActionTypes.RESOLVE_AUTH_FAIL });
+    };
+};
+
+export const preloadData = () => {
+    return async (
+        dispatch: Dispatch<AuthDispatchTypes | LeagueDispatchTypes>
+    ) => {
+        const token = await AsyncStorage.getItem('gtp-token');
+
+        dispatch({
+            type: AuthActionTypes.PRELOAD_DATA,
+        });
+
+        try {
+            const userSleeperLeagues = await axios.get(
+                'http://192.168.0.210:5000/api/league/sleeper/userleagues',
+                {
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            dispatch({
+                type: AuthActionTypes.PRELOAD_DATA_SUCCESS,
+                payload: userSleeperLeagues.data,
+            });
+        } catch (e) {
+            dispatch({
+                type: AuthActionTypes.PRELOAD_DATA_FAIL,
+                payload: 'Error getting current user.',
+            });
+        }
     };
 };
 

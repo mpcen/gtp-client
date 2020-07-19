@@ -1,4 +1,5 @@
 import { AuthActionTypes } from './actionTypes';
+import { SleeperLeague } from '../../leagues/store/storeTypes';
 
 // RESOLVE_AUTH
 type ResolveAuth_success = {
@@ -11,6 +12,23 @@ type ResolveAuth_fail = {
     type: AuthActionTypes.RESOLVE_AUTH_FAIL;
 };
 type ResolveAuthDispatchTypes = ResolveAuth_success | ResolveAuth_fail;
+
+// PRELOAD_DATA
+type PreloadData = {
+    type: AuthActionTypes.PRELOAD_DATA;
+};
+type PreloadData_success = {
+    type: AuthActionTypes.PRELOAD_DATA_SUCCESS;
+    payload: SleeperLeague[];
+};
+type PreloadData_fail = {
+    type: AuthActionTypes.PRELOAD_DATA_FAIL;
+    payload: string;
+};
+type PreloadDataDispatchTypes =
+    | PreloadData
+    | PreloadData_success
+    | PreloadData_fail;
 
 // SIGN_UP
 type Signup = {
@@ -62,6 +80,7 @@ type SignoutDispatchTypes = Signout;
 
 export type AuthDispatchTypes =
     | ResolveAuthDispatchTypes
+    | PreloadDataDispatchTypes
     | SignupDispatchTypes
     | SigninDispatchTypes
     | ClearErrorsDispatchTypes

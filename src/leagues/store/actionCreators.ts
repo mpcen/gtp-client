@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 
 import { LeagueActionTypes } from './actionTypes';
 import { LeagueDispatchTypes } from './dispatchTYpes';
-import { ImportedSleeperLeague } from './storeTypes';
+import { ImportedSleeperLeague, SleeperLeague } from './storeTypes';
 
 export const findSleeperLeaguesForUser = (username: string) => {
     return async (dispatch: Dispatch<LeagueDispatchTypes>) => {
@@ -56,10 +56,8 @@ export const addSleeperLeague = (leagueId: string) => {
             dispatch({
                 type: LeagueActionTypes.ADD_SLEEPER_LEAGUE_SUCCESS,
                 payload: {
-                    addedSleeperLeague: {
-                        ...response.data,
-                        added: true,
-                    },
+                    ...response.data,
+                    added: true,
                 },
             });
         } catch (e) {
@@ -71,4 +69,13 @@ export const addSleeperLeague = (leagueId: string) => {
             });
         }
     };
+};
+
+export const storePreloadedLeagues = (
+    preloadedSleeperLeagues: SleeperLeague[]
+) => async (dispatch: Dispatch<LeagueDispatchTypes>) => {
+    dispatch({
+        type: LeagueActionTypes.STORE_PRELOADED_LEAGUES,
+        payload: preloadedSleeperLeagues,
+    });
 };

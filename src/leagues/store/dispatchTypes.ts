@@ -26,9 +26,7 @@ type AddSleeperLeague = {
 };
 type AddSleeperLeague_success = {
     type: LeagueActionTypes.ADD_SLEEPER_LEAGUE_SUCCESS;
-    payload: {
-        addedSleeperLeague: SleeperLeague;
-    };
+    payload: SleeperLeague;
 };
 type AddSleeperLeague_fail = {
     type: LeagueActionTypes.ADD_SLEEPER_LEAGUE_FAIL;
@@ -41,6 +39,14 @@ type AddSleeperLeagueDispatchTypes =
     | AddSleeperLeague_success
     | AddSleeperLeague_fail;
 
+// STORE_PRELOADED_LEAGUES
+type StorePreloadedLeagues = {
+    type: LeagueActionTypes.STORE_PRELOADED_LEAGUES;
+    payload: SleeperLeague[];
+};
+type StorePreloadedLeaguesDispatchTypes = StorePreloadedLeagues;
+
 export type LeagueDispatchTypes =
     | FindSleeperLeaguesForUserDispatchTypes
-    | AddSleeperLeagueDispatchTypes;
+    | AddSleeperLeagueDispatchTypes
+    | StorePreloadedLeaguesDispatchTypes;

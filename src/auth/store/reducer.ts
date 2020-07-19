@@ -1,16 +1,29 @@
 import { AuthActionTypes } from './actionTypes';
 import { AuthDispatchTypes } from './dispatchTypes';
+import { SleeperLeague } from '../../leagues/store/storeTypes';
 
 export type AuthState = {
     token: string;
     error: string;
     isLoading: boolean;
+    isResolvingAuth: boolean;
+    isPreloadingData: boolean;
+    isDataPreloaded: boolean;
+    preloadedLeagues: {
+        sleeper: SleeperLeague[];
+    };
 };
 
 const INITIAL_STATE: AuthState = {
     token: '',
     error: '',
     isLoading: false,
+    isResolvingAuth: true,
+    isPreloadingData: false,
+    isDataPreloaded: false,
+    preloadedLeagues: {
+        sleeper: [],
+    },
 };
 
 export const authReducer = (
@@ -20,10 +33,28 @@ export const authReducer = (
     switch (action.type) {
         // RESOLVE_AUTH
         case AuthActionTypes.RESOLVE_AUTH_SUCCESS:
-            return { ...state, token: action.payload.token, isLoading: false };
+            return {
+                ...state,
+                token: action.payload.token,
+                isResolvingAuth: false,
+            };
         case AuthActionTypes.RESOLVE_AUTH_FAIL:
-            return { ...state, isLoading: false };
-
+            return { ...state, isResolvingAuth: false };
+        // PRELOAD_DATA
+        case AuthActionTypes.PRELOAD_DATA:
+            return {
+                ...state,
+                isPreloadingData: true,
+            };
+        case AuthActionTypes.PRELOAD_DATA_SUCCESS:
+            return {
+                ...state,
+                isPreloadingData: false,
+                isDataPreloaded: true,
+                preloadedLeagues: {
+                    sleeper: action.payload,
+                },
+            };
         // SIGN_UP
         case AuthActionTypes.SIGN_UP:
             return { ...state, isLoading: true, error: '' };

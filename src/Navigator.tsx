@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { SigninScreen } from './auth/SigninScreen';
 import { SignupScreen } from './auth/SignupScreen';
 import { LeaguesScreen } from './leagues/LeaguesScreen';
 import { RootState } from './store/rootReducer';
-import { resolveAuth } from './auth/store/actionCreators';
 import { AccountScreen } from './account/AccountScreen';
 import { ImportSleeperLeaguesScreen } from './leagues/importLeague/sleeper/ImportSleeperLeaguesScreen';
+import { ResolvingAuthScreen } from './auth/ResolvingAuthScreen';
+import { PreloadingDataScreen } from './auth/PreloadingDataScreen';
 
 const Tabs = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
@@ -28,17 +29,30 @@ const LeaguesStackScreen = () => {
     );
 };
 
-export const Navigation = () => {
-    const { token } = useSelector((state: RootState) => state.auth);
-    const dispatch = useDispatch();
+export const Navigator = () => {
+    const { token, isResolvingAuth, isDataPreloaded } = useSelector(
+        (state: RootState) => state.auth
+    );
 
-    useEffect(() => {
-        dispatch(resolveAuth());
-    }, []);
+    if (isResolvingAuth) {
+        return (
+            <NavigationContainer>
+                <ResolvingAuthScreen />
+            </NavigationContainer>
+        );
+    }
 
-    return (
-        <NavigationContainer>
-            {token ? (
+    if (token) {
+        if (!isDataPreloaded) {
+            return (
+                <NavigationContainer>
+                    <PreloadingDataScreen />
+                </NavigationContainer>
+            );
+        }
+
+        return (
+            <NavigationContainer>
                 <Tabs.Navigator>
                     <Tabs.Screen
                         name='Leagues'
@@ -46,20 +60,24 @@ export const Navigation = () => {
                     />
                     <Tabs.Screen name='Account' component={AccountScreen} />
                 </Tabs.Navigator>
-            ) : (
-                <AuthStack.Navigator>
-                    <AuthStack.Screen
-                        name='Signup'
-                        component={SignupScreen}
-                        options={{ headerShown: false }}
-                    />
-                    <AuthStack.Screen
-                        name='Signin'
-                        component={SigninScreen}
-                        options={{ headerShown: false }}
-                    />
-                </AuthStack.Navigator>
-            )}
+            </NavigationContainer>
+        );
+    }
+
+    return (
+        <NavigationContainer>
+            <AuthStack.Navigator>
+                <AuthStack.Screen
+                    name='Signup'
+                    component={SignupScreen}
+                    options={{ headerShown: false }}
+                />
+                <AuthStack.Screen
+                    name='Signin'
+                    component={SigninScreen}
+                    options={{ headerShown: false }}
+                />
+            </AuthStack.Navigator>
         </NavigationContainer>
     );
 };

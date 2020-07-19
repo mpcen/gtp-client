@@ -52,10 +52,7 @@ export const leagueReducer = (
         case LeagueActionTypes.ADD_SLEEPER_LEAGUE_SUCCESS:
             const updatedImportSleeperLeagues = state.importSleeperLeagues.leagues.map(
                 (league: ImportedSleeperLeague) => {
-                    if (
-                        league.leagueId ===
-                        action.payload.addedSleeperLeague.leagueId
-                    ) {
+                    if (league.leagueId === action.payload.leagueId) {
                         return {
                             ...league,
                             added: true,
@@ -72,10 +69,7 @@ export const leagueReducer = (
                     leagues: [...updatedImportSleeperLeagues],
                 },
                 userLeagues: {
-                    sleeper: [
-                        ...state.userLeagues.sleeper,
-                        action.payload.addedSleeperLeague,
-                    ],
+                    sleeper: [...state.userLeagues.sleeper, action.payload],
                 },
             };
         case LeagueActionTypes.ADD_SLEEPER_LEAGUE_FAIL:
@@ -83,6 +77,15 @@ export const leagueReducer = (
                 ...state,
                 isLoading: false,
                 error: 'Error adding Sleeper league',
+            };
+
+        // STORE_PRELOADED_LEAGUES
+        case LeagueActionTypes.STORE_PRELOADED_LEAGUES:
+            return {
+                ...state,
+                userLeagues: {
+                    sleeper: action.payload,
+                },
             };
 
         // DEFAULT
