@@ -28,9 +28,9 @@ export const useGarbageTimeMatchups = (
     selectedLeague: SleeperLeague,
     team1: SleeperLeagueTeam,
     team2: SleeperLeagueTeam
-): { team1GTMs: SleeperLeagueMatchup[]; team2GTMs: SleeperLeagueMatchup[] } => {
-    const [team1GTMs, setTeam1GTMs] = useState([] as SleeperLeagueMatchup[]);
-    const [team2GTMs, setTeam2GTMs] = useState([] as SleeperLeagueMatchup[]);
+): { team1GTMResults: GTMResult; team2GTMResults: GTMResult } => {
+    const [team1GTMResults, setTeam1GTMResults] = useState({} as GTMResult);
+    const [team2GTMResults, setTeam2GTMResults] = useState({} as GTMResult);
 
     const createTeamMatchupsMap = (
         matchups: SleeperLeagueMatchup[],
@@ -144,10 +144,10 @@ export const useGarbageTimeMatchups = (
                 team1MatchupsMap
             );
 
-            setTeam1GTMs(team1GTMResults.matchups);
-            setTeam2GTMs(team2GTMResults.matchups);
+            setTeam1GTMResults(team1GTMResults);
+            setTeam2GTMResults(team2GTMResults);
         }
     }, [team1.teamId, team2.teamId]);
 
-    return { team1GTMs, team2GTMs };
+    return { team1GTMResults, team2GTMResults };
 };

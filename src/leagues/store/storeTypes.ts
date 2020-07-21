@@ -9,6 +9,12 @@ export type SleeperLeagueTeam = {
     teamId: string;
     nickname: string;
     ownerIds: string[];
+    wins: number;
+    losses: number;
+    ties: number;
+    rank: number;
+    totalPointsFor: number;
+    totalPointsAgainst: number;
 };
 
 export type SleeperLeagueMatchup = {

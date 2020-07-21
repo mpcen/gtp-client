@@ -42,7 +42,7 @@ export const GarbageTimeMatchupsScreen = () => {
         }
     }, [selectedLeagueId]);
 
-    const { team1GTMs, team2GTMs } = useGarbageTimeMatchups(
+    const { team1GTMResults, team2GTMResults } = useGarbageTimeMatchups(
         selectedLeague,
         team1,
         team2
@@ -72,6 +72,7 @@ export const GarbageTimeMatchupsScreen = () => {
                     <TeamHeader
                         team={team1}
                         teamNumber={1}
+                        gtmResults={team1GTMResults}
                         selectedLeague={selectedLeague}
                         setSelectedTeam={setSelectedTeam}
                         setIsOverlayVisible={setIsOverlayVisible}
@@ -80,6 +81,7 @@ export const GarbageTimeMatchupsScreen = () => {
                     <TeamHeader
                         team={team2}
                         teamNumber={2}
+                        gtmResults={team2GTMResults}
                         selectedLeague={selectedLeague}
                         setSelectedTeam={setSelectedTeam}
                         setIsOverlayVisible={setIsOverlayVisible}

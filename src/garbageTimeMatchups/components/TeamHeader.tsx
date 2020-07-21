@@ -6,10 +6,12 @@ import {
     SleeperLeagueTeam,
     SleeperLeague,
 } from '../../leagues/store/storeTypes';
+import { GTMResult } from '../useGarbageTimeMatchups';
 
 type Props = {
     team: SleeperLeagueTeam;
     teamNumber: number;
+    gtmResults: GTMResult;
     selectedLeague: SleeperLeague;
     setSelectedTeam: React.Dispatch<React.SetStateAction<number>>;
     setIsOverlayVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,6 +20,7 @@ type Props = {
 export const TeamHeader = ({
     team,
     teamNumber,
+    gtmResults,
     selectedLeague,
     setSelectedTeam,
     setIsOverlayVisible,
@@ -28,12 +31,14 @@ export const TeamHeader = ({
         containerStyle={styles.containerStyle}
         contentContainerStyle={styles.contentContainerStyle}
         titleStyle={styles.titleStyle}
+        subtitleStyle={styles.subtitleStyle}
         title={
             team.nickname ||
             selectedLeague.members.find(
                 (member) => member.memberId === team.ownerIds[0]
             )?.displayName
         }
+        subtitle={`Record: ${team.wins}-${team.losses}-${team.ties} | GTR: ${gtmResults.wins}-${gtmResults.losses}-${gtmResults.ties}`}
         bottomDivider
         rightIcon={{
             name: 'chevron-down',
@@ -62,5 +67,8 @@ const styles = StyleSheet.create({
     titleStyle: {
         fontSize: 12,
         fontWeight: 'bold',
+    },
+    subtitleStyle: {
+        fontSize: 8,
     },
 });
