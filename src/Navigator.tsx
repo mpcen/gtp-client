@@ -80,7 +80,7 @@ export const Navigator = () => {
 
                     <Tabs.Screen
                         name='GarbageTimeMatchups'
-                        component={GarbageTimeMatchupsScreen}
+                        component={GarbageTimeMatchupsStackScreen}
                     />
 
                     <Tabs.Screen name='Account' component={AccountScreen} />
