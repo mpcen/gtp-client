@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Picker } from '@react-native-community/picker';
 
 import { RootState } from '../store/rootReducer';
 import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
-import { Divider, ListItem, Overlay } from 'react-native-elements';
+import { Divider, Overlay } from 'react-native-elements';
 import { TeamHeader } from './components/TeamHeader';
 import { useGarbageTimeMatchups } from './useGarbageTimeMatchups';
+import { TeamSelectList } from './components/TeamSelectList';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
@@ -94,39 +95,16 @@ export const GarbageTimeMatchupsScreen = () => {
                 isVisible={isOverlayVisible}
                 onBackdropPress={() => setIsOverlayVisible(false)}
             >
-                <FlatList
-                    data={selectedLeague?.teams?.filter(
-                        (team: SleeperLeagueTeam) =>
-                            team.teamId !== team1.teamId &&
-                            team.teamId !== team2.teamId
-                    )}
-                    keyExtractor={(item) => item.teamId}
-                    renderItem={({ item }: { item: SleeperLeagueTeam }) => (
-                        <ListItem
-                            key={item.teamId}
-                            title={
-                                item.nickname ||
-                                selectedLeague.members.find(
-                                    (member) =>
-                                        member.memberId === item.ownerIds[0]
-                                )?.displayName
-                            }
-                            bottomDivider
-                            onPress={() => {
-                                if (selectedTeam === 1) {
-                                    setTeam1(item);
-                                } else {
-                                    setTeam2(item);
-                                }
-
-                                setIsOverlayVisible(false);
-                            }}
-                        />
-                    )}
+                <TeamSelectList
+                    selectedLeague={selectedLeague}
+                    team1={team1}
+                    team2={team2}
+                    selectedTeam={selectedTeam}
+                    setTeam1={setTeam1}
+                    setTeam2={setTeam2}
+                    setIsOverlayVisible={setIsOverlayVisible}
                 />
             </Overlay>
-
-            <View style={{ borderWidth: 1, borderColor: 'red' }}></View>
         </View>
     );
 };
