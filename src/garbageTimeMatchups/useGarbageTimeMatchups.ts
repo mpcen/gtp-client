@@ -24,13 +24,25 @@ export type GTMResult = {
     matchups: SleeperLeagueMatchup[];
 };
 
+export type CombinedGTMResult = {
+    t1: SleeperLeagueMatchup;
+    t2: SleeperLeagueMatchup;
+};
+
 export const useGarbageTimeMatchups = (
     selectedLeague: SleeperLeague,
     team1: SleeperLeagueTeam,
     team2: SleeperLeagueTeam
-): { team1GTMResults: GTMResult; team2GTMResults: GTMResult } => {
+): {
+    team1GTMResults: GTMResult;
+    team2GTMResults: GTMResult;
+    combinedGTMResults: CombinedGTMResult[];
+} => {
     const [team1GTMResults, setTeam1GTMResults] = useState({} as GTMResult);
     const [team2GTMResults, setTeam2GTMResults] = useState({} as GTMResult);
+    const [combinedGTMResults, setCombinedGTMResults] = useState(
+        [] as CombinedGTMResult[]
+    );
 
     const createTeamMatchupsMap = (
         matchups: SleeperLeagueMatchup[],
@@ -124,6 +136,22 @@ export const useGarbageTimeMatchups = (
         return teamGTMResults;
     };
 
+    const combineGTMResults = (
+        team1GTMResults: GTMResult,
+        team2GTMResults: GTMResult
+    ): CombinedGTMResult[] => {
+        const combinedGTMResults: CombinedGTMResult[] = [];
+
+        for (let i = 0; i < team1GTMResults.matchups.length; i++) {
+            combinedGTMResults.push({
+                t1: team1GTMResults.matchups[i],
+                t2: team2GTMResults.matchups[i],
+            });
+        }
+
+        return combinedGTMResults;
+    };
+
     useEffect(() => {
         if (team1 && team2 && selectedLeague.matchups) {
             const team1MatchupsMap = createTeamMatchupsMap(
@@ -144,10 +172,16 @@ export const useGarbageTimeMatchups = (
                 team1MatchupsMap
             );
 
+            const combinedGTMResults = combineGTMResults(
+                team1GTMResults,
+                team2GTMResults
+            );
+
             setTeam1GTMResults(team1GTMResults);
             setTeam2GTMResults(team2GTMResults);
+            setCombinedGTMResults(combinedGTMResults);
         }
     }, [team1.teamId, team2.teamId]);
 
-    return { team1GTMResults, team2GTMResults };
+    return { team1GTMResults, team2GTMResults, combinedGTMResults };
 };

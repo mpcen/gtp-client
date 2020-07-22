@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Picker } from '@react-native-community/picker';
 
 import { RootState } from '../store/rootReducer';
 import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
-import { Divider, Overlay } from 'react-native-elements';
+import { Divider, Overlay, ListItem } from 'react-native-elements';
 import { TeamHeader } from './components/TeamHeader';
-import { useGarbageTimeMatchups } from './useGarbageTimeMatchups';
+import {
+    useGarbageTimeMatchups,
+    CombinedGTMResult,
+} from './useGarbageTimeMatchups';
 import { TeamSelectList } from './components/TeamSelectList';
+import { GarbageTimeMatchupsList } from './components/GarbageTimeMatchupsList';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
@@ -43,14 +47,16 @@ export const GarbageTimeMatchupsScreen = () => {
         }
     }, [selectedLeagueId]);
 
-    const { team1GTMResults, team2GTMResults } = useGarbageTimeMatchups(
-        selectedLeague,
-        team1,
-        team2
-    );
+    const {
+        team1GTMResults,
+        team2GTMResults,
+        combinedGTMResults,
+    } = useGarbageTimeMatchups(selectedLeague, team1, team2);
 
     return (
-        <View>
+        <SafeAreaView
+            style={{ borderWidth: 1, borderColor: 'purple', flex: 1 }}
+        >
             <Picker
                 selectedValue={selectedLeagueId}
                 onValueChange={(leagueId) =>
@@ -69,25 +75,32 @@ export const GarbageTimeMatchupsScreen = () => {
             <Divider />
 
             {selectedLeague?.teams?.length && (
-                <View style={styles.teamsHeaderContainer}>
-                    <TeamHeader
-                        team={team1}
-                        teamNumber={1}
-                        gtmResults={team1GTMResults}
-                        selectedLeague={selectedLeague}
-                        setSelectedTeam={setSelectedTeam}
-                        setIsOverlayVisible={setIsOverlayVisible}
-                    />
+                <>
+                    <View style={styles.teamsHeaderContainer}>
+                        <TeamHeader
+                            team={team1}
+                            teamNumber={1}
+                            gtmResults={team1GTMResults}
+                            selectedLeague={selectedLeague}
+                            setSelectedTeam={setSelectedTeam}
+                            setIsOverlayVisible={setIsOverlayVisible}
+                        />
 
-                    <TeamHeader
-                        team={team2}
-                        teamNumber={2}
-                        gtmResults={team2GTMResults}
+                        <TeamHeader
+                            team={team2}
+                            teamNumber={2}
+                            gtmResults={team2GTMResults}
+                            selectedLeague={selectedLeague}
+                            setSelectedTeam={setSelectedTeam}
+                            setIsOverlayVisible={setIsOverlayVisible}
+                        />
+                    </View>
+
+                    <GarbageTimeMatchupsList
                         selectedLeague={selectedLeague}
-                        setSelectedTeam={setSelectedTeam}
-                        setIsOverlayVisible={setIsOverlayVisible}
+                        combinedGTMResults={combinedGTMResults}
                     />
-                </View>
+                </>
             )}
 
             <Overlay
@@ -105,7 +118,7 @@ export const GarbageTimeMatchupsScreen = () => {
                     setIsOverlayVisible={setIsOverlayVisible}
                 />
             </Overlay>
-        </View>
+        </SafeAreaView>
     );
 };
 
