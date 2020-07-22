@@ -96,10 +96,9 @@ export const GarbageTimeMatchupsScreen = () => {
             >
                 <FlatList
                     data={selectedLeague?.teams?.filter(
-                        (team) =>
-                            team1?.teamId === team.teamId ||
-                            team2?.teamId === team.teamId ||
-                            true
+                        (team: SleeperLeagueTeam) =>
+                            team.teamId !== team1.teamId &&
+                            team.teamId !== team2.teamId
                     )}
                     keyExtractor={(item) => item.teamId}
                     renderItem={({ item }: { item: SleeperLeagueTeam }) => (
