@@ -20,15 +20,19 @@ export const GarbageTimeMatchupsListItem = ({
             style={styles.matchupContainer}
         >
             <GarbageTimeMatchupCard
+                team={1}
                 teamInfoMap={teamInfoMap}
                 match={combinedGTMResult.t1}
             />
 
             <View style={styles.weekContainer}>
-                <Text>W{combinedGTMResult.t1.matchupWeek}</Text>
+                <Text style={styles.weekText}>
+                    W{combinedGTMResult.t1.matchupWeek}
+                </Text>
             </View>
 
             <GarbageTimeMatchupCard
+                team={2}
                 teamInfoMap={teamInfoMap}
                 match={combinedGTMResult.t2}
             />
@@ -39,12 +43,13 @@ export const GarbageTimeMatchupsListItem = ({
 const styles = StyleSheet.create({
     matchupContainer: {
         flexDirection: 'row',
-        borderBottomWidth: 0.24,
-        paddingTop: 20,
-        paddingBottom: 18,
     },
     weekContainer: {
         justifyContent: 'center',
+        alignItems: 'center',
         width: '10%',
+    },
+    weekText: {
+        fontSize: 12,
     },
 });

@@ -39,6 +39,7 @@ export const GarbageTimeMatchupsList = ({
 
     return (
         <FlatList
+            style={{ marginLeft: 8, marginRight: 8 }}
             data={combinedGTMResults}
             keyExtractor={(item) => item.t1.matchupWeek.toString()}
             renderItem={({ item }: { item: CombinedGTMResult }) => (

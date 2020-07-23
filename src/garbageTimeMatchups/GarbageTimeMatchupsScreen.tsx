@@ -54,9 +54,7 @@ export const GarbageTimeMatchupsScreen = () => {
     } = useGarbageTimeMatchups(selectedLeague, team1, team2);
 
     return (
-        <SafeAreaView
-            style={{ borderWidth: 1, borderColor: 'purple', flex: 1 }}
-        >
+        <SafeAreaView style={styles.container}>
             <Picker
                 selectedValue={selectedLeagueId}
                 onValueChange={(leagueId) =>
@@ -123,6 +121,7 @@ export const GarbageTimeMatchupsScreen = () => {
 };
 
 const styles = StyleSheet.create({
+    container: { flex: 1 },
     teamsHeaderContainer: { flexDirection: 'row' },
     overlayStyle: {
         flexDirection: 'row',
