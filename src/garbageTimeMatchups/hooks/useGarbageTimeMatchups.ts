@@ -4,7 +4,7 @@ import {
     SleeperLeagueTeam,
     SleeperLeagueMatchup,
     SleeperLeague,
-} from '../leagues/store/storeTypes';
+} from '../../leagues/store/storeTypes';
 
 export type Matchup = {
     self: {

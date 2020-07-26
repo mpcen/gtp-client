@@ -6,7 +6,7 @@ import {
     SleeperLeagueMember,
     SleeperLeagueTeam,
 } from '../../leagues/store/storeTypes';
-import { CombinedGTMResult } from '../useGarbageTimeMatchups';
+import { CombinedGTMResult } from '../hooks/useGarbageTimeMatchups';
 import { GarbageTimeMatchupsListItem } from './GarbageTimeMatchupsListItem';
 
 export type Props = {

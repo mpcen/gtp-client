@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { GarbageTimeMatchupCard } from './GarbageTimeMatchupCard';
 import { TeamInfoMap } from './GarbageTimeMatchupsList';
-import { CombinedGTMResult } from '../useGarbageTimeMatchups';
+import { CombinedGTMResult } from '../hooks/useGarbageTimeMatchups';
 
 type Props = {
     teamInfoMap: TeamInfoMap;

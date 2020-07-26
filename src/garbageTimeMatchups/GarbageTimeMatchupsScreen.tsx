@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Picker } from '@react-native-community/picker';
 
 import { RootState } from '../store/rootReducer';
 import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
-import { Divider, Overlay, ListItem } from 'react-native-elements';
+import { Divider, Overlay } from 'react-native-elements';
 import { GarbageTimeMatchupsTeamHeader } from './components/GarbageTimeMatchupsTeamHeader';
-import {
-    useGarbageTimeMatchups,
-    CombinedGTMResult,
-} from './useGarbageTimeMatchups';
+import { useGarbageTimeMatchups } from './hooks/useGarbageTimeMatchups';
 import { TeamSelectList } from './components/TeamSelectList';
 import { GarbageTimeMatchupsList } from './components/GarbageTimeMatchupsList';
+import { useMemberMap } from './hooks/useMemberMap';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
@@ -53,6 +51,8 @@ export const GarbageTimeMatchupsScreen = () => {
         combinedGTMResults,
     } = useGarbageTimeMatchups(selectedLeague, team1, team2);
 
+    const { memberMap } = useMemberMap(selectedLeague.members);
+
     return (
         <SafeAreaView style={styles.container}>
             <Picker
@@ -72,12 +72,13 @@ export const GarbageTimeMatchupsScreen = () => {
 
             <Divider />
 
-            {selectedLeague?.teams?.length && (
+            {selectedLeague?.teams?.length && memberMap && (
                 <>
                     <View style={styles.teamsHeaderContainer}>
                         <GarbageTimeMatchupsTeamHeader
                             team={team1}
                             teamNumber={1}
+                            memberMap={memberMap}
                             gtmResults={team1GTMResults}
                             selectedLeague={selectedLeague}
                             setSelectedTeam={setSelectedTeam}
@@ -87,6 +88,7 @@ export const GarbageTimeMatchupsScreen = () => {
                         <GarbageTimeMatchupsTeamHeader
                             team={team2}
                             teamNumber={2}
+                            memberMap={memberMap}
                             gtmResults={team2GTMResults}
                             selectedLeague={selectedLeague}
                             setSelectedTeam={setSelectedTeam}
