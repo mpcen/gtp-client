@@ -13,8 +13,8 @@ export type SleeperLeagueTeam = {
     losses: number;
     ties: number;
     rank: number;
-    totalPointsFor: number;
-    totalPointsAgainst: number;
+    totalPointsFor: any;
+    totalPointsAgainst: any;
 };
 
 export type SleeperLeagueMatchup = {

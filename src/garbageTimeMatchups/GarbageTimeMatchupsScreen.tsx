@@ -6,7 +6,7 @@ import { Picker } from '@react-native-community/picker';
 import { RootState } from '../store/rootReducer';
 import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
 import { Divider, Overlay, ListItem } from 'react-native-elements';
-import { TeamHeader } from './components/TeamHeader';
+import { GarbageTimeMatchupsTeamHeader } from './components/GarbageTimeMatchupsTeamHeader';
 import {
     useGarbageTimeMatchups,
     CombinedGTMResult,
@@ -75,7 +75,7 @@ export const GarbageTimeMatchupsScreen = () => {
             {selectedLeague?.teams?.length && (
                 <>
                     <View style={styles.teamsHeaderContainer}>
-                        <TeamHeader
+                        <GarbageTimeMatchupsTeamHeader
                             team={team1}
                             teamNumber={1}
                             gtmResults={team1GTMResults}
@@ -84,7 +84,7 @@ export const GarbageTimeMatchupsScreen = () => {
                             setIsOverlayVisible={setIsOverlayVisible}
                         />
 
-                        <TeamHeader
+                        <GarbageTimeMatchupsTeamHeader
                             team={team2}
                             teamNumber={2}
                             gtmResults={team2GTMResults}
@@ -121,7 +121,7 @@ export const GarbageTimeMatchupsScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1 },
+    container: { flex: 1, backgroundColor: 'white' },
     teamsHeaderContainer: { flexDirection: 'row' },
     overlayStyle: {
         flexDirection: 'row',

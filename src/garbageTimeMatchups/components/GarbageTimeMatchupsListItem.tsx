@@ -20,7 +20,7 @@ export const GarbageTimeMatchupsListItem = ({
             style={styles.matchupContainer}
         >
             <GarbageTimeMatchupCard
-                team={1}
+                teamNumber={1}
                 teamInfoMap={teamInfoMap}
                 match={combinedGTMResult.t1}
             />
@@ -32,7 +32,7 @@ export const GarbageTimeMatchupsListItem = ({
             </View>
 
             <GarbageTimeMatchupCard
-                team={2}
+                teamNumber={2}
                 teamInfoMap={teamInfoMap}
                 match={combinedGTMResult.t2}
             />

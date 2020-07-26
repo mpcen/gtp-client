@@ -5,7 +5,7 @@ import { TeamInfoMap } from './GarbageTimeMatchupsList';
 import { SleeperLeagueMatchup } from '../../leagues/store/storeTypes';
 
 type Props = {
-    team: number;
+    teamNumber: number;
     teamInfoMap: TeamInfoMap;
     match: SleeperLeagueMatchup;
 };
@@ -25,7 +25,15 @@ const boldIfWon = (teamSide: string, winner: MatchWinner) => {
     return teamSide === winner ? styles.bold : null;
 };
 
-export const GarbageTimeMatchupCard = ({ team, match, teamInfoMap }: Props) => {
+const maybeReverseContainerDirection = (teamNumber: number) => {
+    return teamNumber === 2 ? styles.matchupContainerReversed : null;
+};
+
+export const GarbageTimeMatchupCard = ({
+    teamNumber,
+    match,
+    teamInfoMap,
+}: Props) => {
     return (
         <View
             style={[
@@ -35,92 +43,54 @@ export const GarbageTimeMatchupCard = ({ team, match, teamInfoMap }: Props) => {
                     : styles.matchLost,
             ]}
         >
-            <View style={styles.matchupContainer}>
-                {team === 1 ? (
-                    <>
-                        <Text
-                            style={[
-                                styles.textStyle,
-                                styles.teamNameStyle,
-                                boldIfWon(match.winner, MatchWinner.Away),
-                            ]}
-                        >
-                            {renderTeamName(teamInfoMap, match.away.teamId)}
-                        </Text>
-                        <Text
-                            style={[
-                                styles.textStyle,
-                                boldIfWon(match.winner, MatchWinner.Away),
-                            ]}
-                        >
-                            {cleanPoints(match.away.totalPoints)}
-                        </Text>
-                    </>
-                ) : (
-                    <>
-                        <Text
-                            style={[
-                                styles.textStyle,
-                                boldIfWon(match.winner, MatchWinner.Away),
-                            ]}
-                        >
-                            {cleanPoints(match.away.totalPoints)}
-                        </Text>
-                        <Text
-                            style={[
-                                styles.textStyle,
-                                styles.teamNameStyle,
-                                boldIfWon(match.winner, MatchWinner.Away),
-                            ]}
-                        >
-                            {renderTeamName(teamInfoMap, match.away.teamId)}
-                        </Text>
-                    </>
-                )}
+            <View
+                style={[
+                    styles.matchupContainer,
+                    maybeReverseContainerDirection(teamNumber),
+                ]}
+            >
+                <Text
+                    style={[
+                        styles.textStyle,
+                        styles.teamNameStyle,
+                        boldIfWon(match.winner, MatchWinner.Away),
+                    ]}
+                >
+                    {renderTeamName(teamInfoMap, match.away.teamId)}
+                </Text>
+                <Text
+                    style={[
+                        styles.textStyle,
+                        boldIfWon(match.winner, MatchWinner.Away),
+                    ]}
+                >
+                    {cleanPoints(match.away.totalPoints)}
+                </Text>
             </View>
 
-            <View style={styles.matchupContainer}>
-                {team === 1 ? (
-                    <>
-                        <Text
-                            style={[
-                                styles.textStyle,
-                                styles.teamNameStyle,
-                                boldIfWon(match.winner, MatchWinner.Home),
-                            ]}
-                        >
-                            {renderTeamName(teamInfoMap, match.home.teamId)}
-                        </Text>
-                        <Text
-                            style={[
-                                styles.textStyle,
-                                boldIfWon(match.winner, MatchWinner.Home),
-                            ]}
-                        >
-                            {cleanPoints(match.home.totalPoints)}
-                        </Text>
-                    </>
-                ) : (
-                    <>
-                        <Text
-                            style={[
-                                styles.textStyle,
-                                boldIfWon(match.winner, MatchWinner.Home),
-                            ]}
-                        >
-                            {cleanPoints(match.home.totalPoints)}
-                        </Text>
-                        <Text
-                            style={[
-                                styles.textStyle,
-                                styles.teamNameStyle,
-                                boldIfWon(match.winner, MatchWinner.Home),
-                            ]}
-                        >
-                            {renderTeamName(teamInfoMap, match.home.teamId)}
-                        </Text>
-                    </>
-                )}
+            <View
+                style={[
+                    styles.matchupContainer,
+                    maybeReverseContainerDirection(teamNumber),
+                ]}
+            >
+                <Text
+                    style={[
+                        styles.textStyle,
+                        styles.teamNameStyle,
+                        boldIfWon(match.winner, MatchWinner.Home),
+                    ]}
+                >
+                    {renderTeamName(teamInfoMap, match.home.teamId)}
+                </Text>
+                <Text
+                    style={[
+                        styles.textStyle,
+                        boldIfWon(match.winner, MatchWinner.Home),
+                    ]}
+                >
+                    {cleanPoints(match.home.totalPoints)}
+                </Text>
             </View>
         </View>
     );
@@ -140,6 +110,9 @@ const styles = StyleSheet.create({
     matchupContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    matchupContainerReversed: {
+        flexDirection: 'row-reverse',
     },
     textStyle: {
         fontSize: 10,
