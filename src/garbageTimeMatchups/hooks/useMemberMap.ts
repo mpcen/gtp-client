@@ -16,7 +16,10 @@ const createMemberMap = (members: SleeperLeagueMember[]): MemberMap => {
     return map;
 };
 
-export const useMemberMap = (members: SleeperLeagueMember[]) => {
+export const useMemberMap = (
+    selectedLeagueId: string,
+    members: SleeperLeagueMember[]
+) => {
     const [memberMap, setMemberMap] = useState({} as MemberMap);
 
     useEffect(() => {
@@ -25,7 +28,7 @@ export const useMemberMap = (members: SleeperLeagueMember[]) => {
 
             setMemberMap(map);
         }
-    }, [members]);
+    }, [selectedLeagueId]);
 
     return { memberMap };
 };

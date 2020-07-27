@@ -38,7 +38,6 @@ export const GarbageTimeMatchupsScreen = () => {
                 (league) => league.leagueId === selectedLeagueId
             )!;
 
-            setSelectedLeagueId(selectedLeagueId);
             setSelectedLeague(selectedLeague);
             setTeam1(selectedLeague.teams[0]);
             setTeam2(selectedLeague.teams[1]);
@@ -51,7 +50,10 @@ export const GarbageTimeMatchupsScreen = () => {
         combinedGTMResults,
     } = useGarbageTimeMatchups(selectedLeague, team1, team2);
 
-    const { memberMap } = useMemberMap(selectedLeague.members);
+    const { memberMap } = useMemberMap(
+        selectedLeagueId,
+        selectedLeague.members
+    );
 
     return (
         <SafeAreaView style={styles.container}>

@@ -35,7 +35,7 @@ export const GarbageTimeMatchupsList = ({
         });
 
         setTeamInfoMap(teamInfoMap);
-    }, []);
+    }, [selectedLeague.leagueId]);
 
     return (
         <FlatList

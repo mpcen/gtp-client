@@ -181,7 +181,7 @@ export const useGarbageTimeMatchups = (
             setTeam2GTMResults(team2GTMResults);
             setCombinedGTMResults(combinedGTMResults);
         }
-    }, [team1.teamId, team2.teamId]);
+    }, [selectedLeague.leagueId, team1.teamId, team2.teamId]);
 
     return { team1GTMResults, team2GTMResults, combinedGTMResults };
 };
