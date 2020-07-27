@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
+import { View, StyleSheet, SafeAreaView, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Picker } from '@react-native-community/picker';
 
@@ -50,10 +50,7 @@ export const GarbageTimeMatchupsScreen = () => {
         combinedGTMResults,
     } = useGarbageTimeMatchups(selectedLeague, team1, team2);
 
-    const { memberMap } = useMemberMap(
-        selectedLeagueId,
-        selectedLeague.members
-    );
+    const { memberMap } = useMemberMap(selectedLeague);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -74,7 +71,7 @@ export const GarbageTimeMatchupsScreen = () => {
 
             <Divider />
 
-            {selectedLeague?.teams?.length && memberMap && (
+            {selectedLeague?.teams && (
                 <>
                     <View style={styles.teamsHeaderContainer}>
                         <GarbageTimeMatchupsTeamHeader

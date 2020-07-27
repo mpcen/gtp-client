@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import { SleeperLeagueMember } from '../../leagues/store/storeTypes';
+import {
+    SleeperLeagueMember,
+    SleeperLeague,
+} from '../../leagues/store/storeTypes';
 
 export type MemberMap = {
     [key: string]: SleeperLeagueMember;
@@ -16,19 +19,16 @@ const createMemberMap = (members: SleeperLeagueMember[]): MemberMap => {
     return map;
 };
 
-export const useMemberMap = (
-    selectedLeagueId: string,
-    members: SleeperLeagueMember[]
-) => {
+export const useMemberMap = (selectedLeague: SleeperLeague) => {
     const [memberMap, setMemberMap] = useState({} as MemberMap);
 
     useEffect(() => {
-        if (members) {
-            const map = createMemberMap(members);
+        if (selectedLeague?.leagueId) {
+            const map = createMemberMap(selectedLeague.members);
 
             setMemberMap(map);
         }
-    }, [selectedLeagueId]);
+    }, [selectedLeague?.leagueId]);
 
     return { memberMap };
 };

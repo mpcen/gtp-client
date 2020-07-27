@@ -153,7 +153,7 @@ export const useGarbageTimeMatchups = (
     };
 
     useEffect(() => {
-        if (team1 && team2 && selectedLeague.matchups) {
+        if (selectedLeague?.leagueId && team1 && team2) {
             const team1MatchupsMap = createTeamMatchupsMap(
                 selectedLeague.matchups,
                 team1
@@ -181,7 +181,7 @@ export const useGarbageTimeMatchups = (
             setTeam2GTMResults(team2GTMResults);
             setCombinedGTMResults(combinedGTMResults);
         }
-    }, [selectedLeague.leagueId, team1.teamId, team2.teamId]);
+    }, [selectedLeague?.leagueId, team1.teamId, team2.teamId]);
 
     return { team1GTMResults, team2GTMResults, combinedGTMResults };
 };

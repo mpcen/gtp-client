@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, Text, View, StyleSheet } from 'react-native';
 
 import {
     SleeperLeague,
@@ -39,7 +39,7 @@ export const GarbageTimeMatchupsList = ({
 
     return (
         <FlatList
-            style={{ marginLeft: 8, marginRight: 8 }}
+            style={styles.listContainer}
             data={combinedGTMResults}
             keyExtractor={(item) => item.t1.matchupWeek.toString()}
             renderItem={({ item }: { item: CombinedGTMResult }) => (
@@ -48,6 +48,22 @@ export const GarbageTimeMatchupsList = ({
                     teamInfoMap={teamInfoMap}
                 />
             )}
+            ListEmptyComponent={() => (
+                <View style={styles.emptyListContainer}>
+                    <Text>League has not yet started</Text>
+                </View>
+            )}
         />
     );
 };
+
+const styles = StyleSheet.create({
+    listContainer: {
+        marginLeft: 8,
+        marginRight: 8,
+    },
+    emptyListContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});
