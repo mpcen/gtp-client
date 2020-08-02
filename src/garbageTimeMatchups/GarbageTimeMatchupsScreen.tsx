@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, SafeAreaView, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Picker } from '@react-native-community/picker';
+import { Divider, Overlay } from 'react-native-elements';
 
 import { RootState } from '../store/rootReducer';
 import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
-import { Divider, Overlay } from 'react-native-elements';
-import { GarbageTimeMatchupsTeamHeader } from './components/GarbageTimeMatchupsTeamHeader';
+import { useMemberMap } from './hooks/useMemberMap';
 import { useGarbageTimeMatchups } from './hooks/useGarbageTimeMatchups';
+import { OverlayTypes } from './types';
+import * as constants from './constants';
+
+import { GarbageTimeMatchupsTeamHeader } from './components/GarbageTimeMatchupsTeamHeader';
 import { TeamSelectList } from './components/TeamSelectList';
 import { GarbageTimeMatchupsList } from './components/GarbageTimeMatchupsList';
-import { useMemberMap } from './hooks/useMemberMap';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
@@ -19,7 +22,7 @@ export const GarbageTimeMatchupsScreen = () => {
     const [team1, setTeam1] = useState({} as SleeperLeagueTeam);
     const [team2, setTeam2] = useState({} as SleeperLeagueTeam);
     const [selectedTeam, setSelectedTeam] = useState(0);
-    const [isOverlayVisible, setIsOverlayVisible] = useState(false);
+    const [overlay, setOverlay] = useState(OverlayTypes.None);
 
     useEffect(() => {
         if (userLeagues) {
@@ -81,7 +84,7 @@ export const GarbageTimeMatchupsScreen = () => {
                             gtmResults={team1GTMResults}
                             selectedLeague={selectedLeague}
                             setSelectedTeam={setSelectedTeam}
-                            setIsOverlayVisible={setIsOverlayVisible}
+                            setOverlay={setOverlay}
                         />
 
                         <GarbageTimeMatchupsTeamHeader
@@ -91,7 +94,7 @@ export const GarbageTimeMatchupsScreen = () => {
                             gtmResults={team2GTMResults}
                             selectedLeague={selectedLeague}
                             setSelectedTeam={setSelectedTeam}
-                            setIsOverlayVisible={setIsOverlayVisible}
+                            setOverlay={setOverlay}
                         />
                     </View>
 
@@ -103,9 +106,9 @@ export const GarbageTimeMatchupsScreen = () => {
             )}
 
             <Overlay
-                overlayStyle={styles.overlayStyle}
-                isVisible={isOverlayVisible}
-                onBackdropPress={() => setIsOverlayVisible(false)}
+                overlayStyle={styles.teamSelectOverlayStyle}
+                isVisible={overlay === OverlayTypes.TeamSelect}
+                onBackdropPress={() => setOverlay(OverlayTypes.None)}
             >
                 <TeamSelectList
                     selectedLeague={selectedLeague}
@@ -114,8 +117,26 @@ export const GarbageTimeMatchupsScreen = () => {
                     selectedTeam={selectedTeam}
                     setTeam1={setTeam1}
                     setTeam2={setTeam2}
-                    setIsOverlayVisible={setIsOverlayVisible}
+                    setOverlay={setOverlay}
                 />
+            </Overlay>
+
+            <Overlay
+                overlayStyle={styles.infoOverlayStyle}
+                isVisible={overlay === OverlayTypes.GTRInfo}
+                onBackdropPress={() => setOverlay(OverlayTypes.None)}
+            >
+                <View>
+                    <View>
+                        <Text>{constants.GTR_INFO_HEADER}</Text>
+                    </View>
+
+                    <Divider />
+
+                    <View>
+                        <Text>{constants.GTR_INFO_DESCRIPTION}</Text>
+                    </View>
+                </View>
             </Overlay>
         </SafeAreaView>
     );
@@ -124,10 +145,15 @@ export const GarbageTimeMatchupsScreen = () => {
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: 'white' },
     teamsHeaderContainer: { flexDirection: 'row' },
-    overlayStyle: {
+    teamSelectOverlayStyle: {
         flexDirection: 'row',
         height: '50%',
         marginLeft: 20,
         marginRight: 20,
+    },
+    infoOverlayStyle: {
+        marginLeft: 20,
+        marginRight: 20,
+        height: '15%',
     },
 });

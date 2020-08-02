@@ -4622,10 +4622,10 @@ react-native-appearance@~0.3.3:
     invariant "^2.2.4"
     use-subscription "^1.0.0"
 
-react-native-elements@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-2.0.4.tgz#ea5a6bb34cabd48dcd6c6546e4737d2075e40ee3"
-  integrity sha512-nIFz47Sk/urOxZX+sqgWF2k7IVL0t9NGsVLg4HC7pN70bsjXMr4VUmS72zioxag3Du8xK1g7lw4vrRX3JQeVYg==
+react-native-elements@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-2.1.0.tgz#d1e6a72d105336d3b32c8c05f5b6141f962fae9b"
+  integrity sha512-X487S6794bwQm3HPyYKuNB7cDhZWwmUKiPdPiacVas3AYqKWIEcPuGpVt6+JzSsnV6xWQe9c5lxST8y6e31kcg==
   dependencies:
     "@types/react-native-vector-icons" "^6.4.5"
     color "^3.1.0"

@@ -2,12 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 
+import { OverlayTypes } from '../types';
+import { MemberMap } from '../hooks/useMemberMap';
+import { GTMResult } from '../hooks/useGarbageTimeMatchups';
 import {
     SleeperLeagueTeam,
     SleeperLeague,
 } from '../../leagues/store/storeTypes';
-import { GTMResult } from '../hooks/useGarbageTimeMatchups';
-import { MemberMap } from '../hooks/useMemberMap';
 
 type Props = {
     team: SleeperLeagueTeam;
@@ -16,7 +17,7 @@ type Props = {
     gtmResults: GTMResult;
     selectedLeague: SleeperLeague;
     setSelectedTeam: React.Dispatch<React.SetStateAction<number>>;
-    setIsOverlayVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    setOverlay: React.Dispatch<React.SetStateAction<OverlayTypes>>;
 };
 
 export const GarbageTimeMatchupsTeamHeader = ({
@@ -26,7 +27,7 @@ export const GarbageTimeMatchupsTeamHeader = ({
     gtmResults,
     selectedLeague,
     setSelectedTeam,
-    setIsOverlayVisible,
+    setOverlay,
 }: Props) => {
     return (
         <View
@@ -63,7 +64,7 @@ export const GarbageTimeMatchupsTeamHeader = ({
                             : null,
                     ]}
                     onPress={() => {
-                        setIsOverlayVisible(true);
+                        setOverlay(OverlayTypes.TeamSelect);
                         setSelectedTeam(teamNumber);
                     }}
                 >
@@ -85,7 +86,10 @@ export const GarbageTimeMatchupsTeamHeader = ({
                     Record: {team.wins}-{team.losses}-{team.ties}
                 </Text>
 
-                <View style={styles.gtrContainer}>
+                <TouchableOpacity
+                    style={styles.gtrContainer}
+                    onPress={() => setOverlay(OverlayTypes.GTRInfo)}
+                >
                     <Icon
                         containerStyle={styles.gtrIconInformationStyle}
                         name='information-outline'
@@ -97,7 +101,7 @@ export const GarbageTimeMatchupsTeamHeader = ({
                         GTR: {gtmResults.wins}-{gtmResults.losses}-
                         {gtmResults.ties}
                     </Text>
-                </View>
+                </TouchableOpacity>
 
                 <Text style={[styles.textStyle, styles.teamRecordInfo]}>
                     PF: {team.totalPointsFor['$numberDecimal']}

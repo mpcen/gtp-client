@@ -6,6 +6,7 @@ import {
     SleeperLeague,
     SleeperLeagueTeam,
 } from '../../leagues/store/storeTypes';
+import { OverlayTypes } from '../types';
 
 type Props = {
     selectedLeague: SleeperLeague;
@@ -14,7 +15,7 @@ type Props = {
     selectedTeam: number;
     setTeam1: React.Dispatch<React.SetStateAction<SleeperLeagueTeam>>;
     setTeam2: React.Dispatch<React.SetStateAction<SleeperLeagueTeam>>;
-    setIsOverlayVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    setOverlay: React.Dispatch<React.SetStateAction<OverlayTypes>>;
 };
 
 export const TeamSelectList = ({
@@ -24,7 +25,7 @@ export const TeamSelectList = ({
     selectedTeam,
     setTeam1,
     setTeam2,
-    setIsOverlayVisible,
+    setOverlay,
 }: Props) => {
     return (
         <FlatList
@@ -50,7 +51,7 @@ export const TeamSelectList = ({
                             setTeam2(item);
                         }
 
-                        setIsOverlayVisible(false);
+                        setOverlay(OverlayTypes.None);
                     }}
                 />
             )}
