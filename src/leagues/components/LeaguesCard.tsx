@@ -4,6 +4,7 @@ import { Divider, ListItem, Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
 import { SleeperLeague } from '../store/storeTypes';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type Props = {
     platform: string;
@@ -25,7 +26,7 @@ export const LeaguesCard = ({
             <View style={styles.headerContainer}>
                 <Text style={styles.headerText}>{platform} Leagues</Text>
                 <Button
-                    buttonStyle={styles.headerButton}
+                    buttonStyle={styles.button}
                     type='clear'
                     icon={{ name: 'plus', type: 'material-community' }}
                     onPress={() => navigate('ImportSleeperLeagues')}
@@ -38,19 +39,33 @@ export const LeaguesCard = ({
                 data={leagues}
                 keyExtractor={(item) => item.leagueId}
                 renderItem={({ item }) => (
-                    <ListItem
-                        key={item.leagueId}
-                        title={item.leagueName}
-                        subtitle={`Season: ${item.seasonId} Teams: ${item.teams.length}`}
-                        rightIcon={{
-                            name: 'minus',
-                            type: 'material-community',
-                        }}
-                        onPress={() => {
-                            setSelectedLeague(item);
-                            setIsOverlayVisible(true);
-                        }}
-                    />
+                    <View style={styles.itemContainer} key={item.leagueId}>
+                        <View>
+                            <Text>{item.leagueName}</Text>
+                            <Text
+                                style={styles.subText}
+                            >{`Season: ${item.seasonId}`}</Text>
+                            <Text
+                                style={styles.subText}
+                            >{`Teams: ${item.teams.length}`}</Text>
+                        </View>
+
+                        <TouchableOpacity
+                            onPress={() => {
+                                setSelectedLeague(item);
+                                setIsOverlayVisible(true);
+                            }}
+                        >
+                            <Button
+                                buttonStyle={styles.button}
+                                type='clear'
+                                icon={{
+                                    name: 'minus',
+                                    type: 'material-community',
+                                }}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 )}
             />
         </View>
@@ -71,7 +86,19 @@ const styles = StyleSheet.create({
         paddingRight: 20,
     },
     headerText: { fontSize: 18 },
-    headerButton: {
+    button: {
         padding: 0,
+    },
+    itemContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10,
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#eee',
+    },
+    subText: {
+        fontSize: 10,
+        color: '#999',
     },
 });
