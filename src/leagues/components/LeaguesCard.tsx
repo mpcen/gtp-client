@@ -8,9 +8,16 @@ import { SleeperLeague } from '../store/storeTypes';
 type Props = {
     platform: string;
     leagues: SleeperLeague[];
+    setIsOverlayVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    setSelectedLeague: React.Dispatch<React.SetStateAction<SleeperLeague>>;
 };
 
-export const LeaguesCard = ({ platform, leagues }: Props) => {
+export const LeaguesCard = ({
+    platform,
+    leagues,
+    setIsOverlayVisible,
+    setSelectedLeague,
+}: Props) => {
     const { navigate } = useNavigation();
 
     return (
@@ -35,7 +42,14 @@ export const LeaguesCard = ({ platform, leagues }: Props) => {
                         key={item.leagueId}
                         title={item.leagueName}
                         subtitle={`Season: ${item.seasonId} Teams: ${item.teams.length}`}
-                        onPress={() => {}} // TODO: Remove League w/ confirmation
+                        rightIcon={{
+                            name: 'minus',
+                            type: 'material-community',
+                        }}
+                        onPress={() => {
+                            setSelectedLeague(item);
+                            setIsOverlayVisible(true);
+                        }}
                     />
                 )}
             />

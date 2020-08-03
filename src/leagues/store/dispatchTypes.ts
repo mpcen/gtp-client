@@ -39,6 +39,27 @@ type AddSleeperLeagueDispatchTypes =
     | AddSleeperLeague_success
     | AddSleeperLeague_fail;
 
+// REMOVE_SLEEPER_LEAGUE
+type RemoveSleeperLeague = {
+    type: LeagueActionTypes.REMOVE_SLEEPER_LEAGUE;
+};
+type RemoveSleeperLeague_success = {
+    type: LeagueActionTypes.REMOVE_SLEEPER_LEAGUE_SUCCESS;
+    payload: {
+        leagueId: string;
+    };
+};
+type RemoveSleeperLeague_fail = {
+    type: LeagueActionTypes.REMOVE_SLEEPER_LEAGUE_FAIL;
+    payload: {
+        error: string;
+    };
+};
+type RemoveSleeperLeagueDispatchTypes =
+    | RemoveSleeperLeague
+    | RemoveSleeperLeague_success
+    | RemoveSleeperLeague_fail;
+
 // STORE_PRELOADED_LEAGUES
 type StorePreloadedLeagues = {
     type: LeagueActionTypes.STORE_PRELOADED_LEAGUES;
@@ -49,4 +70,5 @@ type StorePreloadedLeaguesDispatchTypes = StorePreloadedLeagues;
 export type LeagueDispatchTypes =
     | FindSleeperLeaguesForUserDispatchTypes
     | AddSleeperLeagueDispatchTypes
+    | RemoveSleeperLeagueDispatchTypes
     | StorePreloadedLeaguesDispatchTypes;

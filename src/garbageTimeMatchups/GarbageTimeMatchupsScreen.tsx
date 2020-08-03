@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, SafeAreaView, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Picker } from '@react-native-community/picker';
-import { Divider, Overlay } from 'react-native-elements';
+import { Divider, Overlay, Button } from 'react-native-elements';
 
 import { RootState } from '../store/rootReducer';
 import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
@@ -14,8 +14,10 @@ import * as constants from './constants';
 import { GarbageTimeMatchupsTeamHeader } from './components/GarbageTimeMatchupsTeamHeader';
 import { TeamSelectList } from './components/TeamSelectList';
 import { GarbageTimeMatchupsList } from './components/GarbageTimeMatchupsList';
+import { useNavigation } from '@react-navigation/native';
 
 export const GarbageTimeMatchupsScreen = () => {
+    const { navigate } = useNavigation();
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
     const [selectedLeagueId, setSelectedLeagueId] = useState('');
     const [selectedLeague, setSelectedLeague] = useState({} as SleeperLeague);
@@ -25,18 +27,23 @@ export const GarbageTimeMatchupsScreen = () => {
     const [overlay, setOverlay] = useState(OverlayTypes.None);
 
     useEffect(() => {
-        if (userLeagues) {
+        if (userLeagues.sleeper.length) {
             const defaultSelectedLeague = userLeagues.sleeper[0];
 
             setSelectedLeagueId(defaultSelectedLeague.leagueId);
             setSelectedLeague(defaultSelectedLeague);
             setTeam1(defaultSelectedLeague.teams[0]);
             setTeam2(defaultSelectedLeague.teams[1]);
+        } else if (!userLeagues.sleeper.length && selectedLeagueId) {
+            setSelectedLeagueId('');
+            setSelectedLeague({} as SleeperLeague);
+            setTeam1({} as SleeperLeagueTeam);
+            setTeam2({} as SleeperLeagueTeam);
         }
-    }, [userLeagues]);
+    }, [userLeagues.sleeper]);
 
     useEffect(() => {
-        if (selectedLeagueId) {
+        if (selectedLeagueId && userLeagues.sleeper.length) {
             const selectedLeague: SleeperLeague = userLeagues.sleeper.find(
                 (league) => league.leagueId === selectedLeagueId
             )!;
@@ -54,6 +61,18 @@ export const GarbageTimeMatchupsScreen = () => {
     } = useGarbageTimeMatchups(selectedLeague, team1, team2);
 
     const { memberMap } = useMemberMap(selectedLeague);
+
+    if (!userLeagues.sleeper.length || !selectedLeague || !selectedLeagueId) {
+        return (
+            <View>
+                <Text>Add a league to view Garbage Time Matchups</Text>
+                <Button
+                    title='Add League'
+                    onPress={() => navigate('Leagues')}
+                />
+            </View>
+        );
+    }
 
     return (
         <SafeAreaView style={styles.container}>
