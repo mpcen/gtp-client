@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector } from 'react-redux';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { SigninScreen } from './auth/SigninScreen';
 import { SignupScreen } from './auth/SignupScreen';
@@ -72,18 +74,54 @@ export const Navigator = () => {
 
         return (
             <NavigationContainer>
-                <Tabs.Navigator>
+                <Tabs.Navigator
+                    tabBarOptions={{
+                        showLabel: false,
+                        activeTintColor: '#2089dc',
+                        inactiveTintColor: '#adadad',
+                    }}
+                >
                     <Tabs.Screen
                         name='Leagues'
                         component={LeaguesStackScreen}
+                        options={{
+                            tabBarIcon: ({ color, size }) => (
+                                <MaterialCommunityIcons
+                                    name='football-helmet'
+                                    size={20}
+                                    color={color}
+                                />
+                            ),
+                        }}
                     />
 
                     <Tabs.Screen
                         name='GarbageTimeMatchups'
                         component={GarbageTimeMatchupsStackScreen}
+                        options={{
+                            tabBarIcon: ({ color, size }) => (
+                                <MaterialCommunityIcons
+                                    name='trash-can'
+                                    size={19}
+                                    color={color}
+                                />
+                            ),
+                        }}
                     />
 
-                    <Tabs.Screen name='Account' component={AccountScreen} />
+                    <Tabs.Screen
+                        name='Account'
+                        component={AccountScreen}
+                        options={{
+                            tabBarIcon: ({ color, size }) => (
+                                <FontAwesome
+                                    name='gear'
+                                    size={18}
+                                    color={color}
+                                />
+                            ),
+                        }}
+                    />
                 </Tabs.Navigator>
             </NavigationContainer>
         );
