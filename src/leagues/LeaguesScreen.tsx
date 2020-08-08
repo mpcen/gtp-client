@@ -8,8 +8,9 @@ import {
     removeSleeperLeague,
 } from './store/actionCreators';
 import { SleeperLeague } from './store/storeTypes';
+import { LeaguePlatform } from './types';
 
-import { LeaguesCard } from './components/LeaguesCard';
+import { LeagueModule } from './components/LeagueModule';
 import { RemoveLeagueOverlay } from './components/RemoveLeagueOverlay';
 
 export const LeaguesScreen = () => {
@@ -26,8 +27,8 @@ export const LeaguesScreen = () => {
 
     return (
         <View>
-            <LeaguesCard
-                platform='Sleeper'
+            <LeagueModule
+                platform={LeaguePlatform.Sleeper}
                 leagues={leagues.userLeagues.sleeper}
                 setIsOverlayVisible={setIsOverlayVisible}
                 setSelectedLeague={setSelectedLeague}

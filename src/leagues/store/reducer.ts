@@ -28,15 +28,33 @@ export const leagueReducer = (
                 ...state,
                 isLoading: true,
             };
+
         case LeagueActionTypes.FIND_SLEEPER_LEAGUES_FOR_USER_SUCCESS:
+            const filteredLeagues = action.payload.map(
+                (importedSleeperLeague) => {
+                    const leagueAlreadyAdded = state.userLeagues.sleeper.find(
+                        (userLeague) =>
+                            userLeague.leagueId ===
+                            importedSleeperLeague.leagueId
+                    );
+
+                    if (leagueAlreadyAdded) {
+                        importedSleeperLeague.added = true;
+                    }
+
+                    return importedSleeperLeague;
+                }
+            );
+
             return {
                 ...state,
                 importSleeperLeagues: {
-                    leagues: action.payload,
+                    leagues: filteredLeagues,
                 },
                 isLoading: false,
                 error: '',
             };
+
         case LeagueActionTypes.FIND_SLEEPER_LEAGUES_FOR_USER_FAIL:
             return {
                 ...state,
@@ -53,6 +71,7 @@ export const leagueReducer = (
                 ...state,
                 isLoading: true,
             };
+
         case LeagueActionTypes.ADD_SLEEPER_LEAGUE_SUCCESS:
             const updatedImportSleeperLeagues = state.importSleeperLeagues.leagues.map(
                 (league: ImportedSleeperLeague) => {
@@ -77,6 +96,7 @@ export const leagueReducer = (
                 },
                 error: '',
             };
+
         case LeagueActionTypes.ADD_SLEEPER_LEAGUE_FAIL:
             return {
                 ...state,
@@ -90,6 +110,7 @@ export const leagueReducer = (
                 ...state,
                 isLoading: true,
             };
+
         case LeagueActionTypes.REMOVE_SLEEPER_LEAGUE_SUCCESS:
             const filteredSleeperLeagues: SleeperLeague[] = state.userLeagues.sleeper.filter(
                 (league: SleeperLeague) =>
@@ -122,6 +143,7 @@ export const leagueReducer = (
                 },
                 error: '',
             };
+
         case LeagueActionTypes.REMOVE_SLEEPER_LEAGUE_FAIL:
             return {
                 ...state,

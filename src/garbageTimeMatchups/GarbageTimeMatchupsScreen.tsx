@@ -25,6 +25,11 @@ export const GarbageTimeMatchupsScreen = () => {
     const [team2, setTeam2] = useState({} as SleeperLeagueTeam);
     const [selectedTeam, setSelectedTeam] = useState(0);
     const [overlay, setOverlay] = useState(OverlayTypes.None);
+    const [isInitiallyLoaded, setIsInitiallyLoaded] = useState(false);
+
+    useEffect(() => {
+        setIsInitiallyLoaded(true);
+    }, []);
 
     useEffect(() => {
         if (userLeagues.sleeper.length) {
@@ -61,6 +66,10 @@ export const GarbageTimeMatchupsScreen = () => {
     } = useGarbageTimeMatchups(selectedLeague, team1, team2);
 
     const { memberMap } = useMemberMap(selectedLeague);
+
+    if (!isInitiallyLoaded) {
+        return null;
+    }
 
     if (!userLeagues.sleeper.length || !selectedLeague || !selectedLeagueId) {
         return (

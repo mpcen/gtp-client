@@ -13,7 +13,7 @@ type Props = {
     setSelectedLeague: React.Dispatch<React.SetStateAction<SleeperLeague>>;
 };
 
-export const LeaguesCard = ({
+export const LeagueModule = ({
     platform,
     leagues,
     setIsOverlayVisible,
@@ -24,11 +24,11 @@ export const LeaguesCard = ({
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
-                <Text style={styles.headerText}>{platform} Leagues</Text>
+                <Text style={styles.headerText}>{platform}</Text>
                 <Button
                     buttonStyle={styles.button}
                     type='clear'
-                    icon={{ name: 'plus', type: 'material-community' }}
+                    title='Add League'
                     onPress={() => navigate('ImportSleeperLeagues')}
                 />
             </View>
