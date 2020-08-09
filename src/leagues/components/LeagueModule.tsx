@@ -1,18 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-    Image,
-    Platform,
-} from 'react-native';
-import { Divider, ListItem, Button } from 'react-native-elements';
+import React from 'react';
+import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import { Divider, Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { Asset } from 'expo-asset';
 
 import { SleeperLeague } from '../store/storeTypes';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LeaguePlatform } from '../types';
 
 type Props = {
@@ -57,7 +49,11 @@ export const LeagueModule = ({
                 <Button
                     buttonStyle={styles.button}
                     type='clear'
-                    title='Add League'
+                    icon={{
+                        name: 'plus',
+                        type: 'material-community',
+                        color: 'white',
+                    }}
                     onPress={() => navigate('ImportSleeperLeagues')}
                 />
             </View>
@@ -79,21 +75,18 @@ export const LeagueModule = ({
                             >{`Teams: ${item.teams.length}`}</Text>
                         </View>
 
-                        <TouchableOpacity
+                        <Button
                             onPress={() => {
                                 setSelectedLeague(item);
                                 setIsOverlayVisible(true);
                             }}
-                        >
-                            <Button
-                                buttonStyle={styles.button}
-                                type='clear'
-                                icon={{
-                                    name: 'minus',
-                                    type: 'material-community',
-                                }}
-                            />
-                        </TouchableOpacity>
+                            buttonStyle={styles.button}
+                            type='clear'
+                            icon={{
+                                name: 'minus',
+                                type: 'material-community',
+                            }}
+                        />
                     </View>
                 )}
             />
@@ -109,10 +102,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 14,
         paddingTop: 20,
         paddingBottom: 20,
-        paddingRight: 20,
+        paddingRight: 10,
         backgroundColor: '#2E3336',
     },
     headerText: { fontSize: 18 },
