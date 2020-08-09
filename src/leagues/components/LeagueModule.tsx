@@ -61,6 +61,7 @@ export const LeagueModule = ({
             <Divider />
 
             <FlatList
+                contentContainerStyle={styles.listContainer}
                 data={leagues}
                 keyExtractor={(item) => item.leagueId}
                 renderItem={({ item }) => (
@@ -89,6 +90,13 @@ export const LeagueModule = ({
                         />
                     </View>
                 )}
+                ListEmptyComponent={() => (
+                    <View style={styles.emptyLeaguesContainer}>
+                        <Text style={styles.emptyLeaguesText}>
+                            Add a league to get started
+                        </Text>
+                    </View>
+                )}
             />
         </View>
     );
@@ -97,7 +105,18 @@ export const LeagueModule = ({
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
+        flex: 1,
     },
+    emptyLeaguesContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+    },
+    emptyLeaguesText: {
+        color: '#adadad',
+    },
+    listContainer: { flex: 1 },
     headerContainer: {
         justifyContent: 'space-between',
         flexDirection: 'row',
@@ -121,7 +140,7 @@ const styles = StyleSheet.create({
     },
     subText: {
         fontSize: 10,
-        color: '#999',
+        color: '#adadad',
     },
     leaguePlatformImageStyle: {
         width: 150,

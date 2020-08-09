@@ -26,7 +26,12 @@ export const LeaguesScreen = () => {
     }, [auth.isDataPreloaded]);
 
     return (
-        <View>
+        <View
+            style={{
+                flex: 1,
+                backgroundColor: 'white',
+            }}
+        >
             <LeagueModule
                 platform={LeaguePlatform.Sleeper}
                 leagues={leagues.userLeagues.sleeper}
