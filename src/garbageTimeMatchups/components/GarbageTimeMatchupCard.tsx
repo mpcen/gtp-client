@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import truncate from 'truncate';
 
 import { TeamInfoMap } from './GarbageTimeMatchupsList';
 import { SleeperLeagueMatchup } from '../../leagues/store/storeTypes';
@@ -29,6 +30,10 @@ const maybeReverseContainerDirection = (teamNumber: number) => {
     return teamNumber === 2 ? styles.matchupContainerReversed : null;
 };
 
+const maybeReverseTextAlignment = (teamNumber: number) => {
+    return teamNumber === 2 ? styles.textAlignmentReversed : null;
+};
+
 export const GarbageTimeMatchupCard = ({
     teamNumber,
     match,
@@ -43,51 +48,66 @@ export const GarbageTimeMatchupCard = ({
                     : styles.matchLost,
             ]}
         >
+            {/* AWAY TEAM NAME AND POINTS */}
             <View
                 style={[
                     styles.matchupContainer,
+                    styles.awayMargin,
                     maybeReverseContainerDirection(teamNumber),
                 ]}
             >
+                {/* TEAM NAME */}
                 <Text
                     style={[
                         styles.textStyle,
                         styles.teamNameStyle,
                         boldIfWon(match.winner, MatchWinner.Away),
+                        maybeReverseTextAlignment(teamNumber),
                     ]}
+                    allowFontScaling={false}
                 >
                     {renderTeamName(teamInfoMap, match.away.teamId)}
                 </Text>
+
+                {/* POINTS */}
                 <Text
                     style={[
                         styles.textStyle,
                         boldIfWon(match.winner, MatchWinner.Away),
                     ]}
+                    allowFontScaling={false}
                 >
                     {cleanPoints(match.away.totalPoints)}
                 </Text>
             </View>
 
+            {/* HOME TEAM NAME AND POINTS */}
             <View
                 style={[
                     styles.matchupContainer,
                     maybeReverseContainerDirection(teamNumber),
                 ]}
             >
+                {/* TEAM NAME */}
                 <Text
                     style={[
                         styles.textStyle,
                         styles.teamNameStyle,
                         boldIfWon(match.winner, MatchWinner.Home),
+                        maybeReverseTextAlignment(teamNumber),
                     ]}
+                    allowFontScaling={false}
                 >
                     {renderTeamName(teamInfoMap, match.home.teamId)}
                 </Text>
+
+                {/* POINTS */}
                 <Text
                     style={[
                         styles.textStyle,
                         boldIfWon(match.winner, MatchWinner.Home),
                     ]}
+                    allowFontScaling={false}
                 >
                     {cleanPoints(match.home.totalPoints)}
                 </Text>
@@ -111,17 +131,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+    awayMargin: { marginBottom: 8 },
     matchupContainerReversed: {
         flexDirection: 'row-reverse',
     },
     textStyle: {
         fontSize: 10,
     },
+    textAlignmentReversed: {
+        textAlign: 'right',
+    },
     bold: {
         fontWeight: 'bold',
     },
     teamNameStyle: {
         marginRight: 4,
+        maxHeight: 30,
+        maxWidth: 90,
     },
     matchWon: {
         backgroundColor: '#D9EDD4',

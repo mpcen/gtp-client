@@ -68,7 +68,16 @@ export const GarbageTimeMatchupsTeamHeader = ({
                         setSelectedTeam(teamNumber);
                     }}
                 >
-                    <Text style={[styles.textStyle, styles.bold]}>
+                    <Text
+                        style={[
+                            styles.textStyle,
+                            styles.bold,
+                            teamNumber === 2
+                                ? styles.textAlignmentReversed
+                                : null,
+                        ]}
+                        allowFontScaling={false}
+                    >
                         {team.nickname ||
                             selectedLeague.members.find(
                                 (member) => member.memberId === team.ownerIds[0]
@@ -130,6 +139,9 @@ const styles = StyleSheet.create({
     headerContainerReversed: {
         flexDirection: 'row-reverse',
     },
+    textAlignmentReversed: {
+        textAlign: 'right',
+    },
     textStyle: {
         fontSize: 12,
     },
@@ -138,7 +150,12 @@ const styles = StyleSheet.create({
     },
     gtrContainer: { flexDirection: 'row', alignItems: 'center' },
     gtrIconInformationStyle: { marginRight: 4 },
-    teamNameContainer: { flexDirection: 'row', alignItems: 'center' },
+    teamNameContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: 150,
+        height: 40,
+    },
     teamNameContainerReversed: { flexDirection: 'row-reverse' },
     teamRecordInfo: {
         fontSize: 10,
