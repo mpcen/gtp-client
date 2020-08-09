@@ -1,10 +1,19 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    FlatList,
+    Image,
+    Platform,
+} from 'react-native';
 import { Divider, ListItem, Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import { Asset } from 'expo-asset';
 
 import { SleeperLeague } from '../store/storeTypes';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { LeaguePlatform } from '../types';
 
 type Props = {
     platform: string;
@@ -21,10 +30,30 @@ export const LeagueModule = ({
 }: Props) => {
     const { navigate } = useNavigation();
 
+    const sleeperLogoUri = Asset.fromModule(
+        require('../../../assets/sleeper-logo.png')
+    ).uri;
+    const espnLogoUri = Asset.fromModule(
+        require('../../../assets/espn-logo.png')
+    ).uri;
+
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
-                <Text style={styles.headerText}>{platform}</Text>
+                <Image
+                    style={[
+                        styles.leaguePlatformImageStyle,
+                        platform === LeaguePlatform.Sleeper
+                            ? styles.sleeperImageStyle
+                            : styles.espnImageStyle,
+                    ]}
+                    source={{
+                        uri:
+                            platform === LeaguePlatform.Sleeper
+                                ? sleeperLogoUri
+                                : espnLogoUri,
+                    }}
+                />
                 <Button
                     buttonStyle={styles.button}
                     type='clear'
@@ -84,6 +113,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingBottom: 20,
         paddingRight: 20,
+        backgroundColor: '#2E3336',
     },
     headerText: { fontSize: 18 },
     button: {
@@ -100,5 +130,16 @@ const styles = StyleSheet.create({
     subText: {
         fontSize: 10,
         color: '#999',
+    },
+    leaguePlatformImageStyle: {
+        width: 150,
+        borderRadius: 50,
+    },
+    sleeperImageStyle: {
+        height: 50,
+    },
+    espnImageStyle: {
+        backgroundColor: '#DD0000',
+        height: 50,
     },
 });

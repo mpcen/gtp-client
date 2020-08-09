@@ -26,12 +26,17 @@ const Tabs = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
 const LeaguesStack = createStackNavigator<LeaguesStackParamList>();
 const GarbageTimeMatchupsStack = createStackNavigator();
+const AccountStack = createStackNavigator();
 
 const GarbageTimeMatchupsStackScreen = () => {
     return (
         <GarbageTimeMatchupsStack.Navigator>
             <GarbageTimeMatchupsStack.Screen
                 name='GarbageTimeMatchups'
+                options={{
+                    headerTitle: 'GarbageTime Matchups',
+                    headerTitleAlign: 'center',
+                }}
                 component={GarbageTimeMatchupsScreen}
             />
         </GarbageTimeMatchupsStack.Navigator>
@@ -41,12 +46,32 @@ const GarbageTimeMatchupsStackScreen = () => {
 const LeaguesStackScreen = () => {
     return (
         <LeaguesStack.Navigator>
-            <LeaguesStack.Screen name='Leagues' component={LeaguesScreen} />
+            <LeaguesStack.Screen
+                name='Leagues'
+                options={{ headerTitle: 'Leagues', headerTitleAlign: 'center' }}
+                component={LeaguesScreen}
+            />
             <LeaguesStack.Screen
                 name='ImportSleeperLeagues'
+                options={{
+                    headerTitle: 'Add Sleeper League',
+                    headerTitleAlign: 'center',
+                }}
                 component={ImportSleeperLeaguesScreen}
             />
         </LeaguesStack.Navigator>
+    );
+};
+
+const AccountStackScreen = () => {
+    return (
+        <AccountStack.Navigator>
+            <AccountStack.Screen
+                name='Account'
+                options={{ headerTitle: 'Account', headerTitleAlign: 'center' }}
+                component={AccountScreen}
+            />
+        </AccountStack.Navigator>
     );
 };
 
@@ -111,7 +136,7 @@ export const Navigator = () => {
 
                     <Tabs.Screen
                         name='Account'
-                        component={AccountScreen}
+                        component={AccountStackScreen}
                         options={{
                             tabBarIcon: ({ color, size }) => (
                                 <FontAwesome
