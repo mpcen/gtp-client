@@ -7,6 +7,8 @@ import { Asset } from 'expo-asset';
 import { SleeperLeague } from '../store/storeTypes';
 import { LeaguePlatform } from '../types';
 
+import { LeagueInfoListItem } from './LeagueInfoListItem';
+
 type Props = {
     platform: string;
     leagues: SleeperLeague[];
@@ -65,30 +67,16 @@ export const LeagueModule = ({
                 data={leagues}
                 keyExtractor={(item) => item.leagueId}
                 renderItem={({ item }) => (
-                    <View style={styles.itemContainer} key={item.leagueId}>
-                        <View>
-                            <Text>{item.leagueName}</Text>
-                            <Text
-                                style={styles.subText}
-                            >{`Season: ${item.seasonId}`}</Text>
-                            <Text
-                                style={styles.subText}
-                            >{`Teams: ${item.teams.length}`}</Text>
-                        </View>
-
-                        <Button
-                            onPress={() => {
-                                setSelectedLeague(item);
-                                setIsOverlayVisible(true);
-                            }}
-                            buttonStyle={styles.button}
-                            type='clear'
-                            icon={{
-                                name: 'minus',
-                                type: 'material-community',
-                            }}
-                        />
-                    </View>
+                    <LeagueInfoListItem
+                        leagueName={item.leagueName}
+                        seasonId={item.seasonId}
+                        totalTeams={item.teams.length}
+                        icon='minus'
+                        onPressCallback={() => {
+                            setSelectedLeague(item);
+                            setIsOverlayVisible(true);
+                        }}
+                    />
                 )}
                 ListEmptyComponent={() => (
                     <View style={styles.emptyLeaguesContainer}>
@@ -126,21 +114,8 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         backgroundColor: '#2E3336',
     },
-    headerText: { fontSize: 18 },
     button: {
         padding: 0,
-    },
-    itemContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 10,
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#eee',
-    },
-    subText: {
-        fontSize: 10,
-        color: '#adadad',
     },
     leaguePlatformImageStyle: {
         width: 150,

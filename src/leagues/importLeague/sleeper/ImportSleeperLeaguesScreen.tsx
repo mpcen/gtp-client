@@ -20,6 +20,7 @@ import {
 } from '../../store/actionCreators';
 
 import { RemoveLeagueOverlay } from '../../components/RemoveLeagueOverlay';
+import { LeagueInfoListItem } from '../../components/LeagueInfoListItem';
 
 export const ImportSleeperLeaguesScreen = () => {
     const [username, setUsername] = useState('');
@@ -96,24 +97,19 @@ export const ImportSleeperLeaguesScreen = () => {
             <FlatList
                 data={importSleeperLeagues.leagues}
                 keyExtractor={({ leagueId }) => leagueId}
-                renderItem={({ item }) => (
-                    <ListItem
-                        key={item.leagueId}
-                        title={item.name}
-                        subtitle={`Season: ${item.seasonId} Teams: ${item.totalTeams}`}
-                        onPress={() => {
+                renderItem={({ item }: { item: ImportedSleeperLeague }) => (
+                    <LeagueInfoListItem
+                        leagueName={item.name}
+                        seasonId={item.seasonId}
+                        totalTeams={item.totalTeams}
+                        icon={item.added ? 'minus' : 'plus'}
+                        onPressCallback={() => {
                             if (item.added) {
                                 setIsOverlayVisible(true);
                                 setSelectedLeague(item);
                             } else {
                                 dispatch(addSleeperLeague(item.leagueId));
                             }
-                        }}
-                        topDivider
-                        bottomDivider
-                        rightIcon={{
-                            name: item.added ? 'minus' : 'plus',
-                            type: 'material-community',
                         }}
                     />
                 )}
