@@ -47,7 +47,6 @@ export const ImportSleeperLeaguesScreen = () => {
                         onBlur={() => setTextInputFocused(false)}
                         onSubmitEditing={() => {
                             Keyboard.dismiss();
-
                             if (username) {
                                 dispatch(findSleeperLeaguesForUser(username));
                             }
@@ -103,7 +102,7 @@ export const ImportSleeperLeaguesScreen = () => {
                         seasonId={item.seasonId}
                         totalTeams={item.totalTeams}
                         icon={item.added ? 'minus' : 'plus'}
-                        leagueAvatar={item.avatar}
+                        leagueAvatar={item.avatar || ''}
                         onPressCallback={() => {
                             if (item.added) {
                                 setIsOverlayVisible(true);

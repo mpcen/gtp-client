@@ -30,23 +30,25 @@ export const RemoveLeagueOverlay = ({
             onBackdropPress={() => setIsOverlayVisible(false)}
         >
             <View style={styles.overlayBodyStyle}>
-                <View>
+                {/* <View>
                     <Text>Remove League</Text>
                 </View>
 
-                <Divider />
+                <Divider /> */}
 
                 <View style={styles.messageContainer}>
-                    <Text>{selectedLeague.leagueName}</Text>
+                    <Text>Remove {selectedLeague.leagueName}?</Text>
                 </View>
 
                 <View style={styles.overlayButtonContainer}>
                     <Button
-                        type='outline'
+                        type='clear'
+                        titleStyle={{ color: '#adadad' }}
                         title='Cancel'
                         onPress={() => setIsOverlayVisible(false)}
                     />
                     <Button
+                        type='clear'
                         title='Remove'
                         onPress={() => {
                             dispatch(
@@ -64,7 +66,7 @@ export const RemoveLeagueOverlay = ({
 const styles = StyleSheet.create({
     overlayStyle: {
         width: '80%',
-        height: '25%',
+        height: '16%',
     },
     overlayBodyStyle: {
         flex: 1,
