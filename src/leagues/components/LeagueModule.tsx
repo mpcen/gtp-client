@@ -72,6 +72,7 @@ export const LeagueModule = ({
                         seasonId={item.seasonId}
                         totalTeams={item.teams.length}
                         icon='minus'
+                        leagueAvatar={item.avatar}
                         onPressCallback={() => {
                             setSelectedLeague(item);
                             setIsOverlayVisible(true);

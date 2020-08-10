@@ -49,6 +49,7 @@ export type SleeperLeague = {
     currentSeasonWeek: number;
     playoffWeekStart: number;
     lastRegularSeasonWeek: number; // manually calculate this for ESPN
+    avatar: string;
     members: SleeperLeagueMember[];
     teams: SleeperLeagueTeam[];
     matchups: SleeperLeagueMatchup[];

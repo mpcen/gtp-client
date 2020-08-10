@@ -9,7 +9,7 @@ import {
     FlatList,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { ListItem, Button } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 
 import { RootState } from '../../../store/rootReducer';
 import { ImportedSleeperLeague } from '../../store/storeTypes';
@@ -103,6 +103,7 @@ export const ImportSleeperLeaguesScreen = () => {
                         seasonId={item.seasonId}
                         totalTeams={item.totalTeams}
                         icon={item.added ? 'minus' : 'plus'}
+                        leagueAvatar={item.avatar}
                         onPressCallback={() => {
                             if (item.added) {
                                 setIsOverlayVisible(true);
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
         top: 0,
     },
     closeButtonIconContainer: {
-        borderRadius: 60,
+        borderRadius: 10,
         backgroundColor: '#aaa',
         padding: 3,
     },
