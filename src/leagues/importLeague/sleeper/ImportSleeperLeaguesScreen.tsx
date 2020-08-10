@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import {
+    View,
+    Text,
+    ActivityIndicator,
+    Keyboard,
+    TextInput,
+    StyleSheet,
+    FlatList,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input, Button, ListItem } from 'react-native-elements';
+import { ListItem, Button } from 'react-native-elements';
 
 import { RootState } from '../../../store/rootReducer';
+import { ImportedSleeperLeague } from '../../store/storeTypes';
 import {
     findSleeperLeaguesForUser,
     addSleeperLeague,
     removeSleeperLeague,
 } from '../../store/actionCreators';
-import { ImportedSleeperLeague } from '../../store/storeTypes';
 
 import { RemoveLeagueOverlay } from '../../components/RemoveLeagueOverlay';
 
@@ -23,61 +31,93 @@ export const ImportSleeperLeaguesScreen = () => {
     const [selectedLeague, setSelectedLeague] = useState(
         {} as ImportedSleeperLeague
     );
+    const [textInputFocused, setTextInputFocused] = useState(false);
 
     return (
-        <View>
-            <Input
-                placeholder='Enter Sleeper username'
-                value={username}
-                onChangeText={setUsername}
-            />
+        <View style={styles.container}>
+            <View style={styles.searchContainer}>
+                <View style={styles.textInputContainer}>
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder='Enter Sleeper username'
+                        value={username}
+                        onChangeText={setUsername}
+                        onFocus={() => setTextInputFocused(true)}
+                        onBlur={() => setTextInputFocused(false)}
+                        onSubmitEditing={() => {
+                            Keyboard.dismiss();
 
-            <Button
-                title='Search'
-                disabled={isLoading}
-                onPress={() => dispatch(findSleeperLeaguesForUser(username))}
-            />
+                            if (username) {
+                                dispatch(findSleeperLeaguesForUser(username));
+                            }
+                        }}
+                    />
 
-            {isLoading && <ActivityIndicator size='large' />}
+                    {isLoading && (
+                        <ActivityIndicator
+                            style={styles.searchSpinner}
+                            size='small'
+                        />
+                    )}
+
+                    {username && !isLoading ? (
+                        <Button
+                            iconContainerStyle={styles.closeButtonIconContainer}
+                            style={styles.clearButtonStyle}
+                            containerStyle={styles.clearButtonContainer}
+                            type='clear'
+                            icon={{
+                                name: 'close',
+                                type: 'material-community',
+                                size: 12,
+                                color: '#F5F6F4',
+                            }}
+                            onPress={() => setUsername('')}
+                        />
+                    ) : null}
+                </View>
+
+                {textInputFocused && (
+                    <Button
+                        containerStyle={styles.cancelButtonContainerStyle}
+                        type='clear'
+                        title='Cancel'
+                        onPress={() => Keyboard.dismiss()}
+                    />
+                )}
+            </View>
 
             {error ? (
-                <Text testID='text-error' style={{ color: 'red' }}>
+                <Text testID='text-error' style={styles.errorText}>
                     {error}
                 </Text>
             ) : null}
 
-            {importSleeperLeagues.leagues.map(
-                (importSleeperLeague: ImportedSleeperLeague) => {
-                    return (
-                        <ListItem
-                            style={{ marginTop: 20 }}
-                            key={importSleeperLeague.leagueId}
-                            title={importSleeperLeague.name}
-                            subtitle={`Season: ${importSleeperLeague.seasonId} Teams: ${importSleeperLeague.totalTeams}`}
-                            onPress={() => {
-                                if (importSleeperLeague.added) {
-                                    setIsOverlayVisible(true);
-                                    setSelectedLeague(importSleeperLeague);
-                                } else {
-                                    dispatch(
-                                        addSleeperLeague(
-                                            importSleeperLeague.leagueId
-                                        )
-                                    );
-                                }
-                            }}
-                            topDivider
-                            bottomDivider
-                            rightIcon={{
-                                name: importSleeperLeague.added
-                                    ? 'minus'
-                                    : 'plus',
-                                type: 'material-community',
-                            }}
-                        />
-                    );
-                }
-            )}
+            <FlatList
+                data={importSleeperLeagues.leagues}
+                keyExtractor={({ leagueId }) => leagueId}
+                renderItem={({ item }) => (
+                    <ListItem
+                        key={item.leagueId}
+                        title={item.name}
+                        subtitle={`Season: ${item.seasonId} Teams: ${item.totalTeams}`}
+                        onPress={() => {
+                            if (item.added) {
+                                setIsOverlayVisible(true);
+                                setSelectedLeague(item);
+                            } else {
+                                dispatch(addSleeperLeague(item.leagueId));
+                            }
+                        }}
+                        topDivider
+                        bottomDivider
+                        rightIcon={{
+                            name: item.added ? 'minus' : 'plus',
+                            type: 'material-community',
+                        }}
+                    />
+                )}
+            />
 
             <RemoveLeagueOverlay
                 selectedLeague={{
@@ -91,3 +131,57 @@ export const ImportSleeperLeaguesScreen = () => {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'white',
+        flex: 1,
+    },
+    searchContainer: {
+        flexDirection: 'row',
+        position: 'relative',
+        backgroundColor: 'white',
+        height: 64,
+        alignItems: 'center',
+        marginLeft: 12,
+        marginRight: 12,
+    },
+    textInputContainer: {
+        flex: 1,
+        height: 40,
+        justifyContent: 'center',
+    },
+    textInput: {
+        flex: 1,
+        height: 40,
+        paddingLeft: 20,
+        backgroundColor: '#F5F6F4',
+        borderRadius: 50,
+    },
+    clearButtonStyle: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+    clearButtonContainer: {
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        bottom: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    errorText: { color: 'red' },
+    cancelButtonContainerStyle: { marginLeft: 12 },
+    searchSpinner: {
+        position: 'absolute',
+        right: 12,
+        bottom: 0,
+        top: 0,
+    },
+    closeButtonIconContainer: {
+        borderRadius: 60,
+        backgroundColor: '#aaa',
+        padding: 3,
+    },
+});

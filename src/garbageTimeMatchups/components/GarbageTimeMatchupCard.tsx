@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import truncate from 'truncate';
 
 import { TeamInfoMap } from './GarbageTimeMatchupsList';
 import { SleeperLeagueMatchup } from '../../leagues/store/storeTypes';
