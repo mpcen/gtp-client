@@ -5,6 +5,7 @@ import { SleeperLeagueMatchup } from '../../leagues/store/storeTypes';
 import { TeamDestination } from '../types';
 
 import { TeamInfoMap } from './GarbageTimeMatchupsList';
+import { Avatar } from 'react-native-elements';
 
 type Props = {
     matchupForTeam: number;
@@ -14,17 +15,15 @@ type Props = {
 };
 
 const maybeReverseContainerDirection = (matchupForTeam: number) => {
-    return matchupForTeam == 2 ? styles.matchupContainerReversed : null;
+    return matchupForTeam === 2 ? styles.matchupContainerReversed : null;
 };
 
 const boldIfWon = (winner: string, teamDestination: TeamDestination) => {
     return teamDestination === winner ? styles.bold : null;
 };
 
-const maybeReverseTextAlignment = (teamDestination: TeamDestination) => {
-    return teamDestination === TeamDestination.Home
-        ? styles.textAlignmentReversed
-        : null;
+const maybeReverseTextAlignment = (matchupForTeam: number) => {
+    return matchupForTeam === 2 ? styles.textAlignmentReversed : null;
 };
 
 const renderTeamName = (teamInfoMap: TeamInfoMap, teamId: number): string => {
@@ -40,6 +39,12 @@ const cleanPoints = (
             ? match.away.totalPoints
             : match.home.totalPoints;
     return points.toFixed(2);
+};
+
+const spaceTeamName = (matchupForTeam: number) => {
+    return matchupForTeam === 2
+        ? styles.teamNameStyleTeamTwo
+        : styles.teamNameStyleTeamOne;
 };
 
 export const GarbageTimeMatchupCardItem = ({
@@ -58,23 +63,45 @@ export const GarbageTimeMatchupCardItem = ({
                 maybeReverseContainerDirection(matchupForTeam),
             ]}
         >
-            {/* NAME */}
-            <Text
+            <View
                 style={[
-                    styles.textStyle,
-                    styles.teamNameStyle,
-                    boldIfWon(match.winner, teamDestination),
-                    maybeReverseTextAlignment(teamDestination),
+                    { flexDirection: 'row' },
+                    maybeReverseContainerDirection(matchupForTeam),
                 ]}
-                allowFontScaling={false}
             >
-                {renderTeamName(
-                    teamInfoMap,
-                    teamDestination === TeamDestination.Away
-                        ? match.away.teamId
-                        : match.home.teamId
-                )}
-            </Text>
+                {/* AVATAR */}
+                <Avatar
+                    containerStyle={{
+                        width: 14,
+                        height: 14,
+                    }}
+                    rounded
+                    source={{
+                        uri: `https://sleepercdn.com/avatars/thumbs/${
+                            teamInfoMap[match[teamDestination].teamId].avatar
+                        }`,
+                    }}
+                />
+
+                {/* NAME */}
+                <Text
+                    style={[
+                        styles.textStyle,
+                        styles.teamNameStyle,
+                        boldIfWon(match.winner, teamDestination),
+                        spaceTeamName(matchupForTeam),
+                        maybeReverseTextAlignment(matchupForTeam),
+                    ]}
+                    allowFontScaling={false}
+                >
+                    {renderTeamName(
+                        teamInfoMap,
+                        teamDestination === TeamDestination.Away
+                            ? match.away.teamId
+                            : match.home.teamId
+                    )}
+                </Text>
+            </View>
 
             {/* POINTS */}
             <Text
@@ -103,9 +130,14 @@ const styles = StyleSheet.create({
         fontSize: 10,
     },
     teamNameStyle: {
-        marginRight: 4,
         maxHeight: 30,
         maxWidth: 90,
+    },
+    teamNameStyleTeamOne: {
+        marginLeft: 4,
+    },
+    teamNameStyleTeamTwo: {
+        marginRight: 4,
     },
     bold: {
         fontWeight: 'bold',
