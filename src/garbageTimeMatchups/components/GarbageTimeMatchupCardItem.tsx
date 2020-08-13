@@ -78,7 +78,8 @@ export const GarbageTimeMatchupCardItem = ({
                     rounded
                     source={{
                         uri: `https://sleepercdn.com/avatars/thumbs/${
-                            teamInfoMap[match[teamDestination].teamId].avatar
+                            teamInfoMap[match[teamDestination].teamId].avatar ||
+                            'https://secure.espncdn.com/combiner/i?img=/i/headshots/nophoto.png'
                         }`,
                     }}
                 />
