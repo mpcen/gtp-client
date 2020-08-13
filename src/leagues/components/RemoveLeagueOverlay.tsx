@@ -30,12 +30,6 @@ export const RemoveLeagueOverlay = ({
             onBackdropPress={() => setIsOverlayVisible(false)}
         >
             <View style={styles.overlayBodyStyle}>
-                {/* <View>
-                    <Text>Remove League</Text>
-                </View>
-
-                <Divider /> */}
-
                 <View style={styles.messageContainer}>
                     <Text>Remove {selectedLeague.leagueName}?</Text>
                 </View>

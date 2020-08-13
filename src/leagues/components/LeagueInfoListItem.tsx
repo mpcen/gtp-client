@@ -8,6 +8,7 @@ type Props = {
     totalTeams: string | number;
     icon: string;
     leagueAvatar: string;
+    isLoading: boolean;
     onPressCallback: () => void;
 };
 
@@ -17,6 +18,7 @@ export const LeagueInfoListItem = ({
     totalTeams,
     icon,
     leagueAvatar,
+    isLoading,
     onPressCallback,
 }: Props) => {
     const avatarUrl = leagueAvatar
@@ -41,9 +43,10 @@ export const LeagueInfoListItem = ({
             </View>
 
             <Button
+                type='clear'
                 onPress={onPressCallback}
                 buttonStyle={styles.button}
-                type='clear'
+                disabled={isLoading}
                 icon={{
                     name: icon,
                     type: 'material-community',

@@ -88,9 +88,11 @@ export const ImportSleeperLeaguesScreen = () => {
             </View>
 
             {error ? (
-                <Text testID='text-error' style={styles.errorText}>
-                    {error}
-                </Text>
+                <View style={styles.errorTextContainer}>
+                    <Text testID='text-error' style={styles.errorText}>
+                        {error}
+                    </Text>
+                </View>
             ) : null}
 
             <FlatList
@@ -103,6 +105,7 @@ export const ImportSleeperLeaguesScreen = () => {
                         totalTeams={item.totalTeams}
                         icon={item.added ? 'minus' : 'plus'}
                         leagueAvatar={item.avatar || ''}
+                        isLoading={isLoading}
                         onPressCallback={() => {
                             if (item.added) {
                                 setIsOverlayVisible(true);
@@ -165,6 +168,9 @@ const styles = StyleSheet.create({
         bottom: 0,
         display: 'flex',
         justifyContent: 'center',
+        alignItems: 'center',
+    },
+    errorTextContainer: {
         alignItems: 'center',
     },
     errorText: { color: 'red' },
