@@ -1,5 +1,6 @@
 export enum OverlayTypes {
     None,
+    LeagueSelect,
     TeamSelect,
     GTRInfo,
 }

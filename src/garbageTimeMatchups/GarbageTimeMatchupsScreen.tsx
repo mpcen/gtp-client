@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, SafeAreaView, Text } from 'react-native';
+import { View, StyleSheet, SafeAreaView, Text, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
-import { Picker } from '@react-native-community/picker';
 import { Divider, Overlay, Button } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 
 import { RootState } from '../store/rootReducer';
 import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
@@ -14,7 +14,8 @@ import * as constants from './constants';
 import { GarbageTimeMatchupsTeamHeader } from './components/GarbageTimeMatchupsTeamHeader';
 import { TeamSelectList } from './components/TeamSelectList';
 import { GarbageTimeMatchupsList } from './components/GarbageTimeMatchupsList';
-import { useNavigation } from '@react-navigation/native';
+import { LeagueInfoListItem } from '../leagues/components/LeagueInfoListItem';
+import { GarbageTimeMatchupsLeaguePicker } from './components/GarbageTimeMatchupsLeaguePicker';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { navigate } = useNavigation();
@@ -85,20 +86,11 @@ export const GarbageTimeMatchupsScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Picker
-                selectedValue={selectedLeagueId}
-                onValueChange={(leagueId) =>
-                    setSelectedLeagueId(leagueId as string)
-                }
-            >
-                {userLeagues.sleeper.map((league: SleeperLeague) => (
-                    <Picker.Item
-                        key={league.leagueId}
-                        label={league.leagueName}
-                        value={league.leagueId}
-                    />
-                ))}
-            </Picker>
+            <GarbageTimeMatchupsLeaguePicker
+                selectedLeagueId={selectedLeagueId}
+                userLeagues={userLeagues}
+                setOverlay={setOverlay}
+            />
 
             <Divider />
 
@@ -132,6 +124,29 @@ export const GarbageTimeMatchupsScreen = () => {
                     />
                 </>
             )}
+
+            <Overlay
+                overlayStyle={styles.leagueSelectOverlayStyle}
+                isVisible={overlay === OverlayTypes.LeagueSelect}
+                onBackdropPress={() => setOverlay(OverlayTypes.None)}
+            >
+                <FlatList
+                    data={userLeagues.sleeper}
+                    keyExtractor={(item) => item.leagueId}
+                    renderItem={({ item }: { item: SleeperLeague }) => (
+                        <LeagueInfoListItem
+                            leagueName={item.leagueName}
+                            seasonId={item.seasonId}
+                            totalTeams={item.teams.length}
+                            leagueAvatar={item.avatar}
+                            onItemPressCallback={() => {
+                                setSelectedLeagueId(item.leagueId);
+                                setOverlay(OverlayTypes.None);
+                            }}
+                        />
+                    )}
+                />
+            </Overlay>
 
             <Overlay
                 overlayStyle={styles.teamSelectOverlayStyle}
@@ -173,6 +188,12 @@ export const GarbageTimeMatchupsScreen = () => {
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: 'white' },
     teamsHeaderContainer: { flexDirection: 'row' },
+    leagueSelectOverlayStyle: {
+        flexDirection: 'row',
+        height: '50%',
+        marginLeft: 20,
+        marginRight: 20,
+    },
     teamSelectOverlayStyle: {
         flexDirection: 'row',
         height: '50%',

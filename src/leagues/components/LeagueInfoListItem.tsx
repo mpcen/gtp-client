@@ -1,15 +1,16 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Avatar } from 'react-native-elements';
 
 type Props = {
     leagueName: string;
     seasonId: string;
     totalTeams: string | number;
-    icon: string;
     leagueAvatar: string;
-    isLoading: boolean;
-    onPressCallback: () => void;
+    isLoading?: boolean;
+    icon?: string;
+    onItemPressCallback?: () => void;
+    onButtonPressCallback?: () => void;
 };
 
 export const LeagueInfoListItem = ({
@@ -19,7 +20,8 @@ export const LeagueInfoListItem = ({
     icon,
     leagueAvatar,
     isLoading,
-    onPressCallback,
+    onItemPressCallback,
+    onButtonPressCallback,
 }: Props) => {
     const avatarUrl = leagueAvatar
         ? `https://sleepercdn.com/avatars/thumbs/${leagueAvatar}`
@@ -27,7 +29,11 @@ export const LeagueInfoListItem = ({
 
     return (
         <View style={styles.itemContainer}>
-            <View style={styles.teamInfoContainer}>
+            <TouchableOpacity
+                style={styles.teamInfoContainer}
+                disabled={onItemPressCallback === undefined}
+                onPress={onItemPressCallback}
+            >
                 <Avatar
                     containerStyle={{ marginRight: 4 }}
                     rounded={leagueAvatar?.length > 0}
@@ -40,18 +46,20 @@ export const LeagueInfoListItem = ({
                     <Text style={styles.subText}>{`Season: ${seasonId}`}</Text>
                     <Text style={styles.subText}>{`Teams: ${totalTeams}`}</Text>
                 </View>
-            </View>
+            </TouchableOpacity>
 
-            <Button
-                type='clear'
-                onPress={onPressCallback}
-                buttonStyle={styles.button}
-                disabled={isLoading}
-                icon={{
-                    name: icon,
-                    type: 'material-community',
-                }}
-            />
+            {icon && onButtonPressCallback && (
+                <Button
+                    type='clear'
+                    onPress={onButtonPressCallback}
+                    buttonStyle={styles.button}
+                    disabled={isLoading}
+                    icon={{
+                        name: icon,
+                        type: 'material-community',
+                    }}
+                />
+            )}
         </View>
     );
 };
@@ -69,6 +77,7 @@ const styles = StyleSheet.create({
     button: { padding: 0 },
     teamInfoContainer: {
         flexDirection: 'row',
+        flex: 1,
         alignItems: 'center',
     },
 });

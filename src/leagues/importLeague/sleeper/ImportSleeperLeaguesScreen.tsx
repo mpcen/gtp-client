@@ -106,7 +106,7 @@ export const ImportSleeperLeaguesScreen = () => {
                         icon={item.added ? 'minus' : 'plus'}
                         leagueAvatar={item.avatar || ''}
                         isLoading={isLoading}
-                        onPressCallback={() => {
+                        onButtonPressCallback={() => {
                             if (item.added) {
                                 setIsOverlayVisible(true);
                                 setSelectedLeague(item);

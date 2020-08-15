@@ -73,7 +73,7 @@ export const LeagueModule = ({
                         totalTeams={item.teams.length}
                         icon='minus'
                         leagueAvatar={item.avatar}
-                        onPressCallback={() => {
+                        onButtonPressCallback={() => {
                             setSelectedLeague(item);
                             setIsOverlayVisible(true);
                         }}

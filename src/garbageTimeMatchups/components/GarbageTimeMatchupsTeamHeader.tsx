@@ -68,6 +68,7 @@ export const GarbageTimeMatchupsTeamHeader = ({
                         setSelectedTeam(teamNumber);
                     }}
                 >
+                    {/* TEAM NAME */}
                     <Text
                         style={[
                             styles.textStyle,
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         width: 150,
-        height: 40,
+        height: 30,
     },
     teamNameContainerReversed: { flexDirection: 'row-reverse' },
     teamRecordInfo: {
