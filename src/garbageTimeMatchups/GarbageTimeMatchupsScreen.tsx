@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux';
 import { Divider, Overlay, Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
+import * as constants from './constants';
 import { RootState } from '../store/rootReducer';
 import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
 import { useMemberMap } from './hooks/useMemberMap';
 import { useGarbageTimeMatchups } from './hooks/useGarbageTimeMatchups';
 import { OverlayTypes } from './types';
-import * as constants from './constants';
 
 import { GarbageTimeMatchupsTeamHeader } from './components/GarbageTimeMatchupsTeamHeader';
 import { GarbageTimeTeamSelectList } from './components/GarbageTimeTeamSelectList';
@@ -75,9 +75,9 @@ export const GarbageTimeMatchupsScreen = () => {
     if (!userLeagues.sleeper.length || !selectedLeague || !selectedLeagueId) {
         return (
             <View>
-                <Text>Add a league to view Garbage Time Matchups</Text>
+                <Text>{constants.GTM_ADD_LEAGUE_MESSAGE}</Text>
                 <Button
-                    title='Add League'
+                    title={constants.GTM_ADD_LEAGUE}
                     onPress={() => navigate('Leagues')}
                 />
             </View>
@@ -171,13 +171,13 @@ export const GarbageTimeMatchupsScreen = () => {
                 onBackdropPress={() => setOverlay(OverlayTypes.None)}
             >
                 <View>
-                    <View>
+                    <View style={styles.infoOverlayHeaderContainer}>
                         <Text>{constants.GTR_INFO_HEADER}</Text>
                     </View>
 
                     <Divider />
 
-                    <View>
+                    <View style={styles.infoOverlayDescriptionContainer}>
                         <Text>{constants.GTR_INFO_DESCRIPTION}</Text>
                     </View>
                 </View>
@@ -205,5 +205,11 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         height: '15%',
+    },
+    infoOverlayHeaderContainer: {
+        paddingBottom: 4,
+    },
+    infoOverlayDescriptionContainer: {
+        paddingTop: 4,
     },
 });
