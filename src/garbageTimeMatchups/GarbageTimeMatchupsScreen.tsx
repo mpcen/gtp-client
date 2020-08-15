@@ -12,7 +12,7 @@ import { OverlayTypes } from './types';
 import * as constants from './constants';
 
 import { GarbageTimeMatchupsTeamHeader } from './components/GarbageTimeMatchupsTeamHeader';
-import { TeamSelectList } from './components/TeamSelectList';
+import { GarbageTimeTeamSelectList } from './components/GarbageTimeTeamSelectList';
 import { GarbageTimeMatchupsList } from './components/GarbageTimeMatchupsList';
 import { LeagueInfoListItem } from '../leagues/components/LeagueInfoListItem';
 import { GarbageTimeMatchupsLeaguePicker } from './components/GarbageTimeMatchupsLeaguePicker';
@@ -153,11 +153,12 @@ export const GarbageTimeMatchupsScreen = () => {
                 isVisible={overlay === OverlayTypes.TeamSelect}
                 onBackdropPress={() => setOverlay(OverlayTypes.None)}
             >
-                <TeamSelectList
+                <GarbageTimeTeamSelectList
                     selectedLeague={selectedLeague}
                     team1={team1}
                     team2={team2}
                     selectedTeam={selectedTeam}
+                    memberMap={memberMap}
                     setTeam1={setTeam1}
                     setTeam2={setTeam2}
                     setOverlay={setOverlay}

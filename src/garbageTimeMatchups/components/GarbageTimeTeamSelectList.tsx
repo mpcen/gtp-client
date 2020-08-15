@@ -7,22 +7,25 @@ import {
     SleeperLeagueTeam,
 } from '../../leagues/store/storeTypes';
 import { OverlayTypes } from '../types';
+import { MemberMap } from '../hooks/useMemberMap';
 
 type Props = {
     selectedLeague: SleeperLeague;
     team1: SleeperLeagueTeam;
     team2: SleeperLeagueTeam;
     selectedTeam: number;
+    memberMap: MemberMap;
     setTeam1: React.Dispatch<React.SetStateAction<SleeperLeagueTeam>>;
     setTeam2: React.Dispatch<React.SetStateAction<SleeperLeagueTeam>>;
     setOverlay: React.Dispatch<React.SetStateAction<OverlayTypes>>;
 };
 
-export const TeamSelectList = ({
+export const GarbageTimeTeamSelectList = ({
     selectedLeague,
     team1,
     team2,
     selectedTeam,
+    memberMap,
     setTeam1,
     setTeam2,
     setOverlay,
@@ -36,6 +39,13 @@ export const TeamSelectList = ({
             keyExtractor={(item) => item.teamId}
             renderItem={({ item }: { item: SleeperLeagueTeam }) => (
                 <ListItem
+                    leftAvatar={{
+                        source: {
+                            uri: `https://sleepercdn.com/avatars/thumbs/${
+                                memberMap[item.ownerIds[0]]?.avatar
+                            }`,
+                        },
+                    }}
                     key={item.teamId}
                     title={
                         item.nickname ||

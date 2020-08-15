@@ -85,6 +85,7 @@ export const GarbageTimeMatchupsTeamHeader = ({
                             )?.displayName}
                     </Text>
 
+                    {/* CHEVRON DOWN ICON */}
                     <Icon
                         name='menu-down'
                         type='material-community'
@@ -92,10 +93,12 @@ export const GarbageTimeMatchupsTeamHeader = ({
                     />
                 </TouchableOpacity>
 
+                {/* RECORD */}
                 <Text style={[styles.textStyle, styles.teamRecordInfo]}>
                     Record: {team.wins}-{team.losses}-{team.ties}
                 </Text>
 
+                {/* GTR */}
                 <TouchableOpacity
                     style={styles.gtrContainer}
                     onPress={() => setOverlay(OverlayTypes.GTRInfo)}
@@ -113,10 +116,12 @@ export const GarbageTimeMatchupsTeamHeader = ({
                     </Text>
                 </TouchableOpacity>
 
+                {/* PF */}
                 <Text style={[styles.textStyle, styles.teamRecordInfo]}>
                     PF: {team.totalPointsFor['$numberDecimal']}
                 </Text>
 
+                {/* PA */}
                 <Text style={[styles.textStyle, styles.teamRecordInfo]}>
                     PA: {team.totalPointsAgainst['$numberDecimal']}
                 </Text>
