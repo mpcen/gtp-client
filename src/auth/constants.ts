@@ -1,0 +1,9 @@
+export const AppTitle = 'GarbageTime Pro';
+export const ForgotPassword = 'Forgot password?';
+export const SignInButtonText = 'Sign in';
+export const SignUpButtonText = 'Sign up';
+export const PasswordPlaceholder = 'Password';
+export const PasswordConfirmedPlaceholder = 'Confirm password';
+export const EmailPlaceholder = 'your@email.com';
+export const SigninTitle = 'Sign in';
+export const SignupTitle = 'Sign up';

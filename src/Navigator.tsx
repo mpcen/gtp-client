@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { AuthHomeScreen } from './auth/store/AuthHomeScreen';
 import { SigninScreen } from './auth/SigninScreen';
 import { SignupScreen } from './auth/SignupScreen';
 import { LeaguesScreen } from './leagues/LeaguesScreen';
@@ -155,6 +156,11 @@ export const Navigator = () => {
     return (
         <NavigationContainer>
             <AuthStack.Navigator>
+                <AuthStack.Screen
+                    name='AuthHome'
+                    component={AuthHomeScreen}
+                    options={{ headerShown: false }}
+                />
                 <AuthStack.Screen
                     name='Signup'
                     component={SignupScreen}

@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import { Input, Button, Text } from 'react-native-elements';
+import {
+    View,
+    ActivityIndicator,
+    StyleSheet,
+    SafeAreaView,
+} from 'react-native';
+import { Input, Button, Text, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 
+import * as Constants from './constants';
 import { signIn, clearErrors } from './store/actionCreators';
 import { RootState } from '../store/rootReducer';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export const SigninScreen = () => {
     const [email, setEmail] = useState('');
@@ -19,46 +26,85 @@ export const SigninScreen = () => {
     }, []);
 
     return (
-        <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        >
-            <Input
-                testID='input-email'
-                placeholder='Email'
-                value={email}
-                disabled={isLoading}
-                onChangeText={setEmail}
-            />
-            <Input
-                testID='input-password'
-                secureTextEntry
-                placeholder='Password'
-                value={password}
-                disabled={isLoading}
-                onChangeText={setPassword}
-            />
-            <Button
-                testID='button-sign-in'
-                title='Sign In'
-                disabled={isLoading}
-                onPress={() => dispatch(signIn(email, password))}
-            />
+        <SafeAreaView style={styles.container}>
+            <View style={styles.backButtonContainer}>
+                <TouchableOpacity onPress={() => navigate('AuthHome')}>
+                    <Icon
+                        iconStyle={styles.iconStyle}
+                        name='chevron-left'
+                        size={40}
+                    />
+                </TouchableOpacity>
+            </View>
 
-            <Button
-                testID='button-sign-up-instead'
-                type='clear'
-                title='Sign up instead'
-                disabled={isLoading}
-                onPress={() => navigate('Signup')}
-            />
-
-            {isLoading && <ActivityIndicator testID='indicator-loading' />}
-
-            {error ? (
-                <Text testID='text-error' style={{ color: 'red' }}>
-                    {error}
+            <View style={styles.titleContainer}>
+                <Text style={styles.title} allowFontScaling={false}>
+                    {Constants.SigninTitle}
                 </Text>
-            ) : null}
-        </View>
+            </View>
+
+            <View style={styles.formContainer}>
+                <Input
+                    testID='input-email'
+                    placeholder={Constants.EmailPlaceholder}
+                    value={email}
+                    disabled={isLoading}
+                    onChangeText={setEmail}
+                />
+                <Input
+                    testID='input-password'
+                    secureTextEntry
+                    placeholder={Constants.PasswordPlaceholder}
+                    value={password}
+                    disabled={isLoading}
+                    onChangeText={setPassword}
+                    errorMessage={error.length ? error : ''}
+                />
+
+                <Button
+                    containerStyle={styles.buttonContainer}
+                    testID='button-sign-in'
+                    title={Constants.SignInButtonText}
+                    disabled={isLoading}
+                    onPress={() => dispatch(signIn(email, password))}
+                />
+            </View>
+
+            <View style={styles.loadingContainer}>
+                {isLoading && <ActivityIndicator testID='indicator-loading' />}
+            </View>
+        </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    formContainer: {
+        flex: 1,
+        width: '100%',
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
+    backButtonContainer: {
+        marginTop: 40,
+        width: '100%',
+        justifyContent: 'flex-start',
+        alignContent: 'flex-start',
+    },
+    iconStyle: { alignSelf: 'flex-start' },
+    title: {
+        fontSize: 40,
+    },
+    titleContainer: {
+        flex: 1,
+        width: '100%',
+        marginLeft: 40,
+        justifyContent: 'center',
+        alignContent: 'flex-start',
+    },
+    buttonContainer: { width: '33%', alignSelf: 'center' },
+    loadingContainer: { flex: 0.5, justifyContent: 'center' },
+});

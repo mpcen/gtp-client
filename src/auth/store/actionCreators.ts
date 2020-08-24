@@ -76,6 +76,7 @@ export const signUp = (
                 {
                     email,
                     password,
+                    confirmedPassword,
                 }
             );
 
