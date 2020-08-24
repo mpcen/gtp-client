@@ -9,6 +9,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { AuthHomeScreen } from './auth/store/AuthHomeScreen';
 import { SigninScreen } from './auth/SigninScreen';
 import { SignupScreen } from './auth/SignupScreen';
+import { ForgotPasswordScreen } from './auth/ForgotPasswordScreen';
 import { LeaguesScreen } from './leagues/LeaguesScreen';
 import { RootState } from './store/rootReducer';
 import { AccountScreen } from './account/AccountScreen';
@@ -169,6 +170,11 @@ export const Navigator = () => {
                 <AuthStack.Screen
                     name='Signin'
                     component={SigninScreen}
+                    options={{ headerShown: false }}
+                />
+                <AuthStack.Screen
+                    name='ForgotPassword'
+                    component={ForgotPasswordScreen}
                     options={{ headerShown: false }}
                 />
             </AuthStack.Navigator>

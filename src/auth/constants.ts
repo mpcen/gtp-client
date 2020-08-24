@@ -7,3 +7,5 @@ export const PasswordConfirmedPlaceholder = 'Confirm password';
 export const EmailPlaceholder = 'your@email.com';
 export const SigninTitle = 'Sign in';
 export const SignupTitle = 'Sign up';
+export const ForgotPasswordTitle = 'Reset password';
+export const ResetPasswordButtonText = 'Reset';

@@ -14,9 +14,8 @@ import { signIn, clearErrors } from './store/actionCreators';
 import { RootState } from '../store/rootReducer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export const SigninScreen = () => {
+export const ForgotPasswordScreen = () => {
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const { navigate } = useNavigation();
     const { isLoading, error } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
@@ -39,7 +38,7 @@ export const SigninScreen = () => {
 
             <View style={styles.titleContainer}>
                 <Text style={styles.title} allowFontScaling={false}>
-                    {Constants.SigninTitle}
+                    {Constants.ForgotPasswordTitle}
                 </Text>
             </View>
 
@@ -51,22 +50,13 @@ export const SigninScreen = () => {
                     disabled={isLoading}
                     onChangeText={setEmail}
                 />
-                <Input
-                    testID='input-password'
-                    secureTextEntry
-                    placeholder={Constants.PasswordPlaceholder}
-                    value={password}
-                    disabled={isLoading}
-                    onChangeText={setPassword}
-                    errorMessage={error.length ? error : ''}
-                />
 
                 <Button
                     containerStyle={styles.buttonContainer}
                     testID='button-sign-in'
-                    title={Constants.SignInButtonText}
+                    title={Constants.ResetPasswordButtonText}
                     disabled={isLoading}
-                    onPress={() => dispatch(signIn(email, password))}
+                    // onPress={() => dispatch(signIn(email, password))}
                 />
             </View>
 

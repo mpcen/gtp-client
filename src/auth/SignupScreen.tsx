@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         alignContent: 'flex-start',
     },
     title: {
-        fontSize: 40,
+        fontSize: 32,
     },
     formContainer: {
         flex: 1,
