@@ -12,6 +12,11 @@ export type AuthState = {
     preloadedLeagues: {
         sleeper: SleeperLeague[];
     };
+    resetPassword: {
+        fullUrl: string;
+        id: string;
+        token: string;
+    };
 };
 
 const INITIAL_STATE: AuthState = {
@@ -23,6 +28,11 @@ const INITIAL_STATE: AuthState = {
     isDataPreloaded: false,
     preloadedLeagues: {
         sleeper: [],
+    },
+    resetPassword: {
+        fullUrl: '',
+        id: '',
+        token: '',
     },
 };
 
@@ -88,6 +98,23 @@ export const authReducer = (
         // CLEAR_ERRORS
         case AuthActionTypes.CLEAR_ERRORS:
             return { ...state, error: '' };
+
+        // RESET_PASSWORD_REQUEST
+        case AuthActionTypes.RESET_PASSWORD_REQUEST:
+            return { ...state, isLoading: true, error: '' };
+        case AuthActionTypes.RESET_PASSWORD_REQUEST_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                error: '',
+                resetPassword: {
+                    fullUrl: action.payload.fullUrl,
+                    id: action.payload.id,
+                    token: action.payload.token,
+                },
+            };
+        case AuthActionTypes.RESET_PASSWORD_REQUEST_FAIL:
+            return { ...state, isLoading: false, error: action.payload.error };
 
         // DEFAULT
         default:

@@ -78,10 +78,34 @@ type Signout = {
 };
 type SignoutDispatchTypes = Signout;
 
+// RESET_PASSWORD_REQUEST
+type ResetPasswordRequest = {
+    type: AuthActionTypes.RESET_PASSWORD_REQUEST;
+};
+type ResetPasswordRequest_success = {
+    type: AuthActionTypes.RESET_PASSWORD_REQUEST_SUCCESS;
+    payload: {
+        fullUrl: string;
+        id: string;
+        token: string;
+    };
+};
+type ResetPasswordRequest_fail = {
+    type: AuthActionTypes.RESET_PASSWORD_REQUEST_FAIL;
+    payload: {
+        error: string;
+    };
+};
+type ResetPasswordRequestDispatchTypes =
+    | ResetPasswordRequest
+    | ResetPasswordRequest_success
+    | ResetPasswordRequest_fail;
+
 export type AuthDispatchTypes =
     | ResolveAuthDispatchTypes
     | PreloadDataDispatchTypes
     | SignupDispatchTypes
     | SigninDispatchTypes
     | ClearErrorsDispatchTypes
-    | SignoutDispatchTypes;
+    | SignoutDispatchTypes
+    | ResetPasswordRequestDispatchTypes;

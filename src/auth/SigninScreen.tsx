@@ -17,8 +17,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 export const SigninScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { navigate } = useNavigation();
     const { isLoading, error } = useSelector((state: RootState) => state.auth);
+    const { navigate } = useNavigation();
     const dispatch = useDispatch();
 
     useEffect(() => {

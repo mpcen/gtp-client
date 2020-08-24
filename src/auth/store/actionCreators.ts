@@ -140,6 +140,45 @@ export const signOut = () => {
     };
 };
 
+export const resetPasswordRequest = (email: string) => {
+    return async (dispatch: Dispatch<AuthDispatchTypes>) => {
+        dispatch({ type: AuthActionTypes.RESET_PASSWORD_REQUEST });
+
+        if (!email) {
+            return dispatch({
+                type: AuthActionTypes.RESET_PASSWORD_REQUEST_FAIL,
+                payload: {
+                    error: 'Error resetting password',
+                },
+            });
+        }
+
+        try {
+            const response = await axios.post(
+                // `${config.API_URL}/api/users/signin`, // TODO
+                `http://192.168.0.210:5000/api/users/resetpassword`,
+                { email }
+            );
+
+            dispatch({
+                type: AuthActionTypes.RESET_PASSWORD_REQUEST_SUCCESS,
+                payload: {
+                    fullUrl: response.data.fullUrl,
+                    id: response.data.id,
+                    token: response.data.token,
+                },
+            });
+        } catch (err) {
+            dispatch({
+                type: AuthActionTypes.RESET_PASSWORD_REQUEST_FAIL,
+                payload: {
+                    error: 'Error resetting password',
+                },
+            });
+        }
+    };
+};
+
 export const clearErrors = () => {
     return (dispatch: Dispatch<AuthDispatchTypes>) => {
         dispatch({ type: AuthActionTypes.CLEAR_ERRORS });

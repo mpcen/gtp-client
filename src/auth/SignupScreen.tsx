@@ -18,8 +18,8 @@ export const SignupScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
-    const { navigate } = useNavigation();
     const { isLoading, error } = useSelector((state: RootState) => state.auth);
+    const { navigate } = useNavigation();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -70,6 +70,7 @@ export const SignupScreen = () => {
                     errorMessage={error.length ? error : ''}
                 />
                 <Button
+                    containerStyle={styles.buttonContainer}
                     testID='button-sign-up'
                     title={Constants.SignUpButtonText}
                     disabled={isLoading}
@@ -111,5 +112,6 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
     },
+    buttonContainer: { width: '33%', alignSelf: 'center' },
     loadingContainer: { flex: 0.5, justifyContent: 'center' },
 });

@@ -10,14 +10,16 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import * as Constants from './constants';
-import { signIn, clearErrors } from './store/actionCreators';
+import { resetPasswordRequest, clearErrors } from './store/actionCreators';
 import { RootState } from '../store/rootReducer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export const ForgotPasswordScreen = () => {
     const [email, setEmail] = useState('');
     const { navigate } = useNavigation();
-    const { isLoading, error } = useSelector((state: RootState) => state.auth);
+    const { isLoading, error, resetPassword } = useSelector(
+        (state: RootState) => state.auth
+    );
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -48,6 +50,7 @@ export const ForgotPasswordScreen = () => {
                     placeholder={Constants.EmailPlaceholder}
                     value={email}
                     disabled={isLoading}
+                    errorMessage={error}
                     onChangeText={setEmail}
                 />
 
@@ -56,8 +59,22 @@ export const ForgotPasswordScreen = () => {
                     testID='button-sign-in'
                     title={Constants.ResetPasswordButtonText}
                     disabled={isLoading}
-                    // onPress={() => dispatch(signIn(email, password))}
+                    onPress={() => dispatch(resetPasswordRequest(email))}
                 />
+
+                {!error && !isLoading && resetPassword.fullUrl ? (
+                    <View
+                        style={{
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            marginTop: 8,
+                        }}
+                    >
+                        <Text style={{ color: '#2089dc', textAlign: 'center' }}>
+                            Reset instructions were sent to the email provided
+                        </Text>
+                    </View>
+                ) : null}
             </View>
 
             <View style={styles.loadingContainer}>
