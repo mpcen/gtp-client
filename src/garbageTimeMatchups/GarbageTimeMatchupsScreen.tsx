@@ -68,18 +68,30 @@ export const GarbageTimeMatchupsScreen = () => {
 
     const { memberMap } = useMemberMap(selectedLeague);
 
+    // RENDER INITIALLY LOADING
     if (!isInitiallyLoaded) {
         return null;
     }
 
+    // RENDER EMPTY LEAGUES
     if (!userLeagues.sleeper.length || !selectedLeague || !selectedLeagueId) {
         return (
-            <View>
-                <Text>{constants.GTM_ADD_LEAGUE_MESSAGE}</Text>
-                <Button
-                    title={constants.GTM_ADD_LEAGUE}
-                    onPress={() => navigate('Leagues')}
-                />
+            <View
+                style={{
+                    flex: 1,
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        textAlign: 'center',
+                        color: '#adadad',
+                    }}
+                >
+                    {constants.GTM_ADD_LEAGUE_MESSAGE}
+                </Text>
             </View>
         );
     }

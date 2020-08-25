@@ -36,7 +36,7 @@ const GarbageTimeMatchupsStackScreen = () => {
             <GarbageTimeMatchupsStack.Screen
                 name='GarbageTimeMatchups'
                 options={{
-                    headerTitle: 'GarbageTime Matchups',
+                    headerTitle: 'Compare Teams',
                     headerTitleAlign: 'center',
                 }}
                 component={GarbageTimeMatchupsScreen}
@@ -128,7 +128,7 @@ export const Navigator = () => {
                         options={{
                             tabBarIcon: ({ color, size }) => (
                                 <MaterialCommunityIcons
-                                    name='trash-can'
+                                    name='account-switch'
                                     size={19}
                                     color={color}
                                 />

@@ -53,12 +53,14 @@ export const LeagueModule = ({
                 />
                 <Button
                     buttonStyle={styles.button}
-                    type='clear'
-                    icon={{
-                        name: 'plus',
-                        type: 'material-community',
-                        color: 'white',
-                    }}
+                    titleStyle={{ color: 'white' }}
+                    type='outline'
+                    title='Add League'
+                    // icon={{
+                    //     name: 'plus',
+                    //     type: 'material-community',
+                    //     color: 'white',
+                    // }}
                     onPress={() => navigate('ImportSleeperLeagues')}
                 />
             </View>
@@ -125,7 +127,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#2E3336',
     },
     button: {
-        padding: 0,
+        padding: 6,
+        borderColor: 'white',
     },
     leaguePlatformImageStyle: {
         width: 150,
