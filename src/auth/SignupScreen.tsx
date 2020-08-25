@@ -13,11 +13,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as Constants from './constants';
 import { RootState } from '../store/rootReducer';
 import { signUp, clearErrors } from './store/actionCreators';
+import { PasswordVisibilityIcon } from './components/PasswordVisibilityIcon';
 
 export const SignupScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const { isLoading, error } = useSelector((state: RootState) => state.auth);
     const { navigate } = useNavigation();
     const dispatch = useDispatch();
@@ -45,6 +47,7 @@ export const SignupScreen = () => {
             </View>
 
             <View style={styles.formContainer}>
+                {/* EMAIL */}
                 <Input
                     testID='input-email'
                     placeholder={Constants.EmailPlaceholder}
@@ -52,23 +55,41 @@ export const SignupScreen = () => {
                     value={email}
                     onChangeText={setEmail}
                 />
-                <Input
-                    testID='input-password'
-                    disabled={isLoading}
-                    secureTextEntry
-                    placeholder={Constants.PasswordPlaceholder}
-                    value={password}
-                    onChangeText={setPassword}
-                />
-                <Input
-                    testID='input-confirm-password'
-                    disabled={isLoading}
-                    secureTextEntry
-                    placeholder={Constants.PasswordConfirmedPlaceholder}
-                    value={confirmedPassword}
-                    onChangeText={setConfirmedPassword}
-                    errorMessage={error.length ? error : ''}
-                />
+
+                {/* PASSWORD */}
+                <View style={styles.passwordContainer}>
+                    <Input
+                        testID='input-password'
+                        disabled={isLoading}
+                        secureTextEntry={!isPasswordVisible}
+                        placeholder={Constants.PasswordPlaceholder}
+                        value={password}
+                        onChangeText={setPassword}
+                    />
+                    <PasswordVisibilityIcon
+                        isPasswordVisible={isPasswordVisible}
+                        setIsPasswordVisible={setIsPasswordVisible}
+                    />
+                </View>
+
+                {/* CONFIRM PASSWORD */}
+                <View style={styles.passwordContainer}>
+                    <Input
+                        testID='input-confirm-password'
+                        disabled={isLoading}
+                        secureTextEntry={!isPasswordVisible}
+                        placeholder={Constants.PasswordConfirmedPlaceholder}
+                        value={confirmedPassword}
+                        onChangeText={setConfirmedPassword}
+                        errorMessage={error.length ? error : ''}
+                    />
+                    <PasswordVisibilityIcon
+                        isPasswordVisible={isPasswordVisible}
+                        setIsPasswordVisible={setIsPasswordVisible}
+                    />
+                </View>
+
+                {/* BUTTON */}
                 <Button
                     containerStyle={styles.buttonContainer}
                     testID='button-sign-up'
@@ -109,8 +130,16 @@ const styles = StyleSheet.create({
     formContainer: {
         flex: 1,
         width: '100%',
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 12,
+        paddingRight: 12,
+    },
+    passwordContainer: { flexDirection: 'row', position: 'relative' },
+    passwordVisibilityButton: {
+        marginRight: 10,
+        position: 'absolute',
+        right: 0,
+        top: 8,
+        justifyContent: 'center',
     },
     buttonContainer: { width: '33%', alignSelf: 'center' },
     loadingContainer: { flex: 0.5, justifyContent: 'center' },

@@ -4,6 +4,7 @@ import { Divider, Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { Asset } from 'expo-asset';
 
+import * as Constants from '../constants';
 import { SleeperLeague } from '../store/storeTypes';
 import { LeaguePlatform } from '../types';
 
@@ -12,6 +13,7 @@ import { LeagueInfoListItem } from './LeagueInfoListItem';
 type Props = {
     platform: string;
     leagues: SleeperLeague[];
+    isLoading: boolean;
     setIsOverlayVisible: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectedLeague: React.Dispatch<React.SetStateAction<SleeperLeague>>;
 };
@@ -19,6 +21,7 @@ type Props = {
 export const LeagueModule = ({
     platform,
     leagues,
+    isLoading,
     setIsOverlayVisible,
     setSelectedLeague,
 }: Props) => {
@@ -79,13 +82,19 @@ export const LeagueModule = ({
                         }}
                     />
                 )}
-                ListEmptyComponent={() => (
-                    <View style={styles.emptyLeaguesContainer}>
-                        <Text style={styles.emptyLeaguesText}>
-                            Add a league to get started
-                        </Text>
-                    </View>
-                )}
+                ListEmptyComponent={() =>
+                    isLoading ? (
+                        <View style={styles.emptyLeaguesContainer}>
+                            <Text>{Constants.LoadingText}</Text>
+                        </View>
+                    ) : (
+                        <View style={styles.emptyLeaguesContainer}>
+                            <Text style={styles.emptyLeaguesText}>
+                                {Constants.AddLeagueText}
+                            </Text>
+                        </View>
+                    )
+                }
             />
         </View>
     );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../store/rootReducer';
@@ -26,17 +26,13 @@ export const LeaguesScreen = () => {
     }, [auth.isDataPreloaded]);
 
     return (
-        <View
-            style={{
-                flex: 1,
-                backgroundColor: 'white',
-            }}
-        >
+        <View style={styles.container}>
             <LeagueModule
                 platform={LeaguePlatform.Sleeper}
                 leagues={leagues.userLeagues.sleeper}
                 setIsOverlayVisible={setIsOverlayVisible}
                 setSelectedLeague={setSelectedLeague}
+                isLoading={!auth.isDataPreloaded}
             />
 
             {/* <LeagueModule
@@ -55,3 +51,7 @@ export const LeaguesScreen = () => {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: 'white' },
+});

@@ -4,6 +4,7 @@ import {
     ActivityIndicator,
     StyleSheet,
     SafeAreaView,
+    TouchableOpacity,
 } from 'react-native';
 import { Input, Button, Text, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
@@ -12,11 +13,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as Constants from './constants';
 import { signIn, clearErrors } from './store/actionCreators';
 import { RootState } from '../store/rootReducer';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import { PasswordVisibilityIcon } from './components/PasswordVisibilityIcon';
 
 export const SigninScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const { isLoading, error } = useSelector((state: RootState) => state.auth);
     const { navigate } = useNavigation();
     const dispatch = useDispatch();
@@ -44,6 +47,7 @@ export const SigninScreen = () => {
             </View>
 
             <View style={styles.formContainer}>
+                {/* EMAIL */}
                 <Input
                     testID='input-email'
                     placeholder={Constants.EmailPlaceholder}
@@ -51,16 +55,25 @@ export const SigninScreen = () => {
                     disabled={isLoading}
                     onChangeText={setEmail}
                 />
-                <Input
-                    testID='input-password'
-                    secureTextEntry
-                    placeholder={Constants.PasswordPlaceholder}
-                    value={password}
-                    disabled={isLoading}
-                    onChangeText={setPassword}
-                    errorMessage={error.length ? error : ''}
-                />
 
+                {/* PASSWORD */}
+                <View>
+                    <Input
+                        testID='input-password'
+                        secureTextEntry={!isPasswordVisible}
+                        placeholder={Constants.PasswordPlaceholder}
+                        value={password}
+                        disabled={isLoading}
+                        onChangeText={setPassword}
+                        errorMessage={error.length ? error : ''}
+                    />
+                    <PasswordVisibilityIcon
+                        isPasswordVisible={isPasswordVisible}
+                        setIsPasswordVisible={setIsPasswordVisible}
+                    />
+                </View>
+
+                {/* BUTTON */}
                 <Button
                     containerStyle={styles.buttonContainer}
                     testID='button-sign-in'
@@ -85,8 +98,8 @@ const styles = StyleSheet.create({
     formContainer: {
         flex: 1,
         width: '100%',
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 12,
+        paddingRight: 12,
     },
     backButtonContainer: {
         marginTop: 40,
