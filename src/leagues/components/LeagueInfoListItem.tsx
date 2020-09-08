@@ -7,6 +7,7 @@ type Props = {
     seasonId: string;
     totalTeams: string | number;
     leagueAvatar: string;
+    itemAdded: boolean | undefined;
     isLoading?: boolean;
     icon?: string;
     onItemPressCallback?: () => void;
@@ -17,7 +18,7 @@ export const LeagueInfoListItem = ({
     leagueName,
     seasonId,
     totalTeams,
-    icon,
+    itemAdded,
     leagueAvatar,
     isLoading,
     onItemPressCallback,
@@ -48,15 +49,16 @@ export const LeagueInfoListItem = ({
                 </View>
             </TouchableOpacity>
 
-            {icon && onButtonPressCallback && (
+            {itemAdded !== undefined && onButtonPressCallback && (
                 <Button
                     type='clear'
                     onPress={onButtonPressCallback}
                     buttonStyle={styles.button}
                     disabled={isLoading}
                     icon={{
-                        name: icon,
+                        name: itemAdded ? 'minus-circle' : 'plus-circle',
                         type: 'material-community',
+                        color: itemAdded ? '#ED5145' : '#60D394',
                     }}
                 />
             )}

@@ -71,7 +71,8 @@ export const LeagueModule = ({
                         leagueName={item.leagueName}
                         seasonId={item.seasonId}
                         totalTeams={item.teams.length}
-                        icon='minus'
+                        itemAdded={true}
+                        icon='minus-circle'
                         leagueAvatar={item.avatar}
                         onButtonPressCallback={() => {
                             setSelectedLeague(item);

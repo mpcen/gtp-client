@@ -103,7 +103,8 @@ export const ImportSleeperLeaguesScreen = () => {
                         leagueName={item.name}
                         seasonId={item.seasonId}
                         totalTeams={item.totalTeams}
-                        icon={item.added ? 'minus' : 'plus'}
+                        itemAdded={item.added}
+                        icon={item.added ? 'minus-circle' : 'plus-circle'}
                         leagueAvatar={item.avatar || ''}
                         isLoading={isLoading}
                         onButtonPressCallback={() => {
