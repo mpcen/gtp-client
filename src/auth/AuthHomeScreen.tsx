@@ -4,7 +4,7 @@ import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { AppTitle, ForgotPassword } from '../constants';
+import { AppTitle, ForgotPassword } from './constants';
 
 export const AuthHomeScreen = () => {
     const { navigate } = useNavigation();

@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native';
 import { Dispatch } from 'redux';
 
 import { LeagueActionTypes } from './actionTypes';
-import { LeagueDispatchTypes } from './dispatchTYpes';
+import { LeagueDispatchTypes } from './dispatchTypes';
 import { ImportedSleeperLeague, SleeperLeague } from './storeTypes';
 
 export const findSleeperLeaguesForUser = (username: string) => {

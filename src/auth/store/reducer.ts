@@ -1,25 +1,13 @@
 import { AuthActionTypes } from './actionTypes';
 import { AuthDispatchTypes } from './dispatchTypes';
-import { SleeperLeague } from '../../leagues/store/storeTypes';
-
-export type AuthState = {
-    token: string;
-    error: string;
-    isLoading: boolean;
-    isResolvingAuth: boolean;
-    isPreloadingData: boolean;
-    isDataPreloaded: boolean;
-    preloadedLeagues: {
-        sleeper: SleeperLeague[];
-    };
-    resetPassword: {
-        fullUrl: string;
-        id: string;
-        token: string;
-    };
-};
+import { AuthState } from './storeTypes';
 
 const INITIAL_STATE: AuthState = {
+    currentUser: {
+        id: '',
+        email: '',
+        iat: null,
+    },
     token: '',
     error: '',
     isLoading: false,
@@ -61,8 +49,9 @@ export const authReducer = (
                 ...state,
                 isPreloadingData: false,
                 isDataPreloaded: true,
+                currentUser: action.payload.currentUserInfo,
                 preloadedLeagues: {
-                    sleeper: action.payload,
+                    sleeper: action.payload.userSleeperLeagues,
                 },
             };
         // SIGN_UP

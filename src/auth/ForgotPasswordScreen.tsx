@@ -63,14 +63,8 @@ export const ForgotPasswordScreen = () => {
                 />
 
                 {!error && !isLoading && resetPassword.fullUrl ? (
-                    <View
-                        style={{
-                            justifyContent: 'center',
-                            alignContent: 'center',
-                            marginTop: 8,
-                        }}
-                    >
-                        <Text style={{ color: '#2089dc', textAlign: 'center' }}>
+                    <View style={styles.resetMessageContainer}>
+                        <Text style={styles.resetMessageText}>
                             Reset instructions were sent to the email provided
                         </Text>
                     </View>
@@ -114,4 +108,10 @@ const styles = StyleSheet.create({
     },
     buttonContainer: { width: '33%', alignSelf: 'center' },
     loadingContainer: { flex: 0.5, justifyContent: 'center' },
+    resetMessageContainer: {
+        justifyContent: 'center',
+        alignContent: 'center',
+        marginTop: 8,
+    },
+    resetMessageText: { color: '#68B752', textAlign: 'center' },
 });

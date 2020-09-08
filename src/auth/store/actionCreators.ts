@@ -32,18 +32,28 @@ export const preloadData = () => {
         });
 
         try {
-            const userSleeperLeagues = await axios.get(
-                'http://192.168.0.210:5000/api/league/sleeper/userleagues',
-                {
+            const [currentUser, userSleeperLeagues] = await Promise.all([
+                axios.get('http://192.168.0.210:5000/api/users/currentuser', {
                     headers: {
                         authorization: `Bearer ${token}`,
                     },
-                }
-            );
+                }),
+                axios.get(
+                    'http://192.168.0.210:5000/api/league/sleeper/userleagues',
+                    {
+                        headers: {
+                            authorization: `Bearer ${token}`,
+                        },
+                    }
+                ),
+            ]);
 
             dispatch({
                 type: AuthActionTypes.PRELOAD_DATA_SUCCESS,
-                payload: userSleeperLeagues.data,
+                payload: {
+                    currentUserInfo: currentUser.data.currentUser,
+                    userSleeperLeagues: userSleeperLeagues.data,
+                },
             });
         } catch (e) {
             dispatch({

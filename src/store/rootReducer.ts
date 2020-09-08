@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 
-import { authReducer, AuthState } from '../auth/store/reducer';
+import { authReducer } from '../auth/store/reducer';
 import { leagueReducer } from '../leagues/store/reducer';
 import { LeagueState } from '../leagues/store/storeTypes';
+import { AuthState } from '../auth/store/storeTypes';
 
 export type RootState = {
     auth: AuthState;

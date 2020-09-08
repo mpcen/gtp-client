@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { AuthHomeScreen } from './auth/store/AuthHomeScreen';
+import { AuthHomeScreen } from './auth/AuthHomeScreen';
 import { SigninScreen } from './auth/SigninScreen';
 import { SignupScreen } from './auth/SignupScreen';
 import { ForgotPasswordScreen } from './auth/ForgotPasswordScreen';
@@ -17,6 +17,7 @@ import { ImportSleeperLeaguesScreen } from './leagues/importLeague/sleeper/Impor
 import { ResolvingAuthScreen } from './auth/ResolvingAuthScreen';
 import { PreloadingDataScreen } from './auth/PreloadingDataScreen';
 import { GarbageTimeMatchupsScreen } from './garbageTimeMatchups/GarbageTimeMatchupsScreen';
+import { FeedbackScreen } from './feedback/FeedbackScreen';
 
 export type LeaguesStackParamList = {
     Leagues: undefined;
@@ -28,6 +29,7 @@ const Tabs = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
 const LeaguesStack = createStackNavigator<LeaguesStackParamList>();
 const GarbageTimeMatchupsStack = createStackNavigator();
+const FeedbackStack = createStackNavigator();
 const AccountStack = createStackNavigator();
 
 const GarbageTimeMatchupsStackScreen = () => {
@@ -62,6 +64,21 @@ const LeaguesStackScreen = () => {
                 component={ImportSleeperLeaguesScreen}
             />
         </LeaguesStack.Navigator>
+    );
+};
+
+const FeedbackStackScreen = () => {
+    return (
+        <FeedbackStack.Navigator>
+            <FeedbackStack.Screen
+                name='Feedback'
+                options={{
+                    headerTitle: 'Feedback',
+                    headerTitleAlign: 'center',
+                }}
+                component={FeedbackScreen}
+            />
+        </FeedbackStack.Navigator>
     );
 };
 
@@ -129,6 +146,20 @@ export const Navigator = () => {
                             tabBarIcon: ({ color, size }) => (
                                 <MaterialCommunityIcons
                                     name='account-switch'
+                                    size={19}
+                                    color={color}
+                                />
+                            ),
+                        }}
+                    />
+
+                    <Tabs.Screen
+                        name='Feedback'
+                        component={FeedbackStackScreen}
+                        options={{
+                            tabBarIcon: ({ color, size }) => (
+                                <MaterialCommunityIcons
+                                    name='message-alert'
                                     size={19}
                                     color={color}
                                 />

@@ -56,11 +56,6 @@ export const LeagueModule = ({
                     titleStyle={{ color: 'white' }}
                     type='outline'
                     title='Add League'
-                    // icon={{
-                    //     name: 'plus',
-                    //     type: 'material-community',
-                    //     color: 'white',
-                    // }}
                     onPress={() => navigate('ImportSleeperLeagues')}
                 />
             </View>
