@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, SafeAreaView, Text, FlatList } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    SafeAreaView,
+    Text,
+    FlatList,
+    ActivityIndicator,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import { Divider, Overlay, Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
@@ -70,7 +77,11 @@ export const GarbageTimeMatchupsScreen = () => {
 
     // RENDER INITIALLY LOADING
     if (!isInitiallyLoaded) {
-        return null;
+        return (
+            <View style={{ flex: 1, justifyContent: 'center' }}>
+                <ActivityIndicator size='large' />
+            </View>
+        );
     }
 
     // RENDER EMPTY LEAGUES

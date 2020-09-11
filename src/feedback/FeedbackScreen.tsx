@@ -22,6 +22,11 @@ export const FeedbackScreen = () => {
     const [successMessageShown, setSuccessMessageShown] = useState(false);
 
     const submitFeedback = async () => {
+        if (!feedback.length) {
+            setError('You must enter some feedback');
+            return;
+        }
+
         setIsLoading(true);
 
         try {
@@ -79,7 +84,7 @@ export const FeedbackScreen = () => {
                     <View style={styles.buttonContainer}>
                         <Button
                             title='Submit'
-                            disabled={isLoading}
+                            disabled={isLoading || !feedback.length}
                             containerStyle={styles.buttonContainerStyle}
                             onPress={() => submitFeedback()}
                         />
