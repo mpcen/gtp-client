@@ -7,7 +7,7 @@ type Props = {
     seasonId: string;
     totalTeams: string | number;
     leagueAvatar: string;
-    itemAdded: boolean | undefined;
+    itemAdded?: boolean;
     isLoading?: boolean;
     icon?: string;
     onItemPressCallback?: () => void;
