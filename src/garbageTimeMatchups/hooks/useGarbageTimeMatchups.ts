@@ -55,7 +55,7 @@ export const useGarbageTimeMatchups = (
                 (matchup: SleeperLeagueMatchup) =>
                     (matchup.away.teamId.toString() === team.teamId ||
                         matchup.home.teamId.toString() === team.teamId) &&
-                    matchup.matchupWeek <= selectedLeague.lastRegularSeasonWeek
+                    matchup.matchupWeek < selectedLeague.playoffWeekStart
             )
             .forEach((matchup) => {
                 const self =
