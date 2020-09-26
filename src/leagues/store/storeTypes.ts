@@ -45,6 +45,7 @@ export type SleeperLeague = {
     seasonId: string;
     leagueName: string;
     seasonType: string;
+    isSkillBased: boolean;
     currentLeagueWeek: number;
     currentSeasonWeek: number;
     playoffWeekStart: number;

@@ -8,8 +8,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import { Divider, Overlay, Button } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
+import { Divider, Overlay } from 'react-native-elements';
 
 import * as constants from './constants';
 import { RootState } from '../store/rootReducer';
@@ -25,7 +24,6 @@ import { LeagueInfoListItem } from '../leagues/components/LeagueInfoListItem';
 import { GarbageTimeMatchupsLeaguePicker } from './components/GarbageTimeMatchupsLeaguePicker';
 
 export const GarbageTimeMatchupsScreen = () => {
-    const { navigate } = useNavigation();
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
     const [selectedLeagueId, setSelectedLeagueId] = useState('');
     const [selectedLeague, setSelectedLeague] = useState({} as SleeperLeague);

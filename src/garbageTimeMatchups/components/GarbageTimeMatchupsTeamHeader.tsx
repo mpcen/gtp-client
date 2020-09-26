@@ -20,6 +20,10 @@ type Props = {
     setOverlay: React.Dispatch<React.SetStateAction<OverlayTypes>>;
 };
 
+const renderGTR = (gtmResults: GTMResult) => {
+    return `${gtmResults.wins}-${gtmResults.losses}-${gtmResults.ties}`;
+};
+
 export const GarbageTimeMatchupsTeamHeader = ({
     team,
     teamNumber,
@@ -111,8 +115,7 @@ export const GarbageTimeMatchupsTeamHeader = ({
                         size={10}
                     />
                     <Text style={[styles.textStyle, styles.teamRecordInfo]}>
-                        GTR: {gtmResults.wins}-{gtmResults.losses}-
-                        {gtmResults.ties}
+                        GTR: {renderGTR(gtmResults)}
                     </Text>
                 </TouchableOpacity>
 
