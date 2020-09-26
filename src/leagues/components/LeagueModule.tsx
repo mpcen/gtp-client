@@ -63,7 +63,9 @@ export const LeagueModule = ({
             <Divider />
 
             <FlatList
-                contentContainerStyle={styles.listContainer}
+                contentContainerStyle={
+                    leagues.length ? null : styles.emptyLeaguesContainer
+                }
                 data={leagues}
                 keyExtractor={(item) => item.leagueId}
                 renderItem={({ item }) => (
@@ -107,12 +109,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
     },
     emptyLeaguesText: {
         color: '#adadad',
     },
-    listContainer: { flex: 1 },
     headerContainer: {
         justifyContent: 'space-between',
         flexDirection: 'row',
