@@ -123,7 +123,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#2E3336',
     },
     button: {
-        padding: 6,
+        paddingLeft: 6,
+        paddingRight: 6,
+        paddingTop: 0,
+        paddingBottom: 3,
+        borderWidth: 1,
         borderColor: 'white',
     },
     leaguePlatformImageStyle: {
