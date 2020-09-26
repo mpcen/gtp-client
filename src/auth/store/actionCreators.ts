@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { Dispatch } from 'redux';
+import * as EmailValidator from 'email-validator';
 
 import { AuthActionTypes } from './actionTypes';
 import { AuthDispatchTypes } from './dispatchTypes';
@@ -70,6 +71,20 @@ export const signUp = (
     confirmedPassword: string
 ) => {
     return async (dispatch: Dispatch<AuthDispatchTypes>) => {
+        if (!password || !email) {
+            return dispatch({
+                type: AuthActionTypes.SIGN_UP_FAIL,
+                payload: { error: 'Email and passwords are required' },
+            });
+        }
+
+        if (!EmailValidator.validate(email)) {
+            return dispatch({
+                type: AuthActionTypes.SIGN_UP_FAIL,
+                payload: { error: 'Invalid email' },
+            });
+        }
+
         if (password !== confirmedPassword) {
             return dispatch({
                 type: AuthActionTypes.SIGN_UP_FAIL,
@@ -135,7 +150,7 @@ export const signIn = (email: string, password: string) => {
             dispatch({
                 type: AuthActionTypes.SIGN_IN_FAIL,
                 payload: {
-                    error: 'Error signing in',
+                    error: err.response.data.errors[0].message,
                 },
             });
         }

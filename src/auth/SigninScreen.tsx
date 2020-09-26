@@ -66,6 +66,7 @@ export const SigninScreen = () => {
                         disabled={isLoading}
                         onChangeText={setPassword}
                         errorMessage={error.length ? error : ''}
+                        errorStyle={styles.errorMessageContainer}
                     />
                     <PasswordVisibilityIcon
                         isPasswordVisible={isPasswordVisible}
@@ -118,6 +119,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'flex-start',
     },
-    buttonContainer: { width: '33%', alignSelf: 'center' },
+    buttonContainer: { marginTop: 24, width: '33%', alignSelf: 'center' },
     loadingContainer: { flex: 0.5, justifyContent: 'center' },
+    errorMessageContainer: { textAlign: 'center', paddingTop: 4 },
 });

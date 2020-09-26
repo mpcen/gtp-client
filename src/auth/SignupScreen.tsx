@@ -82,6 +82,7 @@ export const SignupScreen = () => {
                         value={confirmedPassword}
                         onChangeText={setConfirmedPassword}
                         errorMessage={error.length ? error : ''}
+                        errorStyle={styles.errorMessageContainer}
                     />
                     <PasswordVisibilityIcon
                         isPasswordVisible={isPasswordVisible}
@@ -141,6 +142,7 @@ const styles = StyleSheet.create({
         top: 8,
         justifyContent: 'center',
     },
-    buttonContainer: { width: '33%', alignSelf: 'center' },
+    buttonContainer: { marginTop: 24, width: '33%', alignSelf: 'center' },
     loadingContainer: { flex: 0.5, justifyContent: 'center' },
+    errorMessageContainer: { textAlign: 'center', paddingTop: 4 },
 });
