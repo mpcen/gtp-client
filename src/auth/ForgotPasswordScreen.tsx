@@ -4,6 +4,8 @@ import {
     ActivityIndicator,
     StyleSheet,
     SafeAreaView,
+    KeyboardAvoidingView,
+    Platform,
 } from 'react-native';
 import { Input, Button, Text, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
@@ -28,52 +30,61 @@ export const ForgotPasswordScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.backButtonContainer}>
-                <TouchableOpacity onPress={() => navigate('AuthHome')}>
-                    <Icon
-                        iconStyle={styles.iconStyle}
-                        name='chevron-left'
-                        size={40}
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={styles.kbAvoidingView}
+            >
+                <View style={styles.backButtonContainer}>
+                    <TouchableOpacity onPress={() => navigate('AuthHome')}>
+                        <Icon
+                            iconStyle={styles.iconStyle}
+                            name="chevron-left"
+                            size={40}
+                        />
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title} allowFontScaling={false}>
+                        {Constants.ForgotPasswordTitle}
+                    </Text>
+                </View>
+
+                <View style={styles.formContainer}>
+                    <Input
+                        testID="input-email"
+                        placeholder={Constants.EmailPlaceholder}
+                        value={email}
+                        disabled={isLoading}
+                        errorMessage={error}
+                        errorStyle={styles.errorMessageContainer}
+                        onChangeText={setEmail}
                     />
-                </TouchableOpacity>
-            </View>
 
-            <View style={styles.titleContainer}>
-                <Text style={styles.title} allowFontScaling={false}>
-                    {Constants.ForgotPasswordTitle}
-                </Text>
-            </View>
+                    <Button
+                        containerStyle={styles.buttonContainer}
+                        testID="button-sign-in"
+                        title={Constants.ResetPasswordButtonText}
+                        disabled={isLoading}
+                        onPress={() => dispatch(resetPasswordRequest(email))}
+                    />
 
-            <View style={styles.formContainer}>
-                <Input
-                    testID='input-email'
-                    placeholder={Constants.EmailPlaceholder}
-                    value={email}
-                    disabled={isLoading}
-                    errorMessage={error}
-                    onChangeText={setEmail}
-                />
+                    {!error && !isLoading && resetPassword.fullUrl ? (
+                        <View style={styles.resetMessageContainer}>
+                            <Text style={styles.resetMessageText}>
+                                Reset instructions were sent to the email
+                                provided
+                            </Text>
+                        </View>
+                    ) : null}
+                </View>
 
-                <Button
-                    containerStyle={styles.buttonContainer}
-                    testID='button-sign-in'
-                    title={Constants.ResetPasswordButtonText}
-                    disabled={isLoading}
-                    onPress={() => dispatch(resetPasswordRequest(email))}
-                />
-
-                {!error && !isLoading && resetPassword.fullUrl ? (
-                    <View style={styles.resetMessageContainer}>
-                        <Text style={styles.resetMessageText}>
-                            Reset instructions were sent to the email provided
-                        </Text>
-                    </View>
-                ) : null}
-            </View>
-
-            <View style={styles.loadingContainer}>
-                {isLoading && <ActivityIndicator testID='indicator-loading' />}
-            </View>
+                <View style={styles.loadingContainer}>
+                    {isLoading && (
+                        <ActivityIndicator testID="indicator-loading" />
+                    )}
+                </View>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 };
@@ -81,32 +92,31 @@ export const ForgotPasswordScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
     },
+    kbAvoidingView: { flex: 1 },
     formContainer: {
         flex: 1,
         width: '100%',
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 8,
+        paddingRight: 8,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
     },
     backButtonContainer: {
-        marginTop: 40,
-        width: '100%',
-        justifyContent: 'flex-start',
-        alignContent: 'flex-start',
+        paddingTop: 40,
+        marginLeft: 4,
     },
     iconStyle: { alignSelf: 'flex-start' },
     title: {
         fontSize: 32,
     },
     titleContainer: {
-        flex: 1,
+        flex: 0.25,
         width: '100%',
-        marginLeft: 40,
-        justifyContent: 'center',
-        alignContent: 'flex-start',
+        paddingLeft: 16,
+        justifyContent: 'flex-end',
     },
-    buttonContainer: { width: '33%', alignSelf: 'center' },
+    buttonContainer: { marginTop: 24, width: '33%', alignSelf: 'center' },
     loadingContainer: { flex: 0.5, justifyContent: 'center' },
     resetMessageContainer: {
         justifyContent: 'center',
@@ -114,4 +124,5 @@ const styles = StyleSheet.create({
         marginTop: 8,
     },
     resetMessageText: { color: '#68B752', textAlign: 'center' },
+    errorMessageContainer: { textAlign: 'center', paddingTop: 4 },
 });

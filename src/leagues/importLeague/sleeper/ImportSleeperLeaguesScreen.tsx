@@ -40,7 +40,7 @@ export const ImportSleeperLeaguesScreen = () => {
                 <View style={styles.textInputContainer}>
                     <TextInput
                         style={styles.textInput}
-                        placeholder='Enter Sleeper username'
+                        placeholder="Enter Sleeper username"
                         value={username}
                         onChangeText={setUsername}
                         onFocus={() => setTextInputFocused(true)}
@@ -56,7 +56,7 @@ export const ImportSleeperLeaguesScreen = () => {
                     {isLoading && (
                         <ActivityIndicator
                             style={styles.searchSpinner}
-                            size='small'
+                            size="small"
                         />
                     )}
 
@@ -65,7 +65,7 @@ export const ImportSleeperLeaguesScreen = () => {
                             iconContainerStyle={styles.closeButtonIconContainer}
                             style={styles.clearButtonStyle}
                             containerStyle={styles.clearButtonContainer}
-                            type='clear'
+                            type="clear"
                             icon={{
                                 name: 'close',
                                 type: 'material-community',
@@ -80,8 +80,8 @@ export const ImportSleeperLeaguesScreen = () => {
                 {textInputFocused && (
                     <Button
                         containerStyle={styles.cancelButtonContainerStyle}
-                        type='clear'
-                        title='Cancel'
+                        type="clear"
+                        title="Cancel"
                         onPress={() => Keyboard.dismiss()}
                     />
                 )}
@@ -89,7 +89,7 @@ export const ImportSleeperLeaguesScreen = () => {
 
             {error ? (
                 <View style={styles.errorTextContainer}>
-                    <Text testID='text-error' style={styles.errorText}>
+                    <Text testID="text-error" style={styles.errorText}>
                         {error}
                     </Text>
                 </View>

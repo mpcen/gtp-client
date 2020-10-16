@@ -197,7 +197,7 @@ export const resetPasswordRequest = (email: string) => {
             dispatch({
                 type: AuthActionTypes.RESET_PASSWORD_REQUEST_FAIL,
                 payload: {
-                    error: 'Error resetting password',
+                    error: err.response.data.errors[0].message,
                 },
             });
         }
