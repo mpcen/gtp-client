@@ -36,11 +36,12 @@ export const SignupScreen = () => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.kbAvoidingView}
             >
+                {/* BACK BUTTON */}
                 <View style={styles.backButtonContainer}>
                     <TouchableOpacity onPress={() => navigate('AuthHome')}>
                         <Icon
                             iconStyle={styles.iconStyle}
-                            name='chevron-left'
+                            name="chevron-left"
                             size={40}
                         />
                     </TouchableOpacity>
@@ -56,7 +57,7 @@ export const SignupScreen = () => {
                 <View style={styles.formContainer}>
                     {/* EMAIL */}
                     <Input
-                        testID='input-email'
+                        testID="input-email"
                         placeholder={Constants.EmailPlaceholder}
                         disabled={isLoading}
                         value={email}
@@ -66,7 +67,7 @@ export const SignupScreen = () => {
                     {/* PASSWORD */}
                     <View style={styles.passwordContainer}>
                         <Input
-                            testID='input-password'
+                            testID="input-password"
                             textContentType="oneTimeCode"
                             disabled={isLoading}
                             secureTextEntry={!isPasswordVisible}
@@ -83,7 +84,7 @@ export const SignupScreen = () => {
                     {/* CONFIRM PASSWORD */}
                     <View style={styles.passwordContainer}>
                         <Input
-                            testID='input-confirm-password'
+                            testID="input-confirm-password"
                             textContentType="oneTimeCode"
                             disabled={isLoading}
                             secureTextEntry={!isPasswordVisible}
@@ -102,7 +103,7 @@ export const SignupScreen = () => {
                     {/* BUTTON */}
                     <Button
                         containerStyle={styles.buttonContainer}
-                        testID='button-sign-up'
+                        testID="button-sign-up"
                         title={Constants.SignUpButtonText}
                         disabled={isLoading}
                         onPress={() =>
@@ -110,8 +111,11 @@ export const SignupScreen = () => {
                         }
                     />
 
+                    {/* SPINNER */}
                     <View style={styles.loadingContainer}>
-                        {isLoading && <ActivityIndicator testID='indicator-loading' />}
+                        {isLoading && (
+                            <ActivityIndicator testID="indicator-loading" />
+                        )}
                     </View>
                 </View>
             </KeyboardAvoidingView>
@@ -123,15 +127,15 @@ const styles = StyleSheet.create({
     container: { flex: 1 },
     kbAvoidingView: { flex: 1 },
     backButtonContainer: {
-        paddingTop: 20,
-        marginLeft: 4
+        paddingTop: 40,
+        marginLeft: 4,
     },
     iconStyle: { alignSelf: 'flex-start' },
-    titleContainer: { 
-        flex: 0.25,       
+    titleContainer: {
+        flex: 0.25,
         width: '100%',
         paddingLeft: 16,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
     },
     title: {
         fontSize: 32,
@@ -145,13 +149,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     passwordContainer: { flexDirection: 'row', position: 'relative' },
-    passwordVisibilityButton: {
-        marginRight: 10,
-        position: 'absolute',
-        right: 0,
-        top: 8,
-        justifyContent: 'center',
-    },
     buttonContainer: { paddingTop: 24, width: '33%', alignSelf: 'center' },
     loadingContainer: { flex: 0.5, justifyContent: 'center' },
     errorMessageContainer: { textAlign: 'center', paddingTop: 4 },

@@ -2,10 +2,13 @@ import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { Dispatch } from 'redux';
 import * as EmailValidator from 'email-validator';
+import Constants from 'expo-constants';
 
 import { AuthActionTypes } from './actionTypes';
 import { AuthDispatchTypes } from './dispatchTypes';
 import { LeagueDispatchTypes } from '../../leagues/store/dispatchTypes';
+
+const { API_URI } = Constants.manifest.extra;
 
 export const resolveAuth = () => {
     return async (dispatch: Dispatch<AuthDispatchTypes>) => {
@@ -34,19 +37,16 @@ export const preloadData = () => {
 
         try {
             const [currentUser, userSleeperLeagues] = await Promise.all([
-                axios.get('http://192.168.0.210:5000/api/users/currentuser', {
+                axios.get(`${API_URI}/api/users/currentuser`, {
                     headers: {
                         authorization: `Bearer ${token}`,
                     },
                 }),
-                axios.get(
-                    'http://192.168.0.210:5000/api/league/sleeper/userleagues',
-                    {
-                        headers: {
-                            authorization: `Bearer ${token}`,
-                        },
-                    }
-                ),
+                axios.get(`${API_URI}/api/league/sleeper/userleagues`, {
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                }),
             ]);
 
             dispatch({
@@ -95,15 +95,11 @@ export const signUp = (
         dispatch({ type: AuthActionTypes.SIGN_UP });
 
         try {
-            const response = await axios.post(
-                // `${config.API_URL}/api/users/signup`, // TODO
-                `http://192.168.0.210:5000/api/users/signup`,
-                {
-                    email,
-                    password,
-                    confirmedPassword,
-                }
-            );
+            const response = await axios.post(`${API_URI}/api/users/signup`, {
+                email,
+                password,
+                confirmedPassword,
+            });
 
             await AsyncStorage.setItem('gtp-token', response.data.token);
 
@@ -129,14 +125,10 @@ export const signIn = (email: string, password: string) => {
         dispatch({ type: AuthActionTypes.SIGN_IN });
 
         try {
-            const response = await axios.post(
-                // `${config.API_URL}/api/users/signin`,// TODO
-                `http://192.168.0.210:5000/api/users/signin`,
-                {
-                    email,
-                    password,
-                }
-            );
+            const response = await axios.post(`${API_URI}/api/users/signin`, {
+                email,
+                password,
+            });
 
             await AsyncStorage.setItem('gtp-token', response.data.token);
 
@@ -180,8 +172,7 @@ export const resetPasswordRequest = (email: string) => {
 
         try {
             const response = await axios.post(
-                // `${config.API_URL}/api/users/signin`, // TODO
-                `http://192.168.0.210:5000/api/users/resetpassword`,
+                `${API_URI}/api/users/resetpassword`,
                 { email }
             );
 
@@ -197,7 +188,7 @@ export const resetPasswordRequest = (email: string) => {
             dispatch({
                 type: AuthActionTypes.RESET_PASSWORD_REQUEST_FAIL,
                 payload: {
-                    error: 'Error resetting password',
+                    error: err.response.data.errors[0].message,
                 },
             });
         }

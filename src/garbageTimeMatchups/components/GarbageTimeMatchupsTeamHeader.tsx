@@ -48,7 +48,7 @@ export const GarbageTimeMatchupsTeamHeader = ({
             >
                 <Avatar
                     rounded
-                    size='small'
+                    size="small"
                     source={{
                         uri: `https://sleepercdn.com/avatars/thumbs/${
                             memberMap[team.ownerIds[0]]?.avatar
@@ -91,16 +91,11 @@ export const GarbageTimeMatchupsTeamHeader = ({
 
                     {/* CHEVRON DOWN ICON */}
                     <Icon
-                        name='menu-down'
-                        type='material-community'
+                        name="menu-down"
+                        type="material-community"
                         size={16}
                     />
                 </TouchableOpacity>
-
-                {/* RECORD */}
-                <Text style={[styles.textStyle, styles.teamRecordInfo]}>
-                    Record: {team.wins}-{team.losses}-{team.ties}
-                </Text>
 
                 {/* GTR */}
                 <TouchableOpacity
@@ -109,15 +104,26 @@ export const GarbageTimeMatchupsTeamHeader = ({
                 >
                     <Icon
                         containerStyle={styles.gtrIconInformationStyle}
-                        name='information-outline'
-                        type='material-community'
-                        color='#279AF1'
+                        name="information-outline"
+                        type="material-community"
+                        color="#279AF1"
                         size={10}
                     />
-                    <Text style={[styles.textStyle, styles.teamRecordInfo]}>
+                    <Text
+                        style={[
+                            styles.textStyle,
+                            styles.teamRecordInfo,
+                            styles.gtrStyle,
+                        ]}
+                    >
                         GTR: {renderGTR(gtmResults)}
                     </Text>
                 </TouchableOpacity>
+
+                {/* RECORD */}
+                <Text style={[styles.textStyle, styles.teamRecordInfo]}>
+                    Record: {team.wins}-{team.losses}-{team.ties}
+                </Text>
 
                 {/* PF */}
                 <Text style={[styles.textStyle, styles.teamRecordInfo]}>
@@ -171,5 +177,8 @@ const styles = StyleSheet.create({
     },
     teamRecordInfoReversed: {
         alignItems: 'flex-end',
+    },
+    gtrStyle: {
+        fontWeight: 'bold',
     },
 });

@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { Dispatch } from 'redux';
+import Constants from 'expo-constants';
 
 import { LeagueActionTypes } from './actionTypes';
 import { LeagueDispatchTypes } from './dispatchTypes';
 import { ImportedSleeperLeague, SleeperLeague } from './storeTypes';
+
+const { API_URI } = Constants.manifest.extra;
 
 export const findSleeperLeaguesForUser = (username: string) => {
     return async (dispatch: Dispatch<LeagueDispatchTypes>) => {
@@ -14,7 +17,7 @@ export const findSleeperLeaguesForUser = (username: string) => {
 
         try {
             const response = await axios.get(
-                `http://192.168.0.210:5000/api/league/sleeper/leagues/${username}`,
+                `${API_URI}/api/league/sleeper/leagues/${username}`,
                 {
                     headers: {
                         authorization: `Bearer ${token}`,
@@ -48,7 +51,7 @@ export const addSleeperLeague = (leagueId: string) => {
 
         try {
             const response = await axios.post(
-                'http://192.168.0.210:5000/api/addleague/sleeper',
+                `${API_URI}/api/addleague/sleeper`,
                 { leagueId },
                 { headers: { authorization: `Bearer ${token}` } }
             );
@@ -78,13 +81,10 @@ export const removeSleeperLeague = (leagueId: string) => {
         dispatch({ type: LeagueActionTypes.REMOVE_SLEEPER_LEAGUE });
 
         try {
-            const response = await axios.delete(
-                'http://192.168.0.210:5000/api/removeleague/sleeper',
-                {
-                    headers: { authorization: `Bearer ${token}` },
-                    data: { leagueId },
-                }
-            );
+            await axios.delete(`${API_URI}/api/removeleague/sleeper`, {
+                headers: { authorization: `Bearer ${token}` },
+                data: { leagueId },
+            });
 
             dispatch({
                 type: LeagueActionTypes.REMOVE_SLEEPER_LEAGUE_SUCCESS,

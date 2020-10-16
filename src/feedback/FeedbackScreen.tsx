@@ -10,9 +10,12 @@ import {
 import { Button, Icon } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import Constants from 'expo-constants';
 
 import { RootState } from '../store/rootReducer';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
+const { API_URI } = Constants.manifest.extra;
 
 export const FeedbackScreen = () => {
     const { auth } = useSelector((state: RootState) => state);
@@ -31,7 +34,7 @@ export const FeedbackScreen = () => {
 
         try {
             await axios.post(
-                `http://192.168.0.210:5000/api/feedback`,
+                `${API_URI}/api/feedback`,
                 { feedback },
                 {
                     headers: {
@@ -71,9 +74,9 @@ export const FeedbackScreen = () => {
                     <View style={styles.textAreaContainer}>
                         <TextInput
                             style={styles.textArea}
-                            underlineColorAndroid='transparent'
-                            placeholder='Your feedback'
-                            placeholderTextColor='#adadad'
+                            underlineColorAndroid="transparent"
+                            placeholder="Your feedback"
+                            placeholderTextColor="#adadad"
                             numberOfLines={5}
                             multiline={true}
                             value={feedback}
@@ -83,7 +86,7 @@ export const FeedbackScreen = () => {
 
                     <View style={styles.buttonContainer}>
                         <Button
-                            title='Submit'
+                            title="Submit"
                             disabled={isLoading || !feedback.length}
                             containerStyle={styles.buttonContainerStyle}
                             onPress={() => submitFeedback()}
@@ -93,9 +96,9 @@ export const FeedbackScreen = () => {
                     {successMessageShown && (
                         <View style={styles.successMessageContainer}>
                             <Icon
-                                name='check-circle'
-                                type='material-community'
-                                color='#68B752'
+                                name="check-circle"
+                                type="material-community"
+                                color="#68B752"
                             />
 
                             <Text style={styles.successMessageText}>
@@ -115,7 +118,7 @@ export const FeedbackScreen = () => {
                         </View>
                     ) : null}
 
-                    {isLoading && <ActivityIndicator size='large' />}
+                    {isLoading && <ActivityIndicator size="large" />}
                 </View>
             </TouchableWithoutFeedback>
         </View>
