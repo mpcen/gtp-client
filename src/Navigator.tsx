@@ -36,7 +36,7 @@ const GarbageTimeMatchupsStackScreen = () => {
     return (
         <GarbageTimeMatchupsStack.Navigator>
             <GarbageTimeMatchupsStack.Screen
-                name='GarbageTimeMatchups'
+                name="GarbageTimeMatchups"
                 options={{
                     headerTitle: 'Compare Teams',
                     headerTitleAlign: 'center',
@@ -51,12 +51,12 @@ const LeaguesStackScreen = () => {
     return (
         <LeaguesStack.Navigator>
             <LeaguesStack.Screen
-                name='Leagues'
+                name="Leagues"
                 options={{ headerTitle: 'Leagues', headerTitleAlign: 'center' }}
                 component={LeaguesScreen}
             />
             <LeaguesStack.Screen
-                name='ImportSleeperLeagues'
+                name="ImportSleeperLeagues"
                 options={{
                     headerTitle: 'Add Sleeper League',
                     headerTitleAlign: 'center',
@@ -71,7 +71,7 @@ const FeedbackStackScreen = () => {
     return (
         <FeedbackStack.Navigator>
             <FeedbackStack.Screen
-                name='Feedback'
+                name="Feedback"
                 options={{
                     headerTitle: 'Feedback',
                     headerTitleAlign: 'center',
@@ -86,7 +86,7 @@ const AccountStackScreen = () => {
     return (
         <AccountStack.Navigator>
             <AccountStack.Screen
-                name='Account'
+                name="Account"
                 options={{ headerTitle: 'Account', headerTitleAlign: 'center' }}
                 component={AccountScreen}
             />
@@ -99,6 +99,7 @@ export const Navigator = () => {
         (state: RootState) => state.auth
     );
 
+    // Checking to see if we have an auth token stored
     if (isResolvingAuth) {
         return (
             <NavigationContainer>
@@ -107,6 +108,7 @@ export const Navigator = () => {
         );
     }
 
+    // If we have a token, check to see if data is loaded. If not, fetch it, if so, render the app.
     if (token) {
         if (!isDataPreloaded) {
             return (
@@ -126,12 +128,12 @@ export const Navigator = () => {
                     }}
                 >
                     <Tabs.Screen
-                        name='Leagues'
+                        name="Leagues"
                         component={LeaguesStackScreen}
                         options={{
                             tabBarIcon: ({ color, size }) => (
                                 <MaterialCommunityIcons
-                                    name='football-helmet'
+                                    name="football-helmet"
                                     size={20}
                                     color={color}
                                 />
@@ -140,12 +142,12 @@ export const Navigator = () => {
                     />
 
                     <Tabs.Screen
-                        name='GarbageTimeMatchups'
+                        name="GarbageTimeMatchups"
                         component={GarbageTimeMatchupsStackScreen}
                         options={{
                             tabBarIcon: ({ color, size }) => (
                                 <MaterialCommunityIcons
-                                    name='account-switch'
+                                    name="account-switch"
                                     size={19}
                                     color={color}
                                 />
@@ -154,12 +156,12 @@ export const Navigator = () => {
                     />
 
                     <Tabs.Screen
-                        name='Feedback'
+                        name="Feedback"
                         component={FeedbackStackScreen}
                         options={{
                             tabBarIcon: ({ color, size }) => (
                                 <MaterialCommunityIcons
-                                    name='message-alert'
+                                    name="message-alert"
                                     size={19}
                                     color={color}
                                 />
@@ -168,12 +170,12 @@ export const Navigator = () => {
                     />
 
                     <Tabs.Screen
-                        name='Account'
+                        name="Account"
                         component={AccountStackScreen}
                         options={{
                             tabBarIcon: ({ color, size }) => (
                                 <FontAwesome
-                                    name='gear'
+                                    name="gear"
                                     size={18}
                                     color={color}
                                 />
@@ -185,26 +187,27 @@ export const Navigator = () => {
         );
     }
 
+    // If no token, render Auth stack
     return (
         <NavigationContainer>
             <AuthStack.Navigator>
                 <AuthStack.Screen
-                    name='AuthHome'
+                    name="AuthHome"
                     component={AuthHomeScreen}
                     options={{ headerShown: false }}
                 />
                 <AuthStack.Screen
-                    name='Signup'
+                    name="Signup"
                     component={SignupScreen}
                     options={{ headerShown: false }}
                 />
                 <AuthStack.Screen
-                    name='Signin'
+                    name="Signin"
                     component={SigninScreen}
                     options={{ headerShown: false }}
                 />
                 <AuthStack.Screen
-                    name='ForgotPassword'
+                    name="ForgotPassword"
                     component={ForgotPasswordScreen}
                     options={{ headerShown: false }}
                 />

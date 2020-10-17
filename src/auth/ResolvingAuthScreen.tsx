@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Image, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { resolveAuth } from './store/actionCreators';
@@ -12,10 +12,18 @@ export const ResolvingAuthScreen = () => {
     }, []);
 
     return (
-        <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        >
-            <ActivityIndicator size='large' />
+        <View style={styles.container}>
+            <Image
+                style={styles.imageContainer}
+                source={require('../../assets/splash.png')}
+            />
+
+            <ActivityIndicator size="large" />
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    imageContainer: { height: 400, width: 300 },
+});
