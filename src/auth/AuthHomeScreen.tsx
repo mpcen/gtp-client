@@ -16,18 +16,15 @@ export const AuthHomeScreen = () => {
             </Text>
 
             <Button
-                containerStyle={{
-                    marginBottom: 8,
-                    width: 120,
-                }}
-                title='Sign up'
+                containerStyle={styles.buttonContainer}
+                title="Sign up"
                 onPress={() => navigate('Signup')}
             />
 
             <Button
                 containerStyle={styles.signupButtonContainerStyle}
-                type='outline'
-                title='Sign in'
+                type="outline"
+                title="Sign in"
                 onPress={() => navigate('Signin')}
             />
 
@@ -52,4 +49,5 @@ const styles = StyleSheet.create({
     signupButtonContainerStyle: { marginBottom: 8, width: 120 },
     forgotPassword: { marginTop: 8 },
     forgotPasswordText: { color: '#2089dc' },
+    buttonContainer: { marginBottom: 8, width: 120 },
 });
