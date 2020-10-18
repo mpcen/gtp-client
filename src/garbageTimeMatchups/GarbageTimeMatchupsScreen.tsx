@@ -104,7 +104,10 @@ export const GarbageTimeMatchupsScreen = () => {
 
             <Divider />
 
-            {selectedLeague?.teams && (
+            {selectedLeague.teams &&
+            Object.keys(memberMap).length &&
+            Object.keys(team1GTMResults).length &&
+            Object.keys(team2GTMResults).length ? (
                 <>
                     <View style={styles.teamsHeaderContainer}>
                         <GarbageTimeMatchupsTeamHeader
@@ -133,8 +136,9 @@ export const GarbageTimeMatchupsScreen = () => {
                         combinedGTMResults={combinedGTMResults}
                     />
                 </>
-            )}
+            ) : null}
 
+            {/* OVERLAYS */}
             <Overlay
                 overlayStyle={styles.leagueSelectOverlayStyle}
                 isVisible={overlay === OverlayTypes.LeagueSelect}

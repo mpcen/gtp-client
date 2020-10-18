@@ -7,6 +7,7 @@ import Constants from 'expo-constants';
 import { AuthActionTypes } from './actionTypes';
 import { AuthDispatchTypes } from './dispatchTypes';
 import { LeagueDispatchTypes } from '../../leagues/store/dispatchTypes';
+import { LeagueActionTypes } from '../../leagues/store/actionTypes';
 
 const { API_URI } = Constants.manifest.extra;
 
@@ -55,6 +56,11 @@ export const preloadData = () => {
                     currentUserInfo: currentUser.data.currentUser,
                     userSleeperLeagues: userSleeperLeagues.data,
                 },
+            });
+
+            dispatch({
+                type: LeagueActionTypes.STORE_PRELOADED_LEAGUES,
+                payload: userSleeperLeagues.data,
             });
         } catch (e) {
             dispatch({
