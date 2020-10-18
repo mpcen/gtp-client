@@ -11,7 +11,7 @@ import { Input, Button, Text, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 
-import * as Constants from './constants';
+import * as StringConstants from './constants';
 import { resetPasswordRequest, clearErrors } from './store/actionCreators';
 import { RootState } from '../store/rootReducer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -35,6 +35,7 @@ export const ForgotPasswordScreen = () => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.kbAvoidingView}
             >
+                {/* BACK BUTTON */}
                 <View style={styles.backButtonContainer}>
                     <TouchableOpacity onPress={() => navigate('AuthHome')}>
                         <Icon
@@ -45,16 +46,18 @@ export const ForgotPasswordScreen = () => {
                     </TouchableOpacity>
                 </View>
 
+                {/* RESET PASSWORD TITLE */}
                 <View style={styles.titleContainer}>
                     <Text style={styles.title} allowFontScaling={false}>
-                        {Constants.ForgotPasswordTitle}
+                        {StringConstants.ForgotPasswordTitle}
                     </Text>
                 </View>
 
                 <View style={styles.formContainer}>
+                    {/* EMAIL */}
                     <Input
                         testID="input-email"
-                        placeholder={Constants.EmailPlaceholder}
+                        placeholder={StringConstants.EmailPlaceholder}
                         value={email}
                         disabled={isLoading}
                         errorMessage={error}
@@ -62,10 +65,11 @@ export const ForgotPasswordScreen = () => {
                         onChangeText={setEmail}
                     />
 
+                    {/* BUTTON */}
                     <Button
                         containerStyle={styles.buttonContainer}
                         testID="button-sign-in"
-                        title={Constants.ResetPasswordButtonText}
+                        title={StringConstants.ResetPasswordButtonText}
                         disabled={isLoading}
                         onPress={() => dispatch(resetPasswordRequest(email))}
                     />
@@ -73,17 +77,16 @@ export const ForgotPasswordScreen = () => {
                     {!error && !isLoading && resetPassword.fullUrl ? (
                         <View style={styles.resetMessageContainer}>
                             <Text style={styles.resetMessageText}>
-                                Reset instructions were sent to the email
-                                provided
+                                {StringConstants.ResetPasswordSuccessText}
                             </Text>
                         </View>
                     ) : null}
-                </View>
 
-                <View style={styles.loadingContainer}>
-                    {isLoading && (
-                        <ActivityIndicator testID="indicator-loading" />
-                    )}
+                    <View style={styles.loadingContainer}>
+                        {isLoading && (
+                            <ActivityIndicator testID="indicator-loading" />
+                        )}
+                    </View>
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
@@ -109,7 +112,8 @@ const styles = StyleSheet.create({
     },
     iconStyle: { alignSelf: 'flex-start' },
     title: {
-        fontSize: 32,
+        fontFamily: 'BebasNeue_400Regular',
+        fontSize: 40,
     },
     titleContainer: {
         flex: 0.25,

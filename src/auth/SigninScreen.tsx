@@ -47,6 +47,7 @@ export const SigninScreen = () => {
                     </TouchableOpacity>
                 </View>
 
+                {/* SIGN IN TITLE */}
                 <View style={styles.titleContainer}>
                     <Text style={styles.title} allowFontScaling={false}>
                         {Constants.SigninTitle}
@@ -117,7 +118,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     title: {
-        fontSize: 32,
+        fontFamily: 'BebasNeue_400Regular',
+        fontSize: 40,
     },
     formContainer: {
         flex: 1,

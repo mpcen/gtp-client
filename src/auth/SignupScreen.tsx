@@ -47,7 +47,7 @@ export const SignupScreen = () => {
                     </TouchableOpacity>
                 </View>
 
-                {/* TITLE */}
+                {/* SIGN UP TITLE */}
                 <View style={styles.titleContainer}>
                     <Text style={styles.title} allowFontScaling={false}>
                         {Constants.SignupTitle}
@@ -138,7 +138,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     title: {
-        fontSize: 32,
+        fontFamily: 'BebasNeue_400Regular',
+        fontSize: 40,
     },
     formContainer: {
         flex: 1,

@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useFonts, BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue';
 
 import { RootState } from './store/rootReducer';
 import { resolveAuth } from './auth/store/actionCreators';
@@ -43,6 +44,10 @@ const GarbageTimeMatchupsStackScreen = () => {
                 options={{
                     headerTitle: 'Compare Teams',
                     headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        fontFamily: 'BebasNeue_400Regular',
+                        fontSize: 24,
+                    },
                 }}
                 component={GarbageTimeMatchupsScreen}
             />
@@ -51,6 +56,10 @@ const GarbageTimeMatchupsStackScreen = () => {
                 options={{
                     headerTitle: 'Add Sleeper League',
                     headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        fontFamily: 'BebasNeue_400Regular',
+                        fontSize: 24,
+                    },
                 }}
                 component={ImportSleeperLeaguesScreen}
             />
@@ -63,7 +72,14 @@ const LeaguesStackScreen = () => {
         <LeaguesStack.Navigator>
             <LeaguesStack.Screen
                 name="Leagues"
-                options={{ headerTitle: 'Leagues', headerTitleAlign: 'center' }}
+                options={{
+                    headerTitle: 'Leagues',
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        fontFamily: 'BebasNeue_400Regular',
+                        fontSize: 24,
+                    },
+                }}
                 component={LeaguesScreen}
             />
             <LeaguesStack.Screen
@@ -71,6 +87,10 @@ const LeaguesStackScreen = () => {
                 options={{
                     headerTitle: 'Add Sleeper League',
                     headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        fontFamily: 'BebasNeue_400Regular',
+                        fontSize: 24,
+                    },
                 }}
                 component={ImportSleeperLeaguesScreen}
             />
@@ -86,6 +106,10 @@ const FeedbackStackScreen = () => {
                 options={{
                     headerTitle: 'Feedback',
                     headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        fontFamily: 'BebasNeue_400Regular',
+                        fontSize: 24,
+                    },
                 }}
                 component={FeedbackScreen}
             />
@@ -98,7 +122,14 @@ const AccountStackScreen = () => {
         <AccountStack.Navigator>
             <AccountStack.Screen
                 name="Account"
-                options={{ headerTitle: 'Account', headerTitleAlign: 'center' }}
+                options={{
+                    headerTitle: 'Account',
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        fontFamily: 'BebasNeue_400Regular',
+                        fontSize: 24,
+                    },
+                }}
                 component={AccountScreen}
             />
         </AccountStack.Navigator>
