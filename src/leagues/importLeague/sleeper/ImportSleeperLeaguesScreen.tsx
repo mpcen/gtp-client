@@ -21,6 +21,7 @@ import {
 
 import { RemoveLeagueOverlay } from '../../components/RemoveLeagueOverlay';
 import { LeagueInfoListItem } from '../../components/LeagueInfoListItem';
+import { Color } from '../../../common/styles/colors';
 
 export const ImportSleeperLeaguesScreen = () => {
     const [username, setUsername] = useState('');
@@ -70,7 +71,7 @@ export const ImportSleeperLeaguesScreen = () => {
                                 name: 'close',
                                 type: 'material-community',
                                 size: 12,
-                                color: '#F5F6F4',
+                                color: Color.PureWhite,
                             }}
                             onPress={() => setUsername('')}
                         />
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 40,
         paddingLeft: 20,
-        backgroundColor: '#F5F6F4',
+        backgroundColor: Color.PureWhite,
         borderRadius: 50,
     },
     clearButtonStyle: {
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
     },
     closeButtonIconContainer: {
         borderRadius: 10,
-        backgroundColor: '#aaa',
+        backgroundColor: Color.CancelGray,
         padding: 3,
     },
 });

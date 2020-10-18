@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { AppTitle, ForgotPassword } from './constants';
+import { Color } from '../common/styles/colors';
 
 export const AuthHomeScreen = () => {
     const { navigate } = useNavigation();
@@ -48,6 +49,6 @@ const styles = StyleSheet.create({
     appTitle: { fontSize: 24, marginBottom: 50 },
     signupButtonContainerStyle: { marginBottom: 8, width: 120 },
     forgotPassword: { marginTop: 8 },
-    forgotPasswordText: { color: '#2089dc' },
+    forgotPasswordText: { color: Color.ActiveBlue },
     buttonContainer: { marginBottom: 8, width: 120 },
 });

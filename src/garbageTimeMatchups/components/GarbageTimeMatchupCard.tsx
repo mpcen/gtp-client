@@ -6,6 +6,7 @@ import { SleeperLeagueMatchup } from '../../leagues/store/storeTypes';
 import { MatchWinner, TeamDestination } from '../types';
 
 import { GarbageTimeMatchupCardItem } from './GarbageTimeMatchupCardItem';
+import { Color } from '../../common/styles/colors';
 
 type Props = {
     matchupForTeam: number;
@@ -58,9 +59,9 @@ const styles = StyleSheet.create({
         borderRadius: 4,
     },
     matchWon: {
-        backgroundColor: '#D9EDD4',
+        backgroundColor: Color.GTMWinGreen,
     },
     matchLost: {
-        backgroundColor: '#F4D4CD',
+        backgroundColor: Color.GTMLossRed,
     },
 });

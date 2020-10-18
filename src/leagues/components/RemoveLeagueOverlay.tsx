@@ -1,8 +1,9 @@
 import React, { SetStateAction } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { Overlay, Divider, Button } from 'react-native-elements';
+import { Overlay, Button } from 'react-native-elements';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
+import { Color } from '../../common/styles/colors';
 
 import { LeagueDispatchTypes } from '../store/dispatchTypes';
 
@@ -36,14 +37,14 @@ export const RemoveLeagueOverlay = ({
 
                 <View style={styles.overlayButtonContainer}>
                     <Button
-                        type='clear'
-                        titleStyle={{ color: '#adadad' }}
-                        title='Cancel'
+                        type="clear"
+                        titleStyle={styles.cancelButtonText}
+                        title="Cancel"
                         onPress={() => setIsOverlayVisible(false)}
                     />
                     <Button
-                        type='clear'
-                        title='Remove'
+                        type="clear"
+                        title="Remove"
                         onPress={() => {
                             dispatch(
                                 removeSleeperLeague(selectedLeague.leagueId)
@@ -73,4 +74,5 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+    cancelButtonText: { color: Color.CancelGray },
 });

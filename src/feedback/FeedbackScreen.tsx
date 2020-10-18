@@ -14,6 +14,7 @@ import Constants from 'expo-constants';
 
 import { RootState } from '../store/rootReducer';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { Color } from '../common/styles/colors';
 
 const { API_URI } = Constants.manifest.extra;
 
@@ -76,7 +77,7 @@ export const FeedbackScreen = () => {
                             style={styles.textArea}
                             underlineColorAndroid="transparent"
                             placeholder="Your feedback"
-                            placeholderTextColor="#adadad"
+                            placeholderTextColor={Color.PlaceholderGray}
                             numberOfLines={5}
                             multiline={true}
                             value={feedback}
@@ -98,7 +99,7 @@ export const FeedbackScreen = () => {
                             <Icon
                                 name="check-circle"
                                 type="material-community"
-                                color="#68B752"
+                                color={Color.SuccessGreen}
                             />
 
                             <Text style={styles.successMessageText}>
@@ -114,7 +115,7 @@ export const FeedbackScreen = () => {
                                 marginTop: 20,
                             }}
                         >
-                            <Text style={{ color: '#E92E20' }}>{error}</Text>
+                            <Text style={styles.errorText}>{error}</Text>
                         </View>
                     ) : null}
 
@@ -131,14 +132,14 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingLeft: 12,
         paddingRight: 12,
-        backgroundColor: 'white',
+        backgroundColor: Color.PureWhite,
     },
     touchableContainer: { height: '100%' },
     textStyle: {
-        // color: '#adadad',
+        color: Color.MainBlack,
     },
     textAreaContainer: {
-        borderColor: '#adadad',
+        borderColor: Color.SolidBorderGray,
         borderWidth: 1,
         padding: 5,
         borderRadius: 10,
@@ -158,4 +159,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     successMessageText: { marginLeft: 8 },
+    errorText: { color: Color.ErrorRed },
 });

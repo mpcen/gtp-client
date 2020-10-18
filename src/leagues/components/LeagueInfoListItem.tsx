@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Avatar } from 'react-native-elements';
+import { Color } from '../../common/styles/colors';
 
 type Props = {
     leagueName: string;
@@ -51,14 +52,16 @@ export const LeagueInfoListItem = ({
 
             {itemAdded !== undefined && onButtonPressCallback && (
                 <Button
-                    type='clear'
+                    type="clear"
                     onPress={onButtonPressCallback}
                     buttonStyle={styles.button}
                     disabled={isLoading}
                     icon={{
                         name: itemAdded ? 'minus-circle' : 'plus-circle',
                         type: 'material-community',
-                        color: itemAdded ? '#ED5145' : '#60D394',
+                        color: itemAdded
+                            ? Color.RemoveLeagueRed
+                            : Color.AddLeagueGreen,
                     }}
                 />
             )}
@@ -73,9 +76,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
         borderBottomWidth: 0.5,
-        borderBottomColor: '#eee',
+        borderBottomColor: Color.LightBorderGray,
     },
-    subText: { fontSize: 10, color: '#adadad' },
+    subText: { fontSize: 10, color: Color.SubTextGray },
     button: { padding: 0 },
     teamInfoContainer: {
         flexDirection: 'row',

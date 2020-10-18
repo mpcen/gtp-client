@@ -9,6 +9,7 @@ import { SleeperLeague } from '../store/storeTypes';
 import { LeaguePlatform } from '../types';
 
 import { LeagueInfoListItem } from './LeagueInfoListItem';
+import { Color } from '../../common/styles/colors';
 
 type Props = {
     platform: string;
@@ -54,8 +55,8 @@ export const LeagueModule = ({
                 <Button
                     buttonStyle={styles.button}
                     titleStyle={{ color: 'white' }}
-                    type='outline'
-                    title='Add League'
+                    type="outline"
+                    title="Add League"
                     onPress={() => navigate('ImportSleeperLeagues')}
                 />
             </View>
@@ -74,7 +75,7 @@ export const LeagueModule = ({
                         seasonId={item.seasonId}
                         totalTeams={item.teams.length}
                         itemAdded={true}
-                        icon='minus-circle'
+                        icon="minus-circle"
                         leagueAvatar={item.avatar}
                         onButtonPressCallback={() => {
                             setSelectedLeague(item);
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     emptyLeaguesText: {
-        color: '#adadad',
+        color: Color.SubTextGray,
     },
     headerContainer: {
         justifyContent: 'space-between',
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingBottom: 20,
         paddingRight: 10,
-        backgroundColor: '#2E3336',
+        backgroundColor: Color.SleeperBackgroundColor,
     },
     button: {
         paddingLeft: 6,
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
         height: 50,
     },
     espnImageStyle: {
-        backgroundColor: '#DD0000',
+        backgroundColor: Color.ESPNBackgroundColor,
         height: 50,
     },
 });

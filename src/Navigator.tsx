@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -6,18 +7,20 @@ import { useSelector } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { RootState } from './store/rootReducer';
+import { resolveAuth } from './auth/store/actionCreators';
+
 import { AuthHomeScreen } from './auth/AuthHomeScreen';
 import { SigninScreen } from './auth/SigninScreen';
 import { SignupScreen } from './auth/SignupScreen';
 import { ForgotPasswordScreen } from './auth/ForgotPasswordScreen';
 import { LeaguesScreen } from './leagues/LeaguesScreen';
-import { RootState } from './store/rootReducer';
 import { AccountScreen } from './account/AccountScreen';
 import { ImportSleeperLeaguesScreen } from './leagues/importLeague/sleeper/ImportSleeperLeaguesScreen';
-import { ResolvingAuthScreen } from './auth/ResolvingAuthScreen';
 import { PreloadingDataScreen } from './auth/PreloadingDataScreen';
 import { GarbageTimeMatchupsScreen } from './garbageTimeMatchups/GarbageTimeMatchupsScreen';
 import { FeedbackScreen } from './feedback/FeedbackScreen';
+import { Color } from './common/styles/colors';
 
 export type LeaguesStackParamList = {
     Leagues: undefined;
@@ -95,36 +98,43 @@ const AccountStackScreen = () => {
 };
 
 export const Navigator = () => {
+    const [isSyntheticDelayEnabled, setIssyntheticDelayEnabled] = useState(
+        true
+    );
     const { token, isResolvingAuth, isDataPreloaded } = useSelector(
         (state: RootState) => state.auth
     );
+    const dispatch = useDispatch();
 
     // Checking to see if we have an auth token stored
+    useEffect(() => {
+        if (isResolvingAuth) {
+            dispatch(resolveAuth());
+        }
+    }, [isResolvingAuth]);
+
+    // If we have an auth token but haven't attempted to fetch user data yet
+    useEffect(() => {
+        if (token && !isDataPreloaded) {
+            setTimeout(() => {
+                setIssyntheticDelayEnabled(false);
+            }, 1500);
+        }
+    }, [token]);
+
     if (isResolvingAuth) {
-        return (
-            <NavigationContainer>
-                <ResolvingAuthScreen />
-            </NavigationContainer>
-        );
+        return null;
     }
 
-    // If we have a token, check to see if data is loaded. If not, fetch it, if so, render the app.
-    if (token) {
-        if (!isDataPreloaded) {
-            return (
-                <NavigationContainer>
-                    <PreloadingDataScreen />
-                </NavigationContainer>
-            );
-        }
-
+    // If we've authenticated, fetched the user data, and the synthetic delay is done, render the main stack
+    if (token && !isSyntheticDelayEnabled && isDataPreloaded) {
         return (
             <NavigationContainer>
                 <Tabs.Navigator
                     tabBarOptions={{
                         showLabel: false,
-                        activeTintColor: '#2089dc',
-                        inactiveTintColor: '#adadad',
+                        activeTintColor: Color.ActiveBlue,
+                        inactiveTintColor: Color.InactiveGray,
                     }}
                 >
                     <Tabs.Screen
@@ -187,31 +197,36 @@ export const Navigator = () => {
         );
     }
 
-    // If no token, render Auth stack
-    return (
-        <NavigationContainer>
-            <AuthStack.Navigator>
-                <AuthStack.Screen
-                    name="AuthHome"
-                    component={AuthHomeScreen}
-                    options={{ headerShown: false }}
-                />
-                <AuthStack.Screen
-                    name="Signup"
-                    component={SignupScreen}
-                    options={{ headerShown: false }}
-                />
-                <AuthStack.Screen
-                    name="Signin"
-                    component={SigninScreen}
-                    options={{ headerShown: false }}
-                />
-                <AuthStack.Screen
-                    name="ForgotPassword"
-                    component={ForgotPasswordScreen}
-                    options={{ headerShown: false }}
-                />
-            </AuthStack.Navigator>
-        </NavigationContainer>
-    );
+    // If no token, and done trying to resolve auth, render Auth stack
+    if (!token && !isResolvingAuth) {
+        return (
+            <NavigationContainer>
+                <AuthStack.Navigator>
+                    <AuthStack.Screen
+                        name="AuthHome"
+                        component={AuthHomeScreen}
+                        options={{ headerShown: false }}
+                    />
+                    <AuthStack.Screen
+                        name="Signup"
+                        component={SignupScreen}
+                        options={{ headerShown: false }}
+                    />
+                    <AuthStack.Screen
+                        name="Signin"
+                        component={SigninScreen}
+                        options={{ headerShown: false }}
+                    />
+                    <AuthStack.Screen
+                        name="ForgotPassword"
+                        component={ForgotPasswordScreen}
+                        options={{ headerShown: false }}
+                    />
+                </AuthStack.Navigator>
+            </NavigationContainer>
+        );
+    }
+
+    // If we're still trying to determine auth or fetching user data, render a loader
+    return <PreloadingDataScreen />;
 };

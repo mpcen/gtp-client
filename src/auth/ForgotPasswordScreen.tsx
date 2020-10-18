@@ -15,6 +15,7 @@ import * as Constants from './constants';
 import { resetPasswordRequest, clearErrors } from './store/actionCreators';
 import { RootState } from '../store/rootReducer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Color } from '../common/styles/colors';
 
 export const ForgotPasswordScreen = () => {
     const [email, setEmail] = useState('');
@@ -123,6 +124,6 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         marginTop: 8,
     },
-    resetMessageText: { color: '#68B752', textAlign: 'center' },
+    resetMessageText: { color: Color.SuccessGreen, textAlign: 'center' },
     errorMessageContainer: { textAlign: 'center', paddingTop: 4 },
 });

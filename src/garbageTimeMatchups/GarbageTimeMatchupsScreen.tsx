@@ -22,6 +22,7 @@ import { GarbageTimeTeamSelectList } from './components/GarbageTimeTeamSelectLis
 import { GarbageTimeMatchupsList } from './components/GarbageTimeMatchupsList';
 import { LeagueInfoListItem } from '../leagues/components/LeagueInfoListItem';
 import { GarbageTimeMatchupsLeaguePicker } from './components/GarbageTimeMatchupsLeaguePicker';
+import { Color } from '../common/styles/colors';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
@@ -77,7 +78,7 @@ export const GarbageTimeMatchupsScreen = () => {
     if (!isInitiallyLoaded) {
         return (
             <View style={{ flex: 1, justifyContent: 'center' }}>
-                <ActivityIndicator size='large' />
+                <ActivityIndicator size="large" />
             </View>
         );
     }
@@ -85,20 +86,8 @@ export const GarbageTimeMatchupsScreen = () => {
     // RENDER EMPTY LEAGUES
     if (!userLeagues.sleeper.length || !selectedLeague || !selectedLeagueId) {
         return (
-            <View
-                style={{
-                    flex: 1,
-                    backgroundColor: 'white',
-                    justifyContent: 'center',
-                    alignContent: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        textAlign: 'center',
-                        color: '#adadad',
-                    }}
-                >
+            <View style={styles.emptyContainer}>
+                <Text style={styles.emptyContainerText}>
                     {constants.GTM_ADD_LEAGUE_MESSAGE}
                 </Text>
             </View>
@@ -208,7 +197,7 @@ export const GarbageTimeMatchupsScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: 'white' },
+    container: { flex: 1, backgroundColor: Color.PureWhite },
     teamsHeaderContainer: { flexDirection: 'row' },
     leagueSelectOverlayStyle: {
         flexDirection: 'row',
@@ -232,5 +221,15 @@ const styles = StyleSheet.create({
     },
     infoOverlayDescriptionContainer: {
         paddingTop: 4,
+    },
+    emptyContainer: {
+        flex: 1,
+        backgroundColor: Color.PureWhite,
+        justifyContent: 'center',
+        alignContent: 'center',
+    },
+    emptyContainerText: {
+        textAlign: 'center',
+        color: Color.MainBlack,
     },
 });

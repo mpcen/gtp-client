@@ -82,7 +82,9 @@ export const authReducer = (
 
         // SIGN_OUT
         case AuthActionTypes.SIGN_OUT:
-            return { ...INITIAL_STATE };
+            return {
+                ...INITIAL_STATE,
+            };
 
         // CLEAR_ERRORS
         case AuthActionTypes.CLEAR_ERRORS:

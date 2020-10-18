@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../store/rootReducer';
 import { signOut } from '../auth/store/actionCreators';
+import { Color } from '../common/styles/colors';
 
 export const AccountScreen = () => {
     const { auth } = useSelector((state: RootState) => state);
@@ -21,7 +22,7 @@ export const AccountScreen = () => {
                 </Text>
             </View>
 
-            <Button title='Sign out' onPress={() => dispatch(signOut())} />
+            <Button title="Sign out" onPress={() => dispatch(signOut())} />
         </View>
     );
 };
@@ -31,9 +32,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: Color.PureWhite,
     },
     textStyle: {
-        color: '#adadad',
+        color: Color.InactiveGray,
     },
 });

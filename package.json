@@ -2,9 +2,9 @@
     "main": "node_modules/expo/AppEntry.js",
     "scripts": {
         "start": "expo start",
-        "start:dev": "npm run env:dev&& npm run start",
-        "start:preprod": "npm run env:preprod&& npm run start",
-        "start:prod": "npm run env:prod&& npm run start",
+        "dev": "npm run env:dev&& npm run start",
+        "preprod": "npm run env:preprod&& npm run start",
+        "prod": "npm run env:prod&& npm run start",
         "env:dev": "node ./src/build-script/setEnvironment.js development",
         "env:preprod": "node ./src/build-script/setEnvironment.js preprod",
         "env:prod": "node ./src/build-script/setEnvironment.js prod",
@@ -14,6 +14,7 @@
         "eject": "expo eject"
     },
     "dependencies": {
+        "@expo-google-fonts/bebas-neue": "^0.1.0",
         "@react-native-community/masked-view": "0.1.10",
         "@react-native-community/picker": "1.6.0",
         "@react-navigation/bottom-tabs": "^5.7.1",
@@ -25,6 +26,7 @@
         "expo": "~38.0.8",
         "expo-asset": "~8.1.7",
         "expo-constants": "~9.1.1",
+        "expo-font": "~8.2.1",
         "expo-status-bar": "^1.0.2",
         "react": "~16.11.0",
         "react-dom": "~16.11.0",
