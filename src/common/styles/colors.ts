@@ -17,4 +17,5 @@ export const Color = {
     ESPNBackgroundColor: '#DD0000',
     CancelGray: '#ADADAD',
     LightGray: '#ADADAD',
+    SuperLightGray: '#F5F6F4',
 };

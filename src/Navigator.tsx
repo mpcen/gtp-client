@@ -46,6 +46,14 @@ const GarbageTimeMatchupsStackScreen = () => {
                 }}
                 component={GarbageTimeMatchupsScreen}
             />
+            <GarbageTimeMatchupsStack.Screen
+                name="ImportSleeperLeagues"
+                options={{
+                    headerTitle: 'Add Sleeper League',
+                    headerTitleAlign: 'center',
+                }}
+                component={ImportSleeperLeaguesScreen}
+            />
         </GarbageTimeMatchupsStack.Navigator>
     );
 };

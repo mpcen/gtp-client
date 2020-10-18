@@ -8,7 +8,8 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import { Divider, Overlay } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
+import { Divider, Overlay, Button } from 'react-native-elements';
 
 import * as constants from './constants';
 import { RootState } from '../store/rootReducer';
@@ -25,6 +26,7 @@ import { GarbageTimeMatchupsLeaguePicker } from './components/GarbageTimeMatchup
 import { Color } from '../common/styles/colors';
 
 export const GarbageTimeMatchupsScreen = () => {
+    const { navigate } = useNavigation();
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
     const [selectedLeagueId, setSelectedLeagueId] = useState('');
     const [selectedLeague, setSelectedLeague] = useState({} as SleeperLeague);
@@ -87,9 +89,19 @@ export const GarbageTimeMatchupsScreen = () => {
     if (!userLeagues.sleeper.length || !selectedLeague || !selectedLeagueId) {
         return (
             <View style={styles.emptyContainer}>
-                <Text style={styles.emptyContainerText}>
-                    {constants.GTM_ADD_LEAGUE_MESSAGE}
+                <Text
+                    allowFontScaling={false}
+                    style={styles.emptyContainerText}
+                >
+                    {constants.GTM_AddLeagueMessage}
                 </Text>
+
+                <Button
+                    containerStyle={styles.addLeagueButton}
+                    type="solid"
+                    title={constants.GTM_ADD_LEAGUE}
+                    onPress={() => navigate('ImportSleeperLeagues')}
+                />
             </View>
         );
     }
@@ -234,6 +246,11 @@ const styles = StyleSheet.create({
     },
     emptyContainerText: {
         textAlign: 'center',
-        color: Color.MainBlack,
+        color: Color.SubTextGray,
+    },
+    addLeagueButton: {
+        width: 120,
+        alignSelf: 'center',
+        paddingTop: 64,
     },
 });

@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 40,
         paddingLeft: 20,
-        backgroundColor: Color.PureWhite,
+        backgroundColor: Color.SuperLightGray,
         borderRadius: 50,
     },
     clearButtonStyle: {
