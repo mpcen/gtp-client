@@ -89,10 +89,7 @@ export const GarbageTimeMatchupsScreen = () => {
     if (!userLeagues.sleeper.length || !selectedLeague || !selectedLeagueId) {
         return (
             <View style={styles.emptyContainer}>
-                <Text
-                    allowFontScaling={false}
-                    style={styles.emptyContainerText}
-                >
+                <Text style={styles.emptyContainerText}>
                     {constants.GTM_AddLeagueMessage}
                 </Text>
 

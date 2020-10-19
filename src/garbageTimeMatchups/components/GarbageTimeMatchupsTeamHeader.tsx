@@ -81,7 +81,6 @@ export const GarbageTimeMatchupsTeamHeader = ({
                                 ? styles.textAlignmentReversed
                                 : null,
                         ]}
-                        allowFontScaling={false}
                     >
                         {team.nickname ||
                             selectedLeague.members.find(
