@@ -17,6 +17,7 @@ import { signIn, clearErrors } from './store/actionCreators';
 import { RootState } from '../store/rootReducer';
 
 import { PasswordVisibilityIcon } from './components/PasswordVisibilityIcon';
+import { Color } from '../common/styles/colors';
 
 export const SigninScreen = () => {
     const [email, setEmail] = useState('');
@@ -57,8 +58,8 @@ export const SigninScreen = () => {
                 <View style={styles.formContainer}>
                     {/* EMAIL */}
                     <Input
-                        testID="input-email"
                         placeholder={Constants.EmailPlaceholder}
+                        inputStyle={styles.inputStyle}
                         value={email}
                         disabled={isLoading}
                         onChangeText={setEmail}
@@ -69,11 +70,12 @@ export const SigninScreen = () => {
                         <Input
                             secureTextEntry={!isPasswordVisible}
                             placeholder={Constants.PasswordPlaceholder}
-                            value={password}
                             disabled={isLoading}
-                            onChangeText={setPassword}
                             errorMessage={error.length ? error : ''}
                             errorStyle={styles.errorMessageContainer}
+                            inputStyle={styles.inputStyle}
+                            value={password}
+                            onChangeText={setPassword}
                         />
                         <PasswordVisibilityIcon
                             isPasswordVisible={isPasswordVisible}
@@ -81,11 +83,12 @@ export const SigninScreen = () => {
                         />
                     </View>
 
-                    {/* BUTTON */}
+                    {/* SIGN IN BUTTON */}
                     <Button
-                        containerStyle={styles.buttonContainer}
-                        testID="button-sign-in"
                         title={Constants.SignInButtonText}
+                        titleStyle={styles.signinbuttonTitleStyle}
+                        containerStyle={styles.buttonContainer}
+                        buttonStyle={styles.signinButton}
                         disabled={isLoading}
                         onPress={() => dispatch(signIn(email, password))}
                     />
@@ -130,7 +133,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     passwordContainer: { flexDirection: 'row', position: 'relative' },
-    buttonContainer: { marginTop: 24, width: '33%', alignSelf: 'center' },
+    buttonContainer: { marginTop: 24, width: 120, alignSelf: 'center' },
     loadingContainer: { flex: 0.5, justifyContent: 'center' },
-    errorMessageContainer: { textAlign: 'center', paddingTop: 4 },
+    errorMessageContainer: {
+        textAlign: 'center',
+        paddingTop: 4,
+        fontFamily: 'BebasNeue_400Regular',
+    },
+    inputStyle: { fontFamily: 'BebasNeue_400Regular' },
+    signinButton: { backgroundColor: Color.MainBlack },
+    signinbuttonTitleStyle: {
+        fontFamily: 'BebasNeue_400Regular',
+    },
 });

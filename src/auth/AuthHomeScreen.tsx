@@ -20,23 +20,31 @@ export const AuthHomeScreen = () => {
 
     return (
         <View style={styles.container}>
+            {/* TITLE */}
             <Text style={styles.appTitle} allowFontScaling={false}>
                 {StringConstants.AppTitle}
             </Text>
 
+            {/* SIGN UP */}
             <Button
-                containerStyle={styles.buttonContainer}
                 title="Sign up"
+                containerStyle={styles.buttonContainer}
+                buttonStyle={styles.signupButton}
+                titleStyle={styles.signupTitle}
                 onPress={() => navigate('Signup')}
             />
 
+            {/* SIGN IN */}
             <Button
-                containerStyle={styles.signupButtonContainerStyle}
-                type="outline"
                 title="Sign in"
+                type="outline"
+                containerStyle={styles.signupButtonContainerStyle}
+                buttonStyle={styles.signinButton}
+                titleStyle={styles.signinTitle}
                 onPress={() => navigate('Signin')}
             />
 
+            {/* FORGOT PASSWORD */}
             <TouchableOpacity
                 style={styles.forgotPassword}
                 onPress={() => navigate('ForgotPassword')}
@@ -63,6 +71,21 @@ const styles = StyleSheet.create({
     },
     signupButtonContainerStyle: { marginBottom: 8, width: 120 },
     forgotPassword: { marginTop: 8 },
-    forgotPasswordText: { color: Color.ActiveBlue },
+    forgotPasswordText: {
+        color: Color.MainBlack,
+        fontFamily: 'BebasNeue_400Regular',
+    },
     buttonContainer: { marginBottom: 8, width: 120 },
+    signupTitle: {
+        color: Color.PureWhite,
+        fontFamily: 'BebasNeue_400Regular',
+        fontSize: 20,
+    },
+    signinTitle: {
+        color: Color.MainBlack,
+        fontFamily: 'BebasNeue_400Regular',
+        fontSize: 20,
+    },
+    signupButton: { backgroundColor: Color.MainBlack },
+    signinButton: { borderColor: Color.MainBlack },
 });

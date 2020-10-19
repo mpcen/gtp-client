@@ -16,6 +16,7 @@ import * as Constants from './constants';
 import { RootState } from '../store/rootReducer';
 import { signUp, clearErrors } from './store/actionCreators';
 import { PasswordVisibilityIcon } from './components/PasswordVisibilityIcon';
+import { Color } from '../common/styles/colors';
 
 export const SignupScreen = () => {
     const [email, setEmail] = useState('');
@@ -57,9 +58,9 @@ export const SignupScreen = () => {
                 <View style={styles.formContainer}>
                     {/* EMAIL */}
                     <Input
-                        testID="input-email"
                         placeholder={Constants.EmailPlaceholder}
                         disabled={isLoading}
+                        inputStyle={styles.inputStyle}
                         value={email}
                         onChangeText={setEmail}
                     />
@@ -72,6 +73,7 @@ export const SignupScreen = () => {
                             disabled={isLoading}
                             secureTextEntry={!isPasswordVisible}
                             placeholder={Constants.PasswordPlaceholder}
+                            inputStyle={styles.inputStyle}
                             value={password}
                             onChangeText={setPassword}
                         />
@@ -89,9 +91,10 @@ export const SignupScreen = () => {
                             disabled={isLoading}
                             secureTextEntry={!isPasswordVisible}
                             placeholder={Constants.PasswordConfirmedPlaceholder}
-                            value={confirmedPassword}
                             errorMessage={error.length ? error : ''}
                             errorStyle={styles.errorMessageContainer}
+                            inputStyle={styles.inputStyle}
+                            value={confirmedPassword}
                             onChangeText={setConfirmedPassword}
                         />
                         <PasswordVisibilityIcon
@@ -100,11 +103,12 @@ export const SignupScreen = () => {
                         />
                     </View>
 
-                    {/* BUTTON */}
+                    {/* SIGN UP BUTTON */}
                     <Button
-                        containerStyle={styles.buttonContainer}
-                        testID="button-sign-up"
                         title={Constants.SignUpButtonText}
+                        containerStyle={styles.buttonContainer}
+                        titleStyle={styles.signupbuttonTitleStyle}
+                        buttonStyle={styles.signupButton}
                         disabled={isLoading}
                         onPress={() =>
                             dispatch(signUp(email, password, confirmedPassword))
@@ -150,7 +154,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     passwordContainer: { flexDirection: 'row', position: 'relative' },
-    buttonContainer: { paddingTop: 24, width: '33%', alignSelf: 'center' },
+    buttonContainer: { paddingTop: 24, width: 120, alignSelf: 'center' },
     loadingContainer: { flex: 0.5, justifyContent: 'center' },
-    errorMessageContainer: { textAlign: 'center', paddingTop: 4 },
+    errorMessageContainer: {
+        textAlign: 'center',
+        paddingTop: 4,
+        fontFamily: 'BebasNeue_400Regular',
+    },
+    signupButton: { backgroundColor: Color.MainBlack },
+    signupbuttonTitleStyle: {
+        fontFamily: 'BebasNeue_400Regular',
+    },
+    inputStyle: { fontFamily: 'BebasNeue_400Regular' },
 });

@@ -56,7 +56,7 @@ export const ForgotPasswordScreen = () => {
                 <View style={styles.formContainer}>
                     {/* EMAIL */}
                     <Input
-                        testID="input-email"
+                        inputStyle={styles.inputStyle}
                         placeholder={StringConstants.EmailPlaceholder}
                         value={email}
                         disabled={isLoading}
@@ -67,9 +67,10 @@ export const ForgotPasswordScreen = () => {
 
                     {/* BUTTON */}
                     <Button
-                        containerStyle={styles.buttonContainer}
-                        testID="button-sign-in"
                         title={StringConstants.ResetPasswordButtonText}
+                        containerStyle={styles.buttonContainer}
+                        titleStyle={styles.resetButtonTitleStyle}
+                        buttonStyle={styles.signupButton}
                         disabled={isLoading}
                         onPress={() => dispatch(resetPasswordRequest(email))}
                     />
@@ -128,6 +129,19 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         marginTop: 8,
     },
-    resetMessageText: { color: Color.SuccessGreen, textAlign: 'center' },
-    errorMessageContainer: { textAlign: 'center', paddingTop: 4 },
+    resetMessageText: {
+        color: Color.SuccessGreen,
+        textAlign: 'center',
+        fontFamily: 'BebasNeue_400Regular',
+    },
+    errorMessageContainer: {
+        textAlign: 'center',
+        paddingTop: 4,
+        fontFamily: 'BebasNeue_400Regular',
+    },
+    inputStyle: { fontFamily: 'BebasNeue_400Regular' },
+    resetButtonTitleStyle: {
+        fontFamily: 'BebasNeue_400Regular',
+    },
+    signupButton: { backgroundColor: Color.MainBlack },
 });
