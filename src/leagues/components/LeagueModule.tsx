@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         paddingTop: 3,
         paddingBottom: 3,
         borderWidth: 1,
-        borderColor: 'white',
+        borderColor: Color.PureWhite,
     },
     leaguePlatformImageStyle: {
         width: 150,

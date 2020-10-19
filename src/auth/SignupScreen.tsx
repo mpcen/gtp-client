@@ -128,10 +128,9 @@ export const SignupScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1 },
+    container: { flex: 1, backgroundColor: Color.PureWhite },
     kbAvoidingView: { flex: 1 },
     backButtonContainer: {
-        paddingTop: 40,
         marginLeft: 4,
     },
     iconStyle: { alignSelf: 'flex-start' },

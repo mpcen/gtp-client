@@ -6,7 +6,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useFonts, BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue';
 
 import { RootState } from './store/rootReducer';
 import { resolveAuth } from './auth/store/actionCreators';
@@ -22,6 +21,7 @@ import { PreloadingDataScreen } from './auth/PreloadingDataScreen';
 import { GarbageTimeMatchupsScreen } from './garbageTimeMatchups/GarbageTimeMatchupsScreen';
 import { FeedbackScreen } from './feedback/FeedbackScreen';
 import { Color } from './common/styles/colors';
+import { Icon } from 'react-native-elements';
 
 export type LeaguesStackParamList = {
     Leagues: undefined;
@@ -91,6 +91,10 @@ const LeaguesStackScreen = () => {
                         fontFamily: 'BebasNeue_400Regular',
                         fontSize: 24,
                     },
+                    headerBackTitleVisible: false,
+                    headerBackImage: ({ tintColor }) => (
+                        <Icon name="chevron-left" size={40} />
+                    ),
                 }}
                 component={ImportSleeperLeaguesScreen}
             />

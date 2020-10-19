@@ -18,8 +18,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Color } from '../common/styles/colors';
 
 export const ForgotPasswordScreen = () => {
-    const [email, setEmail] = useState('');
     const { navigate } = useNavigation();
+    const [email, setEmail] = useState('');
     const { isLoading, error, resetPassword } = useSelector(
         (state: RootState) => state.auth
     );
@@ -97,6 +97,7 @@ export const ForgotPasswordScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Color.PureWhite,
     },
     kbAvoidingView: { flex: 1 },
     formContainer: {
@@ -108,7 +109,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     backButtonContainer: {
-        paddingTop: 40,
         marginLeft: 4,
     },
     iconStyle: { alignSelf: 'flex-start' },

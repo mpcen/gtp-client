@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, SafeAreaView } from 'react-native';
 import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -19,7 +19,7 @@ export const AuthHomeScreen = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {/* TITLE */}
             <Text style={styles.appTitle} allowFontScaling={false}>
                 {StringConstants.AppTitle}
@@ -53,7 +53,7 @@ export const AuthHomeScreen = () => {
                     {StringConstants.ForgotPassword}
                 </Text>
             </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     );
 };
 
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 1,
+        backgroundColor: Color.PureWhite,
     },
     appTitle: {
         fontSize: 40,

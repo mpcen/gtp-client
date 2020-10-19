@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Platform, StatusBar } from 'react-native';
+import { StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 import { Provider } from 'react-redux';
 import { useFonts, BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue';
 
@@ -17,15 +17,13 @@ export default () => {
 
     return (
         <Provider store={store}>
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <StatusBar
-                    barStyle={
-                        Platform.OS === 'ios' ? 'dark-content' : 'default'
-                    } // TODO: Prob need to adjust for dark/light modes
+                    barStyle="dark-content" // TODO: Prob need to adjust for dark/light modes
                 />
 
                 <Navigator />
-            </View>
+            </SafeAreaView>
         </Provider>
     );
 };

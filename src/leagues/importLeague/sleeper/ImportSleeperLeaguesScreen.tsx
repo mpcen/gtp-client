@@ -7,6 +7,7 @@ import {
     TextInput,
     StyleSheet,
     FlatList,
+    SafeAreaView,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-native-elements';
@@ -36,7 +37,7 @@ export const ImportSleeperLeaguesScreen = () => {
     const [textInputFocused, setTextInputFocused] = useState(false);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.searchContainer}>
                 <View style={styles.textInputContainer}>
                     <TextInput
@@ -88,7 +89,6 @@ export const ImportSleeperLeaguesScreen = () => {
                     />
                 )}
             </View>
-
             {error ? (
                 <View style={styles.errorTextContainer}>
                     <Text testID="text-error" style={styles.errorText}>
@@ -96,7 +96,6 @@ export const ImportSleeperLeaguesScreen = () => {
                     </Text>
                 </View>
             ) : null}
-
             <FlatList
                 data={importSleeperLeagues.leagues}
                 keyExtractor={({ leagueId }) => leagueId}
@@ -120,7 +119,6 @@ export const ImportSleeperLeaguesScreen = () => {
                     />
                 )}
             />
-
             <RemoveLeagueOverlay
                 selectedLeague={{
                     leagueId: selectedLeague.leagueId,
@@ -130,7 +128,7 @@ export const ImportSleeperLeaguesScreen = () => {
                 removeSleeperLeague={removeSleeperLeague}
                 setIsOverlayVisible={setIsOverlayVisible}
             />
-        </View>
+        </SafeAreaView>
     );
 };
 
