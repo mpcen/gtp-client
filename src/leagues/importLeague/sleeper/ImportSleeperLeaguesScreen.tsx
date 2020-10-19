@@ -83,6 +83,7 @@ export const ImportSleeperLeaguesScreen = () => {
                         containerStyle={styles.cancelButtonContainerStyle}
                         type="clear"
                         title="Cancel"
+                        titleStyle={styles.cancelButtonTitle}
                         onPress={() => Keyboard.dismiss()}
                     />
                 )}
@@ -158,6 +159,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         backgroundColor: Color.SuperLightGray,
         borderRadius: 50,
+        fontFamily: 'BebasNeue_400Regular',
     },
     clearButtonStyle: {
         flex: 1,
@@ -187,5 +189,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: Color.CancelGray,
         padding: 3,
+    },
+    cancelButtonTitle: {
+        color: Color.MainBlack,
+        fontFamily: 'BebasNeue_400Regular',
     },
 });

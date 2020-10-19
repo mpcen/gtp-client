@@ -172,7 +172,7 @@ export const Navigator = () => {
                 <Tabs.Navigator
                     tabBarOptions={{
                         showLabel: false,
-                        activeTintColor: Color.ActiveBlue,
+                        activeTintColor: Color.MainBlack,
                         inactiveTintColor: Color.InactiveGray,
                     }}
                 >

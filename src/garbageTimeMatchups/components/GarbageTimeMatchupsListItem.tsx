@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { GarbageTimeMatchupCard } from './GarbageTimeMatchupCard';
 import { TeamInfoMap } from './GarbageTimeMatchupsList';
 import { CombinedGTMResult } from '../hooks/useGarbageTimeMatchups';
+import { Color } from '../../common/styles/colors';
 
 type Props = {
     teamInfoMap: TeamInfoMap;
@@ -51,5 +52,7 @@ const styles = StyleSheet.create({
     },
     weekText: {
         fontSize: 12,
+        fontFamily: 'BebasNeue_400Regular',
+        color: Color.MainBlack,
     },
 });

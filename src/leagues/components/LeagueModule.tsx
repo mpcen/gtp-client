@@ -54,7 +54,7 @@ export const LeagueModule = ({
                 />
                 <Button
                     buttonStyle={styles.button}
-                    titleStyle={{ color: 'white' }}
+                    titleStyle={styles.addLeagueButtonTitle}
                     type="outline"
                     title="Add League"
                     onPress={() => navigate('ImportSleeperLeagues')}
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     button: {
         paddingLeft: 6,
         paddingRight: 6,
-        paddingTop: 0,
+        paddingTop: 3,
         paddingBottom: 3,
         borderWidth: 1,
         borderColor: 'white',
@@ -141,5 +141,9 @@ const styles = StyleSheet.create({
     espnImageStyle: {
         backgroundColor: Color.ESPNBackgroundColor,
         height: 50,
+    },
+    addLeagueButtonTitle: {
+        color: Color.PureWhite,
+        fontFamily: 'BebasNeue_400Regular',
     },
 });

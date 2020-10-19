@@ -9,6 +9,7 @@ import { LeaguePlatform } from './types';
 
 import { LeagueModule } from './components/LeagueModule';
 import { RemoveLeagueOverlay } from './components/RemoveLeagueOverlay';
+import { Color } from '../common/styles/colors';
 
 export const LeaguesScreen = () => {
     const { leagues, auth } = useSelector((state: RootState) => state);
@@ -43,5 +44,5 @@ export const LeaguesScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: 'white' },
+    container: { flex: 1, backgroundColor: Color.PureWhite },
 });

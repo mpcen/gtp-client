@@ -90,6 +90,8 @@ export const FeedbackScreen = () => {
                             title="Submit"
                             disabled={isLoading || !feedback.length}
                             containerStyle={styles.buttonContainerStyle}
+                            buttonStyle={styles.submitButtonStyle}
+                            titleStyle={styles.submitButtonTitleStyle}
                             onPress={() => submitFeedback()}
                         />
                     </View>
@@ -137,6 +139,7 @@ const styles = StyleSheet.create({
     touchableContainer: { height: '100%' },
     textStyle: {
         color: Color.MainBlack,
+        fontFamily: 'BebasNeue_400Regular',
     },
     textAreaContainer: {
         borderColor: Color.SolidBorderGray,
@@ -158,6 +161,8 @@ const styles = StyleSheet.create({
         marginTop: 20,
         alignItems: 'center',
     },
-    successMessageText: { marginLeft: 8 },
+    successMessageText: { marginLeft: 8, fontFamily: 'BebasNeue_400Regular' },
     errorText: { color: Color.ErrorRed },
+    submitButtonStyle: { backgroundColor: Color.MainBlack },
+    submitButtonTitleStyle: { fontFamily: 'BebasNeue_400Regular' },
 });

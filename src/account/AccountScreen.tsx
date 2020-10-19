@@ -22,7 +22,12 @@ export const AccountScreen = () => {
                 </Text>
             </View>
 
-            <Button title="Sign out" onPress={() => dispatch(signOut())} />
+            <Button
+                title="Sign out"
+                buttonStyle={{ backgroundColor: Color.MainBlack }}
+                titleStyle={{ fontFamily: 'BebasNeue_400Regular' }}
+                onPress={() => dispatch(signOut())}
+            />
         </View>
     );
 };

@@ -122,7 +122,7 @@ export const GarbageTimeMatchupsTeamHeader = ({
 
                 {/* RECORD */}
                 <Text style={[styles.textStyle, styles.teamRecordInfo]}>
-                    Record: {team.wins}-{team.losses}-{team.ties}
+                    RECORD: {team.wins}-{team.losses}-{team.ties}
                 </Text>
 
                 {/* PF */}

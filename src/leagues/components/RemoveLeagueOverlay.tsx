@@ -31,20 +31,27 @@ export const RemoveLeagueOverlay = ({
             onBackdropPress={() => setIsOverlayVisible(false)}
         >
             <View style={styles.overlayBodyStyle}>
+                {/* TEXT */}
                 <View style={styles.messageContainer}>
-                    <Text>Remove {selectedLeague.leagueName}?</Text>
+                    <Text style={styles.removeText}>
+                        Remove {selectedLeague.leagueName}?
+                    </Text>
                 </View>
 
                 <View style={styles.overlayButtonContainer}>
+                    {/* CANCEL BUTTON */}
                     <Button
                         type="clear"
                         titleStyle={styles.cancelButtonText}
                         title="Cancel"
                         onPress={() => setIsOverlayVisible(false)}
                     />
+                    {/* REMOVE BUTTON */}
                     <Button
                         type="clear"
                         title="Remove"
+                        buttonStyle={styles.removeButton}
+                        titleStyle={styles.removeButtonText}
                         onPress={() => {
                             dispatch(
                                 removeSleeperLeague(selectedLeague.leagueId)
@@ -74,5 +81,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    cancelButtonText: { color: Color.CancelGray },
+    removeText: {
+        color: Color.MainBlack,
+        fontFamily: 'BebasNeue_400Regular',
+    },
+    cancelButtonText: {
+        color: Color.CancelGray,
+        fontFamily: 'BebasNeue_400Regular',
+    },
+    removeButtonText: {
+        color: Color.PureWhite,
+        fontFamily: 'BebasNeue_400Regular',
+    },
+    removeButton: {
+        backgroundColor: Color.MainBlack,
+    },
 });

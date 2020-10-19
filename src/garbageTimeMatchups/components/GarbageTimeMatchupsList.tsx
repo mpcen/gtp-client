@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Text, View, StyleSheet } from 'react-native';
 
+import { Color } from '../../common/styles/colors';
+
 import {
     SleeperLeague,
     SleeperLeagueMember,
@@ -54,7 +56,9 @@ export const GarbageTimeMatchupsList = ({
             )}
             ListEmptyComponent={() => (
                 <View style={styles.emptyListContainer}>
-                    <Text>League has not yet started</Text>
+                    <Text style={styles.messageText}>
+                        League has not yet started
+                    </Text>
                 </View>
             )}
         />
@@ -69,5 +73,9 @@ const styles = StyleSheet.create({
     emptyListContainer: {
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    messageText: {
+        fontFamily: 'BebasNeue_400Regular',
+        color: Color.MainBlack,
     },
 });
