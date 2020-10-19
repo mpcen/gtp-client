@@ -94,9 +94,11 @@ export const GarbageTimeMatchupsScreen = () => {
                 </Text>
 
                 <Button
-                    containerStyle={styles.addLeagueButton}
                     type="solid"
+                    containerStyle={styles.addLeagueButtonContainer}
+                    buttonStyle={styles.addLeagueButton}
                     title={constants.GTM_ADD_LEAGUE}
+                    titleStyle={styles.addLeagueButtonTitleStyle}
                     onPress={() => navigate('ImportSleeperLeagues')}
                 />
             </View>
@@ -242,12 +244,20 @@ const styles = StyleSheet.create({
         alignContent: 'center',
     },
     emptyContainerText: {
+        fontSize: 18,
         textAlign: 'center',
-        color: Color.SubTextGray,
+        fontFamily: 'BebasNeue_400Regular',
+        color: Color.MainBlack,
     },
-    addLeagueButton: {
+    addLeagueButtonContainer: {
         width: 120,
         alignSelf: 'center',
-        paddingTop: 64,
+        marginTop: 64,
+    },
+    addLeagueButton: {
+        backgroundColor: Color.MainBlack,
+    },
+    addLeagueButtonTitleStyle: {
+        fontFamily: 'BebasNeue_400Regular',
     },
 });

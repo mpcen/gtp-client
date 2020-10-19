@@ -112,7 +112,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     emptyLeaguesText: {
-        color: Color.SubTextGray,
+        fontSize: 18,
+        color: Color.MainBlack,
+        fontFamily: 'BebasNeue_400Regular',
     },
     headerContainer: {
         justifyContent: 'space-between',

@@ -24,8 +24,9 @@ export const AccountScreen = () => {
 
             <Button
                 title="Sign out"
-                buttonStyle={{ backgroundColor: Color.MainBlack }}
-                titleStyle={{ fontFamily: 'BebasNeue_400Regular' }}
+                containerStyle={styles.buttonContainerStyle}
+                buttonStyle={styles.buttonStyle}
+                titleStyle={styles.titleStyle}
                 onPress={() => dispatch(signOut())}
             />
         </View>
@@ -39,7 +40,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: Color.PureWhite,
     },
+    buttonContainerStyle: { width: 120 },
+    buttonStyle: { backgroundColor: Color.MainBlack },
+    titleStyle: { fontFamily: 'BebasNeue_400Regular' },
     textStyle: {
-        color: Color.InactiveGray,
+        fontSize: 14,
+        color: Color.MainBlack,
     },
 });

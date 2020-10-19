@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
     },
     touchableContainer: { height: '100%' },
     textStyle: {
+        fontSize: 18,
         color: Color.MainBlack,
         fontFamily: 'BebasNeue_400Regular',
     },
