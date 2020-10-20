@@ -29,20 +29,32 @@ export type CombinedGTMResult = {
     t2: SleeperLeagueMatchup;
 };
 
+export type SoloGTMResult = {
+    opponent: SleeperLeagueTeam;
+    wins: number;
+    losses: number;
+    ties: number;
+    matchups: SleeperLeagueMatchup[];
+};
+
 export const useGarbageTimeMatchups = (
     selectedLeague: SleeperLeague,
+    isH2H: boolean,
     team1: SleeperLeagueTeam,
-    team2: SleeperLeagueTeam
+    team2: SleeperLeagueTeam,
+    soloTeam: SleeperLeagueTeam
 ): {
     team1GTMResults: GTMResult;
     team2GTMResults: GTMResult;
     combinedGTMResults: CombinedGTMResult[];
+    soloGTMResults: SoloGTMResult[];
 } => {
     const [team1GTMResults, setTeam1GTMResults] = useState({} as GTMResult);
     const [team2GTMResults, setTeam2GTMResults] = useState({} as GTMResult);
     const [combinedGTMResults, setCombinedGTMResults] = useState(
         [] as CombinedGTMResult[]
     );
+    const [soloGTMResults, setSoloGTMResults] = useState([] as SoloGTMResult[]);
 
     /*
         Filters out all regular season matches for a single team and returns a map:
@@ -239,44 +251,92 @@ export const useGarbageTimeMatchups = (
     };
 
     useEffect(() => {
-        if (selectedLeague?.leagueId && team1 && team2) {
+        if (
+            (selectedLeague?.leagueId && team1) ||
+            (selectedLeague?.leagueId && soloTeam)
+        ) {
             let medianScoringMap: Map<string, number> | undefined;
 
-            const team1MatchupsMap = createTeamMatchupsMap(
-                selectedLeague.matchups,
-                team1
-            );
-            const team2MatchupsMap = createTeamMatchupsMap(
-                selectedLeague.matchups,
-                team2
-            );
-
-            // skill-based stuff
             if (selectedLeague.isSkillBased) {
                 medianScoringMap = createMedianScoringMap(selectedLeague);
             }
 
-            const team1GTMResults: GTMResult = createTeamGTMs(
-                team1MatchupsMap,
-                team2MatchupsMap,
-                medianScoringMap
-            );
-            const team2GTMResults: GTMResult = createTeamGTMs(
-                team2MatchupsMap,
-                team1MatchupsMap,
-                medianScoringMap
-            );
+            // H2H GTM
+            if (isH2H && team2) {
+                const team1MatchupsMap = createTeamMatchupsMap(
+                    selectedLeague.matchups,
+                    team1
+                );
 
-            const combinedGTMResults = combineGTMResults(
-                team1GTMResults,
-                team2GTMResults
-            );
+                const team2MatchupsMap = createTeamMatchupsMap(
+                    selectedLeague.matchups,
+                    team2
+                );
 
-            setTeam1GTMResults(team1GTMResults);
-            setTeam2GTMResults(team2GTMResults);
-            setCombinedGTMResults(combinedGTMResults);
+                const team1GTMResults: GTMResult = createTeamGTMs(
+                    team1MatchupsMap,
+                    team2MatchupsMap,
+                    medianScoringMap
+                );
+
+                const team2GTMResults: GTMResult = createTeamGTMs(
+                    team2MatchupsMap,
+                    team1MatchupsMap,
+                    medianScoringMap
+                );
+
+                const combinedGTMResults = combineGTMResults(
+                    team1GTMResults,
+                    team2GTMResults
+                );
+
+                setTeam1GTMResults(team1GTMResults);
+                setTeam2GTMResults(team2GTMResults);
+                setCombinedGTMResults(combinedGTMResults);
+            } else {
+                // ALL GTM
+                const team1MatchupsMap = createTeamMatchupsMap(
+                    selectedLeague.matchups,
+                    soloTeam
+                );
+
+                const opposingTeams = selectedLeague.teams.filter(
+                    (opposingTeam) => opposingTeam.teamId !== soloTeam.teamId
+                );
+                const soloTeamGTMResults: SoloGTMResult[] = [];
+
+                opposingTeams.forEach((opposingTeam: SleeperLeagueTeam) => {
+                    const opposingTeamMatchupsMap = createTeamMatchupsMap(
+                        selectedLeague.matchups,
+                        opposingTeam
+                    );
+                    const team1GTMResults: GTMResult = createTeamGTMs(
+                        team1MatchupsMap,
+                        opposingTeamMatchupsMap,
+                        medianScoringMap
+                    );
+
+                    soloTeamGTMResults.push({
+                        opponent: opposingTeam,
+                        ...team1GTMResults,
+                    });
+                });
+
+                setSoloGTMResults(soloTeamGTMResults);
+            }
         }
-    }, [selectedLeague?.leagueId, team1.teamId, team2.teamId]);
+    }, [
+        selectedLeague?.leagueId,
+        isH2H,
+        team1.teamId,
+        team2.teamId,
+        soloTeam.teamId,
+    ]);
 
-    return { team1GTMResults, team2GTMResults, combinedGTMResults };
+    return {
+        team1GTMResults,
+        team2GTMResults,
+        combinedGTMResults,
+        soloGTMResults,
+    };
 };

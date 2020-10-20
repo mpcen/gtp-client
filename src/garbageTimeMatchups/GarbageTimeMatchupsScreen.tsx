@@ -15,7 +15,10 @@ import * as constants from './constants';
 import { RootState } from '../store/rootReducer';
 import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
 import { useMemberMap } from './hooks/useMemberMap';
-import { useGarbageTimeMatchups } from './hooks/useGarbageTimeMatchups';
+import {
+    SoloGTMResult,
+    useGarbageTimeMatchups,
+} from './hooks/useGarbageTimeMatchups';
 import { OverlayTypes } from './types';
 
 import { GarbageTimeMatchupsTeamHeader } from './components/GarbageTimeMatchupsTeamHeader';
@@ -23,8 +26,11 @@ import { GarbageTimeTeamSelectList } from './components/GarbageTimeTeamSelectLis
 import { GarbageTimeMatchupsList } from './components/GarbageTimeMatchupsList';
 import { LeagueInfoListItem } from '../leagues/components/LeagueInfoListItem';
 import { GarbageTimeMatchupsLeaguePicker } from './components/GarbageTimeMatchupsLeaguePicker';
-import { Color } from '../common/styles/colors';
 import { GarbageTimeMatchupsCompareSelector } from './components/GarbageTimeMatchupsCompareSelector';
+import { GarbageTimeMatchupsTeamPicker } from './components/GarbageTimeMatchupTeamPicker';
+import { Color } from '../common/styles/colors';
+import { Font } from '../common/fonts/fonts';
+import { GarbageTimeMatchupsListSolo } from './components/GarbageTimeMatchupsListSolo';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { navigate } = useNavigation();
@@ -33,6 +39,7 @@ export const GarbageTimeMatchupsScreen = () => {
     const [selectedLeague, setSelectedLeague] = useState({} as SleeperLeague);
     const [team1, setTeam1] = useState({} as SleeperLeagueTeam);
     const [team2, setTeam2] = useState({} as SleeperLeagueTeam);
+    const [soloTeam, setSoloTeam] = useState({} as SleeperLeagueTeam);
     const [selectedTeam, setSelectedTeam] = useState(0);
     const [overlay, setOverlay] = useState(OverlayTypes.None);
     const [isInitiallyLoaded, setIsInitiallyLoaded] = useState(false);
@@ -50,11 +57,13 @@ export const GarbageTimeMatchupsScreen = () => {
             setSelectedLeague(defaultSelectedLeague);
             setTeam1(defaultSelectedLeague.teams[0]);
             setTeam2(defaultSelectedLeague.teams[1]);
+            setSoloTeam(defaultSelectedLeague.teams[0]);
         } else if (!userLeagues.sleeper.length && selectedLeagueId) {
             setSelectedLeagueId('');
             setSelectedLeague({} as SleeperLeague);
             setTeam1({} as SleeperLeagueTeam);
             setTeam2({} as SleeperLeagueTeam);
+            setSoloTeam({} as SleeperLeagueTeam);
         }
     }, [userLeagues.sleeper]);
 
@@ -67,6 +76,7 @@ export const GarbageTimeMatchupsScreen = () => {
             setSelectedLeague(selectedLeague);
             setTeam1(selectedLeague.teams[0]);
             setTeam2(selectedLeague.teams[1]);
+            setSoloTeam(selectedLeague.teams[0]);
         }
     }, [selectedLeagueId]);
 
@@ -74,7 +84,8 @@ export const GarbageTimeMatchupsScreen = () => {
         team1GTMResults,
         team2GTMResults,
         combinedGTMResults,
-    } = useGarbageTimeMatchups(selectedLeague, team1, team2);
+        soloGTMResults,
+    } = useGarbageTimeMatchups(selectedLeague, isH2H, team1, team2, soloTeam);
 
     const { memberMap } = useMemberMap(selectedLeague);
 
@@ -107,6 +118,7 @@ export const GarbageTimeMatchupsScreen = () => {
         );
     }
 
+    // RENDER GTM
     return (
         <SafeAreaView style={styles.container}>
             <GarbageTimeMatchupsLeaguePicker
@@ -115,6 +127,7 @@ export const GarbageTimeMatchupsScreen = () => {
                 setOverlay={setOverlay}
             />
 
+            {/* TOGGLE COMPARE TYPE */}
             <GarbageTimeMatchupsCompareSelector
                 isH2H={isH2H}
                 setIsH2H={setIsH2H}
@@ -122,7 +135,47 @@ export const GarbageTimeMatchupsScreen = () => {
 
             <Divider />
 
-            {selectedLeague.teams &&
+            {/* ALL GTM VIEW */}
+            {!isH2H && selectedLeague.teams && Object.keys(memberMap).length ? (
+                <>
+                    <View>
+                        <GarbageTimeMatchupsTeamPicker
+                            league={selectedLeague}
+                            team={soloTeam}
+                            memberMap={memberMap}
+                            setOverlay={setOverlay}
+                        />
+
+                        <View>
+                            {/* RECORD */}
+                            <Text>
+                                RECORD: {soloTeam.wins}-{soloTeam.losses}-
+                                {soloTeam.ties}
+                            </Text>
+
+                            {/* PF */}
+                            <Text>
+                                PF: {soloTeam.totalPointsFor['$numberDecimal']}
+                            </Text>
+
+                            {/* PA */}
+                            <Text>
+                                PA:{' '}
+                                {soloTeam.totalPointsAgainst['$numberDecimal']}
+                            </Text>
+                        </View>
+                    </View>
+
+                    <GarbageTimeMatchupsListSolo
+                        soloGTMResults={soloGTMResults}
+                        league={selectedLeague}
+                    />
+                </>
+            ) : null}
+
+            {/* H2H GTM VIEW */}
+            {isH2H &&
+            selectedLeague.teams &&
             Object.keys(memberMap).length &&
             Object.keys(team1GTMResults).length &&
             Object.keys(team2GTMResults).length ? (
@@ -157,6 +210,7 @@ export const GarbageTimeMatchupsScreen = () => {
             ) : null}
 
             {/* OVERLAYS */}
+            {/* LEAGUE SELECT */}
             <Overlay
                 overlayStyle={styles.leagueSelectOverlayStyle}
                 isVisible={overlay === OverlayTypes.LeagueSelect}
@@ -180,6 +234,7 @@ export const GarbageTimeMatchupsScreen = () => {
                 />
             </Overlay>
 
+            {/* TEAM SELECT */}
             <Overlay
                 overlayStyle={styles.teamSelectOverlayStyle}
                 isVisible={overlay === OverlayTypes.TeamSelect}
@@ -189,14 +244,18 @@ export const GarbageTimeMatchupsScreen = () => {
                     selectedLeague={selectedLeague}
                     team1={team1}
                     team2={team2}
+                    soloTeam={soloTeam}
                     selectedTeam={selectedTeam}
                     memberMap={memberMap}
+                    isH2H={isH2H}
                     setTeam1={setTeam1}
                     setTeam2={setTeam2}
+                    setSoloTeam={setSoloTeam}
                     setOverlay={setOverlay}
                 />
             </Overlay>
 
+            {/* GTR INFO */}
             <Overlay
                 overlayStyle={styles.infoOverlayStyle}
                 isVisible={overlay === OverlayTypes.GTRInfo}
@@ -253,7 +312,7 @@ const styles = StyleSheet.create({
     emptyContainerText: {
         fontSize: 18,
         textAlign: 'center',
-        fontFamily: 'BebasNeue_400Regular',
+        fontFamily: Font.BebasNeue_400Regular,
         color: Color.MainBlack,
     },
     addLeagueButtonContainer: {
@@ -265,6 +324,6 @@ const styles = StyleSheet.create({
         backgroundColor: Color.MainBlack,
     },
     addLeagueButtonTitleStyle: {
-        fontFamily: 'BebasNeue_400Regular',
+        fontFamily: Font.BebasNeue_400Regular,
     },
 });
