@@ -5,6 +5,7 @@ import { GarbageTimeMatchupCard } from './GarbageTimeMatchupCard';
 import { TeamInfoMap } from './GarbageTimeMatchupsList';
 import { CombinedGTMResult } from '../hooks/useGarbageTimeMatchups';
 import { Color } from '../../common/styles/colors';
+import { Font } from '../../common/fonts/fonts';
 
 type Props = {
     teamInfoMap: TeamInfoMap;
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     },
     weekText: {
         fontSize: 12,
-        fontFamily: 'BebasNeue_400Regular',
+        fontFamily: Font.BebasNeue_400Regular,
         color: Color.MainBlack,
     },
 });

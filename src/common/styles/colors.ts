@@ -7,8 +7,8 @@ export const Color = {
     ErrorRed: '#E92E20',
     SolidBorderGray: '#ADADAD',
     PlaceholderGray: '#ADADAD',
-    GTMWinGreen: '#D9EDD4',
-    GTMLossRed: '#F4D4CD',
+    GTMWin: '#EEEEEE',
+    GTMLoss: '#FFFFFF',
     RemoveLeagueRed: '#ED5145',
     AddLeagueGreen: '#60D394',
     SubTextGray: '#ADADAD',
@@ -18,4 +18,5 @@ export const Color = {
     CancelGray: '#ADADAD',
     LightGray: '#ADADAD',
     SuperLightGray: '#F5F6F4',
+    SwitchBackground: '#f4f3f4',
 };

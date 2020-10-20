@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, StatusBar, SafeAreaView } from 'react-native';
+import { StyleSheet, StatusBar, SafeAreaView, Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import { useFonts, BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue';
 
@@ -19,7 +19,9 @@ export default () => {
         <Provider store={store}>
             <SafeAreaView style={styles.container}>
                 <StatusBar
-                    barStyle="dark-content" // TODO: Prob need to adjust for dark/light modes
+                    barStyle={
+                        Platform.OS === 'ios' ? 'dark-content' : 'default'
+                    } // TODO: Prob need to adjust for dark/light modes
                 />
 
                 <Navigator />

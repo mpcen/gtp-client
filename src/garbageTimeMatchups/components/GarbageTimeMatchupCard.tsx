@@ -57,11 +57,13 @@ const styles = StyleSheet.create({
         marginTop: 4,
         marginBottom: 4,
         borderRadius: 4,
+        borderWidth: 0.333,
+        borderColor: Color.LightGray,
     },
     matchWon: {
-        backgroundColor: Color.GTMWinGreen,
+        backgroundColor: Color.GTMWin,
     },
     matchLost: {
-        backgroundColor: Color.GTMLossRed,
+        backgroundColor: Color.GTMLoss,
     },
 });

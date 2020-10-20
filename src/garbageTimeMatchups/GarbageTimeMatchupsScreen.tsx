@@ -24,6 +24,7 @@ import { GarbageTimeMatchupsList } from './components/GarbageTimeMatchupsList';
 import { LeagueInfoListItem } from '../leagues/components/LeagueInfoListItem';
 import { GarbageTimeMatchupsLeaguePicker } from './components/GarbageTimeMatchupsLeaguePicker';
 import { Color } from '../common/styles/colors';
+import { GarbageTimeMatchupsCompareSelector } from './components/GarbageTimeMatchupsCompareSelector';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { navigate } = useNavigation();
@@ -35,6 +36,7 @@ export const GarbageTimeMatchupsScreen = () => {
     const [selectedTeam, setSelectedTeam] = useState(0);
     const [overlay, setOverlay] = useState(OverlayTypes.None);
     const [isInitiallyLoaded, setIsInitiallyLoaded] = useState(false);
+    const [isH2H, setIsH2H] = useState(false);
 
     useEffect(() => {
         setIsInitiallyLoaded(true);
@@ -111,6 +113,11 @@ export const GarbageTimeMatchupsScreen = () => {
                 selectedLeagueId={selectedLeagueId}
                 userLeagues={userLeagues}
                 setOverlay={setOverlay}
+            />
+
+            <GarbageTimeMatchupsCompareSelector
+                isH2H={isH2H}
+                setIsH2H={setIsH2H}
             />
 
             <Divider />

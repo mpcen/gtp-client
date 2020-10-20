@@ -41,7 +41,7 @@ export const GarbageTimeMatchupsLeaguePicker = ({
 
             <Text allowFontScaling={false}>{league?.leagueName}</Text>
 
-            <Icon name='menu-down' type='material-community' />
+            <Icon name="menu-down" type="material-community" />
         </TouchableOpacity>
     );
 };
