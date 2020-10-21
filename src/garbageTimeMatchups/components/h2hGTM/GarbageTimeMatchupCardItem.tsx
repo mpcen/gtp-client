@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { SleeperLeagueMatchup } from '../../leagues/store/storeTypes';
-import { TeamDestination } from '../types';
+import { SleeperLeagueMatchup } from '../../../leagues/store/storeTypes';
+import { TeamDestination } from '../../types';
 
 import { TeamInfoMap } from './GarbageTimeMatchupsList';
 import { Avatar } from 'react-native-elements';

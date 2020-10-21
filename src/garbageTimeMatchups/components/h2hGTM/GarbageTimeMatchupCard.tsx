@@ -2,11 +2,11 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { TeamInfoMap } from './GarbageTimeMatchupsList';
-import { SleeperLeagueMatchup } from '../../leagues/store/storeTypes';
-import { MatchWinner, TeamDestination } from '../types';
+import { SleeperLeagueMatchup } from '../../../leagues/store/storeTypes';
+import { MatchWinner, TeamDestination } from '../../types';
 
 import { GarbageTimeMatchupCardItem } from './GarbageTimeMatchupCardItem';
-import { Color } from '../../common/styles/colors';
+import { Color } from '../../../common/styles/colors';
 
 type Props = {
     matchupForTeam: number;

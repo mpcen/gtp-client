@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Text, View, StyleSheet } from 'react-native';
 
-import { Color } from '../../common/styles/colors';
+import { Color } from '../../../common/styles/colors';
 
 import {
     SleeperLeague,
     SleeperLeagueMember,
     SleeperLeagueTeam,
-} from '../../leagues/store/storeTypes';
-import { CombinedGTMResult } from '../hooks/useGarbageTimeMatchups';
+} from '../../../leagues/store/storeTypes';
+import { CombinedGTMResult } from '../../hooks/useGarbageTimeMatchups';
 import { GarbageTimeMatchupsListItem } from './GarbageTimeMatchupsListItem';
 
 export type Props = {

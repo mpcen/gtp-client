@@ -2,14 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 
-import { OverlayTypes } from '../types';
-import { MemberMap } from '../hooks/useMemberMap';
-import { GTMResult } from '../hooks/useGarbageTimeMatchups';
+import { OverlayTypes } from '../../types';
+import { MemberMap } from '../../hooks/useMemberMap';
+import { GTMResult } from '../../hooks/useGarbageTimeMatchups';
 import {
     SleeperLeagueTeam,
     SleeperLeague,
-} from '../../leagues/store/storeTypes';
-import { Color } from '../../common/styles/colors';
+} from '../../../leagues/store/storeTypes';
+import { Color } from '../../../common/styles/colors';
 
 type Props = {
     team: SleeperLeagueTeam;

@@ -3,9 +3,9 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { GarbageTimeMatchupCard } from './GarbageTimeMatchupCard';
 import { TeamInfoMap } from './GarbageTimeMatchupsList';
-import { CombinedGTMResult } from '../hooks/useGarbageTimeMatchups';
-import { Color } from '../../common/styles/colors';
-import { Font } from '../../common/fonts/fonts';
+import { CombinedGTMResult } from '../../hooks/useGarbageTimeMatchups';
+import { Color } from '../../../common/styles/colors';
+import { Font } from '../../../common/fonts/fonts';
 
 type Props = {
     teamInfoMap: TeamInfoMap;

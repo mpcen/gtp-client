@@ -8,15 +8,15 @@ import {
 } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 
-import { SoloGTMResult } from '../hooks/useGarbageTimeMatchups';
-import { MemberMap } from '../hooks/useMemberMap';
-import { OverlayTypes } from '../types';
+import { SoloGTMResult } from '../../hooks/useGarbageTimeMatchups';
+import { MemberMap } from '../../hooks/useMemberMap';
+import { OverlayTypes } from '../../types';
 
-import { Color } from '../../common/styles/colors';
+import { Color } from '../../../common/styles/colors';
 import {
     SleeperLeague,
     SleeperLeagueTeam,
-} from '../../leagues/store/storeTypes';
+} from '../../../leagues/store/storeTypes';
 
 type Props = {
     soloTeam: SleeperLeagueTeam;

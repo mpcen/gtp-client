@@ -2,13 +2,13 @@ import React, { SetStateAction } from 'react';
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 
-import { OverlayTypes } from '../types';
+import { OverlayTypes } from '../../types';
 import {
     SleeperLeague,
     SleeperLeagueTeam,
-} from '../../leagues/store/storeTypes';
-import { MemberMap } from '../hooks/useMemberMap';
-import { Color } from '../../common/styles/colors';
+} from '../../../leagues/store/storeTypes';
+import { MemberMap } from '../../hooks/useMemberMap';
+import { Color } from '../../../common/styles/colors';
 
 type Props = {
     league: SleeperLeague;

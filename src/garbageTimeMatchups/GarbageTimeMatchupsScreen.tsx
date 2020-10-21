@@ -18,16 +18,16 @@ import { useMemberMap } from './hooks/useMemberMap';
 import { useGarbageTimeMatchups } from './hooks/useGarbageTimeMatchups';
 import { OverlayTypes } from './types';
 
-import { GarbageTimeMatchupsTeamHeader } from './components/GarbageTimeMatchupsTeamHeader';
-import { GarbageTimeTeamSelectList } from './components/GarbageTimeTeamSelectList';
-import { GarbageTimeMatchupsList } from './components/GarbageTimeMatchupsList';
+import { GarbageTimeMatchupsTeamHeader } from './components/h2hGTM/GarbageTimeMatchupsTeamHeader';
+import { GarbageTimeTeamSelectList } from './components/h2hGTM/GarbageTimeTeamSelectList';
+import { GarbageTimeMatchupsList } from './components/h2hGTM/GarbageTimeMatchupsList';
 import { LeagueInfoListItem } from '../leagues/components/LeagueInfoListItem';
 import { GarbageTimeMatchupsLeaguePicker } from './components/GarbageTimeMatchupsLeaguePicker';
 import { GarbageTimeMatchupsCompareSelector } from './components/GarbageTimeMatchupsCompareSelector';
-import { GarbageTimeMatchupsTeamPicker } from './components/GarbageTimeMatchupTeamPicker';
+import { GarbageTimeMatchupsTeamPicker } from './components/soloGTM/GarbageTimeMatchupTeamPicker';
 import { Color } from '../common/styles/colors';
 import { Font } from '../common/fonts/fonts';
-import { GarbageTimeMatchupsListSolo } from './components/GarbageTimeMatchupsListSolo';
+import { GarbageTimeMatchupsListSolo } from './components/soloGTM/GarbageTimeMatchupsListSolo';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { navigate } = useNavigation();

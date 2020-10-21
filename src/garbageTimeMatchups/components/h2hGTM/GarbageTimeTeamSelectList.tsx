@@ -5,9 +5,9 @@ import { ListItem } from 'react-native-elements';
 import {
     SleeperLeague,
     SleeperLeagueTeam,
-} from '../../leagues/store/storeTypes';
-import { OverlayTypes } from '../types';
-import { MemberMap } from '../hooks/useMemberMap';
+} from '../../../leagues/store/storeTypes';
+import { OverlayTypes } from '../../types';
+import { MemberMap } from '../../hooks/useMemberMap';
 
 type Props = {
     selectedLeague: SleeperLeague;
