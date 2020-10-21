@@ -69,7 +69,7 @@ export const FeedbackScreen = () => {
             >
                 <View style={{ flex: 1 }}>
                     <Text style={styles.textStyle}>
-                        Anything that can be improved?
+                        Anything that can be added or improved?
                     </Text>
 
                     <View style={styles.textAreaContainer}>

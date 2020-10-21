@@ -7,7 +7,7 @@ export default {
     android: {
         package: 'com.garbagetimeapp.client',
     },
-    name: 'garbagetime.app',
+    name: 'GARBAGETIME.APP',
     slug: 'garbagetime-app',
     icon: './assets/icon.png',
     version: '0.0.1',
