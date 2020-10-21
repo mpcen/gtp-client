@@ -6,6 +6,7 @@ import {
     TextInput,
     Keyboard,
     ActivityIndicator,
+    TouchableWithoutFeedback,
 } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { useSelector } from 'react-redux';
@@ -13,7 +14,6 @@ import axios from 'axios';
 import Constants from 'expo-constants';
 
 import { RootState } from '../store/rootReducer';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Color } from '../common/styles/colors';
 
 const { API_URI } = Constants.manifest.extra;
@@ -64,10 +64,10 @@ export const FeedbackScreen = () => {
     return (
         <View style={styles.container}>
             <TouchableWithoutFeedback
-                onPress={Keyboard.dismiss}
                 style={styles.touchableContainer}
+                onPress={Keyboard.dismiss}
             >
-                <View>
+                <View style={{ flex: 1 }}>
                     <Text style={styles.textStyle}>
                         Anything that can be improved?
                     </Text>
@@ -153,8 +153,12 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         height: 150,
         textAlignVertical: 'top',
+        width: '100%',
     },
-    buttonContainer: { alignItems: 'center', marginTop: 12 },
+    buttonContainer: {
+        alignItems: 'center',
+        marginTop: 12,
+    },
     buttonContainerStyle: { width: 100 },
     successMessageContainer: {
         flexDirection: 'row',
