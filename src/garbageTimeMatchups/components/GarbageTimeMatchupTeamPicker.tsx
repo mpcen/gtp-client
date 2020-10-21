@@ -1,5 +1,5 @@
 import React, { SetStateAction } from 'react';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 
 import { OverlayTypes } from '../types';
@@ -8,6 +8,7 @@ import {
     SleeperLeagueTeam,
 } from '../../leagues/store/storeTypes';
 import { MemberMap } from '../hooks/useMemberMap';
+import { Color } from '../../common/styles/colors';
 
 type Props = {
     league: SleeperLeague;
@@ -31,6 +32,7 @@ export const GarbageTimeMatchupsTeamPicker = ({
         >
             <Avatar
                 containerStyle={styles.avatarContainer}
+                size="medium"
                 rounded
                 source={{
                     uri: `https://sleepercdn.com/avatars/thumbs/${
@@ -39,24 +41,104 @@ export const GarbageTimeMatchupsTeamPicker = ({
                 }}
             />
 
-            <Text allowFontScaling={false}>
-                {team.nickname ||
-                    league.members.find(
-                        (member) => member.memberId === team.ownerIds[0]
-                    )?.displayName}
-            </Text>
+            <View>
+                <View style={[styles.row, styles.teamHeaderContainer]}>
+                    {/* TEAM NAME */}
+                    <Text style={styles.teamNameText} allowFontScaling={false}>
+                        {team.nickname ||
+                            league.members.find(
+                                (member) => member.memberId === team.ownerIds[0]
+                            )?.displayName}
+                    </Text>
 
-            <Icon name="menu-down" type="material-community" />
+                    {/* RECORD */}
+                    <Text style={styles.record}>
+                        ({team.wins}-{team.losses}-{team.ties})
+                    </Text>
+                </View>
+
+                <View style={styles.row}>
+                    {/* PF */}
+                    <View style={styles.pointsContainer}>
+                        <View style={styles.pointsAvatarContainer}>
+                            <Text
+                                style={styles.pointsTitle}
+                                allowFontScaling={false}
+                            >
+                                PF
+                            </Text>
+                        </View>
+
+                        <Text style={styles.pointsText}>
+                            {team.totalPointsFor['$numberDecimal']}
+                        </Text>
+                    </View>
+
+                    {/* PA */}
+                    <View style={[styles.pointsContainer, { marginLeft: 16 }]}>
+                        <View style={styles.pointsAvatarContainer}>
+                            <Text
+                                style={styles.pointsTitle}
+                                allowFontScaling={false}
+                            >
+                                PA
+                            </Text>
+                        </View>
+
+                        <Text style={styles.pointsText}>
+                            {team.totalPointsAgainst['$numberDecimal']}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+
+            <View style={styles.dropdownIconContainer}>
+                <Icon name="menu-down" type="material-community" />
+            </View>
         </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        height: 60,
+        flexDirection: 'row',
+        height: 80,
+        paddingTop: 4,
+        paddingBottom: 4,
+        alignItems: 'center',
+    },
+    teamHeaderContainer: {
+        alignItems: 'center',
+        marginBottom: 2,
+    },
+    teamNameText: { fontSize: 20, fontWeight: 'bold', color: Color.MainBlack },
+    row: { flexDirection: 'row' },
+    avatarContainer: { marginRight: 8 },
+    record: {
+        fontSize: 12,
+        marginLeft: 8,
+        color: Color.DarkerLightGray,
+        fontWeight: 'bold',
+    },
+    pointsContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
-    avatarContainer: { marginRight: 8 },
+    pointsAvatarContainer: {
+        backgroundColor: Color.PointsGray,
+        borderRadius: 20,
+        width: 24,
+        height: 24,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 4,
+    },
+    pointsTitle: {
+        color: Color.PureWhite,
+        fontWeight: 'bold',
+        fontSize: 12,
+    },
+    pointsText: { fontSize: 12, fontWeight: 'bold', color: Color.MainBlack },
+    dropdownIconContainer: { marginLeft: 8 },
 });

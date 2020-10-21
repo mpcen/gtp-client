@@ -9,6 +9,7 @@ import {
     SleeperLeagueTeam,
     SleeperLeague,
 } from '../../leagues/store/storeTypes';
+import { Color } from '../../common/styles/colors';
 
 type Props = {
     team: SleeperLeagueTeam;
@@ -77,6 +78,7 @@ export const GarbageTimeMatchupsTeamHeader = ({
                         style={[
                             styles.textStyle,
                             styles.bold,
+                            styles.teamNameText,
                             teamNumber === 2
                                 ? styles.textAlignmentReversed
                                 : null,
@@ -96,6 +98,21 @@ export const GarbageTimeMatchupsTeamHeader = ({
                     />
                 </TouchableOpacity>
 
+                {/* RECORD */}
+                <Text style={[styles.textStyle, styles.teamRecordInfo]}>
+                    {team.wins}-{team.losses}-{team.ties}
+                </Text>
+
+                {/* PF */}
+                <Text style={[styles.textStyle, styles.teamRecordInfo]}>
+                    PF: {team.totalPointsFor['$numberDecimal']}
+                </Text>
+
+                {/* PA */}
+                <Text style={[styles.textStyle, styles.teamRecordInfo]}>
+                    PA: {team.totalPointsAgainst['$numberDecimal']}
+                </Text>
+
                 {/* GTR */}
                 <TouchableOpacity
                     style={styles.gtrContainer}
@@ -105,7 +122,7 @@ export const GarbageTimeMatchupsTeamHeader = ({
                         containerStyle={styles.gtrIconInformationStyle}
                         name="information-outline"
                         type="material-community"
-                        color="#279AF1"
+                        color={Color.ActiveBlue}
                         size={10}
                     />
                     <Text
@@ -118,21 +135,6 @@ export const GarbageTimeMatchupsTeamHeader = ({
                         GTR: {renderGTR(gtmResults)}
                     </Text>
                 </TouchableOpacity>
-
-                {/* RECORD */}
-                <Text style={[styles.textStyle, styles.teamRecordInfo]}>
-                    RECORD: {team.wins}-{team.losses}-{team.ties}
-                </Text>
-
-                {/* PF */}
-                <Text style={[styles.textStyle, styles.teamRecordInfo]}>
-                    PF: {team.totalPointsFor['$numberDecimal']}
-                </Text>
-
-                {/* PA */}
-                <Text style={[styles.textStyle, styles.teamRecordInfo]}>
-                    PA: {team.totalPointsAgainst['$numberDecimal']}
-                </Text>
             </View>
         </View>
     );
@@ -156,23 +158,25 @@ const styles = StyleSheet.create({
     textAlignmentReversed: {
         textAlign: 'right',
     },
+    teamNameText: { fontSize: 14 },
     textStyle: {
         fontSize: 12,
+        color: Color.MainBlack,
     },
     bold: {
         fontWeight: 'bold',
     },
-    gtrContainer: { flexDirection: 'row', alignItems: 'center' },
+    gtrContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 12 },
     gtrIconInformationStyle: { marginRight: 4 },
     teamNameContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         width: 150,
-        height: 30,
     },
     teamNameContainerReversed: { flexDirection: 'row-reverse' },
     teamRecordInfo: {
         fontSize: 10,
+        fontWeight: 'bold',
     },
     teamRecordInfoReversed: {
         alignItems: 'flex-end',

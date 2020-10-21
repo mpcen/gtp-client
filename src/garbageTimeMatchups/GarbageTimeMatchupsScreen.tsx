@@ -138,32 +138,19 @@ export const GarbageTimeMatchupsScreen = () => {
             {/* ALL GTM VIEW */}
             {!isH2H && selectedLeague.teams && Object.keys(memberMap).length ? (
                 <>
-                    <View>
+                    <View
+                        style={{
+                            paddingLeft: 16,
+                            paddingRight: 16,
+                            alignSelf: 'center',
+                        }}
+                    >
                         <GarbageTimeMatchupsTeamPicker
                             league={selectedLeague}
                             team={soloTeam}
                             memberMap={memberMap}
                             setOverlay={setOverlay}
                         />
-
-                        <View>
-                            {/* RECORD */}
-                            <Text>
-                                RECORD: {soloTeam.wins}-{soloTeam.losses}-
-                                {soloTeam.ties}
-                            </Text>
-
-                            {/* PF */}
-                            <Text>
-                                PF: {soloTeam.totalPointsFor['$numberDecimal']}
-                            </Text>
-
-                            {/* PA */}
-                            <Text>
-                                PA:{' '}
-                                {soloTeam.totalPointsAgainst['$numberDecimal']}
-                            </Text>
-                        </View>
                     </View>
 
                     <GarbageTimeMatchupsListSolo

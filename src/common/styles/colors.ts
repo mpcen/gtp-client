@@ -1,5 +1,5 @@
 export const Color = {
-    MainBlack: '#090909',
+    MainBlack: '#202020',
     ActiveBlue: '#2089dc',
     InactiveGray: '#ADADAD',
     PureWhite: '#FFFFFF',
@@ -19,4 +19,6 @@ export const Color = {
     LightGray: '#ADADAD',
     SuperLightGray: '#F5F6F4',
     SwitchBackground: '#f4f3f4',
+    DarkerLightGray: '#949494',
+    PointsGray: '#C7C7C7',
 };

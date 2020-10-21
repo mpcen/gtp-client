@@ -47,6 +47,7 @@ const GarbageTimeMatchupsStackScreen = () => {
                     headerTitleStyle: {
                         fontFamily: 'BebasNeue_400Regular',
                         fontSize: 24,
+                        color: Color.MainBlack,
                     },
                 }}
                 component={GarbageTimeMatchupsScreen}
@@ -59,6 +60,7 @@ const GarbageTimeMatchupsStackScreen = () => {
                     headerTitleStyle: {
                         fontFamily: 'BebasNeue_400Regular',
                         fontSize: 24,
+                        color: Color.MainBlack,
                     },
                 }}
                 component={ImportSleeperLeaguesScreen}
@@ -78,6 +80,7 @@ const LeaguesStackScreen = () => {
                     headerTitleStyle: {
                         fontFamily: 'BebasNeue_400Regular',
                         fontSize: 24,
+                        color: Color.MainBlack,
                     },
                 }}
                 component={LeaguesScreen}
@@ -90,6 +93,7 @@ const LeaguesStackScreen = () => {
                     headerTitleStyle: {
                         fontFamily: 'BebasNeue_400Regular',
                         fontSize: 24,
+                        color: Color.MainBlack,
                     },
                     headerBackTitleVisible: false,
                     headerBackImage: ({ tintColor }) => (
@@ -113,6 +117,7 @@ const FeedbackStackScreen = () => {
                     headerTitleStyle: {
                         fontFamily: 'BebasNeue_400Regular',
                         fontSize: 24,
+                        color: Color.MainBlack,
                     },
                 }}
                 component={FeedbackScreen}
@@ -132,6 +137,7 @@ const AccountStackScreen = () => {
                     headerTitleStyle: {
                         fontFamily: 'BebasNeue_400Regular',
                         fontSize: 24,
+                        color: Color.MainBlack,
                     },
                 }}
                 component={AccountScreen}
