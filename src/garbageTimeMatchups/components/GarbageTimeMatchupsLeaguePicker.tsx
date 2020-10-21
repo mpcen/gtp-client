@@ -4,6 +4,7 @@ import { Avatar, Icon } from 'react-native-elements';
 
 import { OverlayTypes } from '../types';
 import { UserLeagues } from '../../leagues/store/storeTypes';
+import { Color } from '../../common/styles/colors';
 
 type Props = {
     selectedLeagueId: string;
@@ -39,7 +40,13 @@ export const GarbageTimeMatchupsLeaguePicker = ({
                 }}
             />
 
-            <Text allowFontScaling={false}>{league?.leagueName}</Text>
+            <Text style={{ fontWeight: 'bold' }} allowFontScaling={false}>
+                {league?.leagueName}
+            </Text>
+
+            <Text style={styles.seasonId} allowFontScaling={false}>
+                ({league?.seasonId})
+            </Text>
 
             <Icon name="menu-down" type="material-community" />
         </TouchableOpacity>
@@ -48,10 +55,16 @@ export const GarbageTimeMatchupsLeaguePicker = ({
 
 const styles = StyleSheet.create({
     container: {
-        height: 60,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        paddingBottom: 8,
+    },
+    seasonId: {
+        fontSize: 12,
+        marginLeft: 8,
+        color: Color.SubTextGray,
+        fontWeight: 'bold',
     },
     avatarContainer: { marginRight: 8 },
 });

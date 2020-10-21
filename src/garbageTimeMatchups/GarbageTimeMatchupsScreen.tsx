@@ -15,10 +15,7 @@ import * as constants from './constants';
 import { RootState } from '../store/rootReducer';
 import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
 import { useMemberMap } from './hooks/useMemberMap';
-import {
-    SoloGTMResult,
-    useGarbageTimeMatchups,
-} from './hooks/useGarbageTimeMatchups';
+import { useGarbageTimeMatchups } from './hooks/useGarbageTimeMatchups';
 import { OverlayTypes } from './types';
 
 import { GarbageTimeMatchupsTeamHeader } from './components/GarbageTimeMatchupsTeamHeader';
@@ -121,17 +118,19 @@ export const GarbageTimeMatchupsScreen = () => {
     // RENDER GTM
     return (
         <SafeAreaView style={styles.container}>
-            <GarbageTimeMatchupsLeaguePicker
-                selectedLeagueId={selectedLeagueId}
-                userLeagues={userLeagues}
-                setOverlay={setOverlay}
-            />
+            <View style={styles.leagueHeaderContainer}>
+                <GarbageTimeMatchupsLeaguePicker
+                    selectedLeagueId={selectedLeagueId}
+                    userLeagues={userLeagues}
+                    setOverlay={setOverlay}
+                />
 
-            {/* TOGGLE COMPARE TYPE */}
-            <GarbageTimeMatchupsCompareSelector
-                isH2H={isH2H}
-                setIsH2H={setIsH2H}
-            />
+                {/* TOGGLE COMPARE TYPE */}
+                <GarbageTimeMatchupsCompareSelector
+                    isH2H={isH2H}
+                    setIsH2H={setIsH2H}
+                />
+            </View>
 
             <Divider />
 
@@ -154,8 +153,11 @@ export const GarbageTimeMatchupsScreen = () => {
                     </View>
 
                     <GarbageTimeMatchupsListSolo
+                        soloTeam={soloTeam}
+                        memberMap={memberMap}
                         soloGTMResults={soloGTMResults}
                         league={selectedLeague}
+                        setOverlay={setOverlay}
                     />
                 </>
             ) : null}
@@ -248,15 +250,24 @@ export const GarbageTimeMatchupsScreen = () => {
                 isVisible={overlay === OverlayTypes.GTRInfo}
                 onBackdropPress={() => setOverlay(OverlayTypes.None)}
             >
-                <View>
+                <View style={styles.gtrInfoContaier}>
                     <View style={styles.infoOverlayHeaderContainer}>
-                        <Text>{constants.GTR_INFO_HEADER}</Text>
+                        <Text
+                            style={[
+                                styles.gtrInfoOverlayText,
+                                styles.gtrInfoOverlayHeader,
+                            ]}
+                        >
+                            {constants.GTR_INFO_HEADER}
+                        </Text>
                     </View>
 
                     <Divider />
 
                     <View style={styles.infoOverlayDescriptionContainer}>
-                        <Text>{constants.GTR_INFO_DESCRIPTION}</Text>
+                        <Text style={styles.gtrInfoOverlayText}>
+                            {constants.GTR_INFO_DESCRIPTION}
+                        </Text>
                     </View>
                 </View>
             </Overlay>
@@ -266,6 +277,7 @@ export const GarbageTimeMatchupsScreen = () => {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Color.PureWhite },
+    leagueHeaderContainer: { paddingTop: 16, paddingBottom: 16 },
     teamsHeaderContainer: { flexDirection: 'row' },
     leagueSelectOverlayStyle: {
         flexDirection: 'row',
@@ -282,13 +294,15 @@ const styles = StyleSheet.create({
     infoOverlayStyle: {
         marginLeft: 20,
         marginRight: 20,
-        height: '15%',
+        height: '24%',
     },
     infoOverlayHeaderContainer: {
         paddingBottom: 4,
     },
     infoOverlayDescriptionContainer: {
         paddingTop: 4,
+        flex: 1,
+        justifyContent: 'center',
     },
     emptyContainer: {
         flex: 1,
@@ -312,5 +326,16 @@ const styles = StyleSheet.create({
     },
     addLeagueButtonTitleStyle: {
         fontFamily: Font.BebasNeue_400Regular,
+    },
+    gtrInfoContaier: {
+        padding: 8,
+    },
+    gtrInfoOverlayText: {
+        fontSize: 16,
+    },
+    gtrInfoOverlayHeader: {
+        fontFamily: Font.BebasNeue_400Regular,
+        fontSize: 24,
+        textAlign: 'center',
     },
 });

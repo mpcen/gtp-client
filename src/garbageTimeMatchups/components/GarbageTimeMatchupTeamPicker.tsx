@@ -52,12 +52,12 @@ export const GarbageTimeMatchupsTeamPicker = ({
                     </Text>
 
                     {/* RECORD */}
-                    <Text style={styles.record}>
+                    <Text style={styles.record} allowFontScaling={false}>
                         ({team.wins}-{team.losses}-{team.ties})
                     </Text>
                 </View>
 
-                <View style={styles.row}>
+                <View style={[styles.row, { marginTop: 2 }]}>
                     {/* PF */}
                     <View style={styles.pointsContainer}>
                         <View style={styles.pointsAvatarContainer}>
@@ -69,7 +69,10 @@ export const GarbageTimeMatchupsTeamPicker = ({
                             </Text>
                         </View>
 
-                        <Text style={styles.pointsText}>
+                        <Text
+                            style={styles.pointsText}
+                            allowFontScaling={false}
+                        >
                             {team.totalPointsFor['$numberDecimal']}
                         </Text>
                     </View>
@@ -85,7 +88,10 @@ export const GarbageTimeMatchupsTeamPicker = ({
                             </Text>
                         </View>
 
-                        <Text style={styles.pointsText}>
+                        <Text
+                            style={styles.pointsText}
+                            allowFontScaling={false}
+                        >
                             {team.totalPointsAgainst['$numberDecimal']}
                         </Text>
                     </View>
@@ -111,13 +117,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 2,
     },
-    teamNameText: { fontSize: 20, fontWeight: 'bold', color: Color.MainBlack },
+    teamNameText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: Color.MainBlack,
+    },
     row: { flexDirection: 'row' },
     avatarContainer: { marginRight: 8 },
     record: {
         fontSize: 12,
         marginLeft: 8,
-        color: Color.DarkerLightGray,
+        color: Color.SubTextGray,
         fontWeight: 'bold',
     },
     pointsContainer: {

@@ -83,6 +83,7 @@ export const GarbageTimeMatchupsTeamHeader = ({
                                 ? styles.textAlignmentReversed
                                 : null,
                         ]}
+                        allowFontScaling={false}
                     >
                         {team.nickname ||
                             selectedLeague.members.find(
@@ -99,17 +100,26 @@ export const GarbageTimeMatchupsTeamHeader = ({
                 </TouchableOpacity>
 
                 {/* RECORD */}
-                <Text style={[styles.textStyle, styles.teamRecordInfo]}>
+                <Text
+                    style={[styles.textStyle, styles.teamRecordInfo]}
+                    allowFontScaling={false}
+                >
                     {team.wins}-{team.losses}-{team.ties}
                 </Text>
 
                 {/* PF */}
-                <Text style={[styles.textStyle, styles.teamRecordInfo]}>
+                <Text
+                    style={[styles.textStyle, styles.teamRecordInfo]}
+                    allowFontScaling={false}
+                >
                     PF: {team.totalPointsFor['$numberDecimal']}
                 </Text>
 
                 {/* PA */}
-                <Text style={[styles.textStyle, styles.teamRecordInfo]}>
+                <Text
+                    style={[styles.textStyle, styles.teamRecordInfo]}
+                    allowFontScaling={false}
+                >
                     PA: {team.totalPointsAgainst['$numberDecimal']}
                 </Text>
 
@@ -131,6 +141,7 @@ export const GarbageTimeMatchupsTeamHeader = ({
                             styles.teamRecordInfo,
                             styles.gtrStyle,
                         ]}
+                        allowFontScaling={false}
                     >
                         GTR: {renderGTR(gtmResults)}
                     </Text>
