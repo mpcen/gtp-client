@@ -60,7 +60,7 @@ export const SignupScreen = () => {
                     <Input
                         placeholder={Constants.EmailPlaceholder}
                         disabled={isLoading}
-                        inputStyle={styles.inputStyle}
+                        // inputStyle={styles.inputStyle}
                         value={email}
                         onChangeText={setEmail}
                     />
@@ -70,10 +70,10 @@ export const SignupScreen = () => {
                         <Input
                             testID="input-password"
                             textContentType="oneTimeCode"
+                            // inputStyle={styles.inputStyle}
                             disabled={isLoading}
                             secureTextEntry={!isPasswordVisible}
                             placeholder={Constants.PasswordPlaceholder}
-                            inputStyle={styles.inputStyle}
                             value={password}
                             onChangeText={setPassword}
                         />
@@ -86,14 +86,13 @@ export const SignupScreen = () => {
                     {/* CONFIRM PASSWORD */}
                     <View style={styles.passwordContainer}>
                         <Input
-                            testID="input-confirm-password"
                             textContentType="oneTimeCode"
+                            // inputStyle={styles.inputStyle}
                             disabled={isLoading}
                             secureTextEntry={!isPasswordVisible}
                             placeholder={Constants.PasswordConfirmedPlaceholder}
                             errorMessage={error.length ? error : ''}
                             errorStyle={styles.errorMessageContainer}
-                            inputStyle={styles.inputStyle}
                             value={confirmedPassword}
                             onChangeText={setConfirmedPassword}
                         />

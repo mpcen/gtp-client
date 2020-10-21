@@ -59,7 +59,7 @@ export const SigninScreen = () => {
                     {/* EMAIL */}
                     <Input
                         placeholder={Constants.EmailPlaceholder}
-                        inputStyle={styles.inputStyle}
+                        // inputStyle={styles.inputStyle}
                         value={email}
                         disabled={isLoading}
                         onChangeText={setEmail}
@@ -73,7 +73,7 @@ export const SigninScreen = () => {
                             disabled={isLoading}
                             errorMessage={error.length ? error : ''}
                             errorStyle={styles.errorMessageContainer}
-                            inputStyle={styles.inputStyle}
+                            // inputStyle={styles.inputStyle}
                             value={password}
                             onChangeText={setPassword}
                         />

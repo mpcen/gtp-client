@@ -56,7 +56,7 @@ export const ForgotPasswordScreen = () => {
                 <View style={styles.formContainer}>
                     {/* EMAIL */}
                     <Input
-                        inputStyle={styles.inputStyle}
+                        // inputStyle={styles.inputStyle}
                         placeholder={StringConstants.EmailPlaceholder}
                         value={email}
                         disabled={isLoading}
