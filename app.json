@@ -1,6 +1,7 @@
 {
     "expo": {
         "name": "GARBAGETIME.APP",
+        "description": "GARBAGETIME.APP TEST SERVER",
         "slug": "garbagetime-app",
         "version": "0.0.1",
         "orientation": "portrait",
