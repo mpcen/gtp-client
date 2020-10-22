@@ -1,7 +1,7 @@
 {
     "expo": {
         "name": "GARBAGETIME.APP",
-        "slug": "garbagetimeapp",
+        "slug": "garbagetime-app",
         "version": "0.0.1",
         "orientation": "portrait",
         "icon": "./assets/icon.png",

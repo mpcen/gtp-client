@@ -11,4 +11,5 @@ export default {
     slug: 'garbagetime-app',
     icon: './assets/icon.png',
     version: '0.0.1',
+    orientation: 'portrait',
 };
