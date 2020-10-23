@@ -18,13 +18,21 @@ export const PreloadingDataScreen = () => {
                 GarbageTime.app
             </Text>
 
-            <ActivityIndicator size="large" style={styles.loaderContainer} />
+            <ActivityIndicator
+                size="large"
+                style={styles.loaderContainer}
+                color={Color.ActiveBlue}
+            />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     loaderContainer: { marginTop: 64 },
     textStyle: {
         fontFamily: 'BebasNeue_400Regular',
