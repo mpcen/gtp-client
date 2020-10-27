@@ -7,6 +7,8 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     Platform,
+    Keyboard,
+    TouchableWithoutFeedback,
 } from 'react-native';
 import { Input, Button, Text, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
@@ -33,73 +35,78 @@ export const SigninScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.kbAvoidingView}
+            <TouchableWithoutFeedback
+                style={styles.touchableContainer}
+                onPress={Keyboard.dismiss}
             >
-                {/* BACK BUTTON */}
-                <View style={styles.backButtonContainer}>
-                    <TouchableOpacity onPress={() => navigate('AuthHome')}>
-                        <Icon
-                            iconStyle={styles.iconStyle}
-                            name="chevron-left"
-                            size={40}
-                        />
-                    </TouchableOpacity>
-                </View>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    style={styles.kbAvoidingView}
+                >
+                    {/* BACK BUTTON */}
+                    <View style={styles.backButtonContainer}>
+                        <TouchableOpacity onPress={() => navigate('AuthHome')}>
+                            <Icon
+                                iconStyle={styles.iconStyle}
+                                name="chevron-left"
+                                size={40}
+                            />
+                        </TouchableOpacity>
+                    </View>
 
-                {/* SIGN IN TITLE */}
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title} allowFontScaling={false}>
-                        {Constants.SigninTitle}
-                    </Text>
-                </View>
+                    {/* SIGN IN TITLE */}
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.title} allowFontScaling={false}>
+                            {Constants.SigninTitle}
+                        </Text>
+                    </View>
 
-                <View style={styles.formContainer}>
-                    {/* EMAIL */}
-                    <Input
-                        placeholder={Constants.EmailPlaceholder}
-                        // inputStyle={styles.inputStyle}
-                        value={email}
-                        disabled={isLoading}
-                        onChangeText={setEmail}
-                    />
-
-                    {/* PASSWORD */}
-                    <View style={styles.passwordContainer}>
+                    <View style={styles.formContainer}>
+                        {/* EMAIL */}
                         <Input
-                            secureTextEntry={!isPasswordVisible}
-                            placeholder={Constants.PasswordPlaceholder}
-                            disabled={isLoading}
-                            errorMessage={error.length ? error : ''}
-                            errorStyle={styles.errorMessageContainer}
+                            placeholder={Constants.EmailPlaceholder}
                             // inputStyle={styles.inputStyle}
-                            value={password}
-                            onChangeText={setPassword}
+                            value={email}
+                            disabled={isLoading}
+                            onChangeText={setEmail}
                         />
-                        <PasswordVisibilityIcon
-                            isPasswordVisible={isPasswordVisible}
-                            setIsPasswordVisible={setIsPasswordVisible}
-                        />
-                    </View>
 
-                    {/* SIGN IN BUTTON */}
-                    <Button
-                        title={Constants.SignInButtonText}
-                        titleStyle={styles.signinbuttonTitleStyle}
-                        containerStyle={styles.buttonContainer}
-                        buttonStyle={styles.signinButton}
-                        disabled={isLoading}
-                        onPress={() => dispatch(signIn(email, password))}
-                    />
-                    {/* SPINNER */}
-                    <View style={styles.loadingContainer}>
-                        {isLoading && (
-                            <ActivityIndicator testID="indicator-loading" />
-                        )}
+                        {/* PASSWORD */}
+                        <View style={styles.passwordContainer}>
+                            <Input
+                                secureTextEntry={!isPasswordVisible}
+                                placeholder={Constants.PasswordPlaceholder}
+                                disabled={isLoading}
+                                errorMessage={error.length ? error : ''}
+                                errorStyle={styles.errorMessageContainer}
+                                // inputStyle={styles.inputStyle}
+                                value={password}
+                                onChangeText={setPassword}
+                            />
+                            <PasswordVisibilityIcon
+                                isPasswordVisible={isPasswordVisible}
+                                setIsPasswordVisible={setIsPasswordVisible}
+                            />
+                        </View>
+
+                        {/* SIGN IN BUTTON */}
+                        <Button
+                            title={Constants.SignInButtonText}
+                            titleStyle={styles.signinbuttonTitleStyle}
+                            containerStyle={styles.buttonContainer}
+                            buttonStyle={styles.signinButton}
+                            disabled={isLoading}
+                            onPress={() => dispatch(signIn(email, password))}
+                        />
+                        {/* SPINNER */}
+                        <View style={styles.loadingContainer}>
+                            {isLoading && (
+                                <ActivityIndicator testID="indicator-loading" />
+                            )}
+                        </View>
                     </View>
-                </View>
-            </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
         </SafeAreaView>
     );
 };
@@ -109,6 +116,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Color.PureWhite,
     },
+    touchableContainer: { height: '100%' },
     kbAvoidingView: { flex: 1 },
     backButtonContainer: {
         marginLeft: 4,

@@ -7,6 +7,8 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     Platform,
+    TouchableWithoutFeedback,
+    Keyboard,
 } from 'react-native';
 import { Input, Button, Text, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
@@ -33,101 +35,111 @@ export const SignupScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.kbAvoidingView}
+            <TouchableWithoutFeedback
+                style={styles.touchableContainer}
+                onPress={Keyboard.dismiss}
             >
-                {/* BACK BUTTON */}
-                <View style={styles.backButtonContainer}>
-                    <TouchableOpacity onPress={() => navigate('AuthHome')}>
-                        <Icon
-                            iconStyle={styles.iconStyle}
-                            name="chevron-left"
-                            size={40}
-                        />
-                    </TouchableOpacity>
-                </View>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    style={styles.kbAvoidingView}
+                >
+                    {/* BACK BUTTON */}
+                    <View style={styles.backButtonContainer}>
+                        <TouchableOpacity onPress={() => navigate('AuthHome')}>
+                            <Icon
+                                iconStyle={styles.iconStyle}
+                                name="chevron-left"
+                                size={40}
+                            />
+                        </TouchableOpacity>
+                    </View>
 
-                {/* SIGN UP TITLE */}
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title} allowFontScaling={false}>
-                        {Constants.SignupTitle}
-                    </Text>
-                </View>
+                    {/* SIGN UP TITLE */}
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.title} allowFontScaling={false}>
+                            {Constants.SignupTitle}
+                        </Text>
+                    </View>
 
-                <View style={styles.formContainer}>
-                    {/* EMAIL */}
-                    <Input
-                        placeholder={Constants.EmailPlaceholder}
-                        disabled={isLoading}
-                        // inputStyle={styles.inputStyle}
-                        value={email}
-                        onChangeText={setEmail}
-                    />
-
-                    {/* PASSWORD */}
-                    <View style={styles.passwordContainer}>
+                    <View style={styles.formContainer}>
+                        {/* EMAIL */}
                         <Input
-                            testID="input-password"
-                            textContentType="oneTimeCode"
-                            // inputStyle={styles.inputStyle}
+                            placeholder={Constants.EmailPlaceholder}
                             disabled={isLoading}
-                            secureTextEntry={!isPasswordVisible}
-                            placeholder={Constants.PasswordPlaceholder}
-                            value={password}
-                            onChangeText={setPassword}
-                        />
-                        <PasswordVisibilityIcon
-                            isPasswordVisible={isPasswordVisible}
-                            setIsPasswordVisible={setIsPasswordVisible}
-                        />
-                    </View>
-
-                    {/* CONFIRM PASSWORD */}
-                    <View style={styles.passwordContainer}>
-                        <Input
-                            textContentType="oneTimeCode"
                             // inputStyle={styles.inputStyle}
+                            value={email}
+                            onChangeText={setEmail}
+                        />
+
+                        {/* PASSWORD */}
+                        <View style={styles.passwordContainer}>
+                            <Input
+                                testID="input-password"
+                                textContentType="oneTimeCode"
+                                // inputStyle={styles.inputStyle}
+                                disabled={isLoading}
+                                secureTextEntry={!isPasswordVisible}
+                                placeholder={Constants.PasswordPlaceholder}
+                                value={password}
+                                onChangeText={setPassword}
+                            />
+                            <PasswordVisibilityIcon
+                                isPasswordVisible={isPasswordVisible}
+                                setIsPasswordVisible={setIsPasswordVisible}
+                            />
+                        </View>
+
+                        {/* CONFIRM PASSWORD */}
+                        <View style={styles.passwordContainer}>
+                            <Input
+                                textContentType="oneTimeCode"
+                                // inputStyle={styles.inputStyle}
+                                disabled={isLoading}
+                                secureTextEntry={!isPasswordVisible}
+                                placeholder={
+                                    Constants.PasswordConfirmedPlaceholder
+                                }
+                                errorMessage={error.length ? error : ''}
+                                errorStyle={styles.errorMessageContainer}
+                                value={confirmedPassword}
+                                onChangeText={setConfirmedPassword}
+                            />
+                            <PasswordVisibilityIcon
+                                isPasswordVisible={isPasswordVisible}
+                                setIsPasswordVisible={setIsPasswordVisible}
+                            />
+                        </View>
+
+                        {/* SIGN UP BUTTON */}
+                        <Button
+                            title={Constants.SignUpButtonText}
+                            containerStyle={styles.buttonContainer}
+                            titleStyle={styles.signupbuttonTitleStyle}
+                            buttonStyle={styles.signupButton}
                             disabled={isLoading}
-                            secureTextEntry={!isPasswordVisible}
-                            placeholder={Constants.PasswordConfirmedPlaceholder}
-                            errorMessage={error.length ? error : ''}
-                            errorStyle={styles.errorMessageContainer}
-                            value={confirmedPassword}
-                            onChangeText={setConfirmedPassword}
+                            onPress={() =>
+                                dispatch(
+                                    signUp(email, password, confirmedPassword)
+                                )
+                            }
                         />
-                        <PasswordVisibilityIcon
-                            isPasswordVisible={isPasswordVisible}
-                            setIsPasswordVisible={setIsPasswordVisible}
-                        />
-                    </View>
 
-                    {/* SIGN UP BUTTON */}
-                    <Button
-                        title={Constants.SignUpButtonText}
-                        containerStyle={styles.buttonContainer}
-                        titleStyle={styles.signupbuttonTitleStyle}
-                        buttonStyle={styles.signupButton}
-                        disabled={isLoading}
-                        onPress={() =>
-                            dispatch(signUp(email, password, confirmedPassword))
-                        }
-                    />
-
-                    {/* SPINNER */}
-                    <View style={styles.loadingContainer}>
-                        {isLoading && (
-                            <ActivityIndicator testID="indicator-loading" />
-                        )}
+                        {/* SPINNER */}
+                        <View style={styles.loadingContainer}>
+                            {isLoading && (
+                                <ActivityIndicator testID="indicator-loading" />
+                            )}
+                        </View>
                     </View>
-                </View>
-            </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Color.PureWhite },
+    touchableContainer: { height: '100%' },
     kbAvoidingView: { flex: 1 },
     backButtonContainer: {
         marginLeft: 4,
@@ -152,7 +164,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     passwordContainer: { flexDirection: 'row', position: 'relative' },
-    buttonContainer: { paddingTop: 24, width: 120, alignSelf: 'center' },
+    buttonContainer: {
+        width: 120,
+        alignSelf: 'center',
+    },
     loadingContainer: { flex: 0.5, justifyContent: 'center' },
     errorMessageContainer: {
         textAlign: 'center',

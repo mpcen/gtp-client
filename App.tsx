@@ -20,7 +20,7 @@ export default () => {
             <SafeAreaView style={styles.container}>
                 <StatusBar
                     barStyle={
-                        Platform.OS === 'ios' ? 'dark-content' : 'default'
+                        Platform.OS === 'ios' ? 'dark-content' : 'light-content'
                     } // TODO: Prob need to adjust for dark/light modes
                 />
 
