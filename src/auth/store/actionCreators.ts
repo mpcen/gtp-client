@@ -119,7 +119,7 @@ export const signUp = (
             dispatch({
                 type: AuthActionTypes.SIGN_UP_FAIL,
                 payload: {
-                    error: 'Error signing up',
+                    error: err.response.data.errors[0].message,
                 },
             });
         }
