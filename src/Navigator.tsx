@@ -22,6 +22,7 @@ import { GarbageTimeMatchupsScreen } from './garbageTimeMatchups/GarbageTimeMatc
 import { FeedbackScreen } from './feedback/FeedbackScreen';
 import { Color } from './common/styles/colors';
 import { Icon } from 'react-native-elements';
+// import { AsyncStorage } from 'react-native';
 
 export type LeaguesStackParamList = {
     Leagues: undefined;
@@ -154,6 +155,9 @@ export const Navigator = () => {
         (state: RootState) => state.auth
     );
     const dispatch = useDispatch();
+
+    // Emergency Dev-Purposes Only
+    //AsyncStorage.removeItem('gtp-token');
 
     // Checking to see if we have an auth token stored
     useEffect(() => {
