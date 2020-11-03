@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/rootReducer';
 import { removeSleeperLeague } from './store/actionCreators';
 import { SleeperLeague } from './store/storeTypes';
-import { LeaguePlatform } from './types';
 
 import { LeagueModule } from './components/LeagueModule';
 import { RemoveLeagueOverlay } from './components/RemoveLeagueOverlay';
@@ -19,19 +18,11 @@ export const LeaguesScreen = () => {
     return (
         <View style={styles.container}>
             <LeagueModule
-                platform={LeaguePlatform.Sleeper}
                 leagues={leagues.userLeagues.sleeper}
                 setIsOverlayVisible={setIsOverlayVisible}
                 setSelectedLeague={setSelectedLeague}
                 isLoading={!auth.isDataPreloaded}
             />
-
-            {/* <LeagueModule
-                platform={LeaguePlatform.ESPN}
-                leagues={[]}
-                setIsOverlayVisible={setIsOverlayVisible}
-                setSelectedLeague={setSelectedLeague}
-            /> */}
 
             <RemoveLeagueOverlay
                 selectedLeague={selectedLeague}
@@ -45,4 +36,10 @@ export const LeaguesScreen = () => {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Color.PureWhite },
+    leaguesHeaderButtonStyle: {
+        marginRight: 16,
+        borderWidth: 1,
+        borderRadius: 7,
+        padding: 2,
+    },
 });

@@ -1,18 +1,23 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
-import { Divider, Button } from 'react-native-elements';
+import {
+    View,
+    Text,
+    StyleSheet,
+    FlatList,
+    Image,
+    TouchableOpacity,
+} from 'react-native';
+import { Divider, Button, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { Asset } from 'expo-asset';
 
 import * as Constants from '../constants';
 import { SleeperLeague } from '../store/storeTypes';
-import { LeaguePlatform } from '../types';
 
 import { LeagueInfoListItem } from './LeagueInfoListItem';
 import { Color } from '../../common/styles/colors';
 
 type Props = {
-    platform: string;
     leagues: SleeperLeague[];
     isLoading: boolean;
     setIsOverlayVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +25,6 @@ type Props = {
 };
 
 export const LeagueModule = ({
-    platform,
     leagues,
     isLoading,
     setIsOverlayVisible,
@@ -28,29 +32,15 @@ export const LeagueModule = ({
 }: Props) => {
     const { navigate } = useNavigation();
 
-    const sleeperLogoUri = Asset.fromModule(
-        require('../../../assets/sleeper-logo.png')
-    ).uri;
-    const espnLogoUri = Asset.fromModule(
-        require('../../../assets/espn-logo.png')
-    ).uri;
-
     return (
         <View style={styles.container}>
-            <View style={styles.headerContainer}>
+            {/* <View style={styles.headerContainer}>
                 <Image
                     style={[
                         styles.leaguePlatformImageStyle,
-                        platform === LeaguePlatform.Sleeper
-                            ? styles.sleeperImageStyle
-                            : styles.espnImageStyle,
+                        styles.sleeperImageStyle,
                     ]}
-                    source={{
-                        uri:
-                            platform === LeaguePlatform.Sleeper
-                                ? sleeperLogoUri
-                                : espnLogoUri,
-                    }}
+                    source={{ uri: sleeperLogoUri }}
                 />
                 <Button
                     buttonStyle={styles.button}
@@ -59,9 +49,7 @@ export const LeagueModule = ({
                     title="Add League"
                     onPress={() => navigate('ImportSleeperLeagues')}
                 />
-            </View>
-
-            <Divider />
+            </View> */}
 
             <FlatList
                 contentContainerStyle={
@@ -105,6 +93,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         flex: 1,
+        position: 'relative',
     },
     emptyLeaguesContainer: {
         flex: 1,
@@ -138,10 +127,6 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     sleeperImageStyle: {
-        height: 50,
-    },
-    espnImageStyle: {
-        backgroundColor: Color.ESPNBackgroundColor,
         height: 50,
     },
     addLeagueButtonTitle: {

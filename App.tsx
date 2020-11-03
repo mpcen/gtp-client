@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { useFonts, BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue';
 
 import { store } from './src/store';
-import { Navigator } from './src/Navigator';
+import { Navigator } from './src/appNavigation/Navigator';
 
 export default () => {
     const [fontsLoaded] = useFonts({
