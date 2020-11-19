@@ -16,6 +16,7 @@ const INITIAL_STATE: AuthState = {
     isDataPreloaded: false,
     preloadedLeagues: {
         sleeper: [],
+        espn: [],
     },
     resetPassword: {
         fullUrl: '',
@@ -52,6 +53,7 @@ export const authReducer = (
                 currentUser: action.payload.currentUserInfo,
                 preloadedLeagues: {
                     sleeper: action.payload.userSleeperLeagues,
+                    espn: action.payload.userESPNLeagues,
                 },
             };
         // SIGN_UP

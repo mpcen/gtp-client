@@ -1,5 +1,10 @@
 import { LeagueActionTypes } from './actionTypes';
-import { SleeperLeague, ImportedSleeperLeague } from './storeTypes';
+import {
+    SleeperLeague,
+    ImportedSleeperLeague,
+    ESPNLeagueExternal,
+    ESPNLeague,
+} from './storeTypes';
 
 // FIND_SLEEPER_LEAGUES_FOR_USER
 type FindSleeperLeaguesForUser = {
@@ -19,6 +24,44 @@ type FindSleeperLeaguesForUserDispatchTypes =
     | FindSleeperLeaguesForUser
     | FindSleeperLeaguesForUser_success
     | FindSleeperLeaguesForUser_fail;
+
+// FIND_ESPN_LEAGUE
+type FindESPNLeague = {
+    type: LeagueActionTypes.FIND_ESPN_LEAGUE;
+};
+type FindESPNLeague_success = {
+    type: LeagueActionTypes.FIND_ESPN_LEAGUE_SUCCESS;
+    payload: ESPNLeagueExternal;
+};
+type FindESPNLeague_fail = {
+    type: LeagueActionTypes.FIND_ESPN_LEAGUE_FAIL;
+    payload: {
+        error: string;
+    };
+};
+type FindESPNLeagueDispatchTypes =
+    | FindESPNLeague
+    | FindESPNLeague_success
+    | FindESPNLeague_fail;
+
+// ADD_ESPN_LEAGUE
+type AddESPNLeague = {
+    type: LeagueActionTypes.ADD_ESPN_LEAGUE;
+};
+type AddESPNLeague_success = {
+    type: LeagueActionTypes.ADD_ESPN_LEAGUE_SUCCESS;
+    payload: ESPNLeague;
+};
+type AddESPNLeague_fail = {
+    type: LeagueActionTypes.ADD_ESPN_LEAGUE_FAIL;
+    payload: {
+        error: string;
+    };
+};
+type AddESPNLeagueDispatchTypes =
+    | AddESPNLeague
+    | AddESPNLeague_success
+    | AddESPNLeague_fail;
 
 // ADD_SLEEPER_LEAGUE
 type AddSleeperLeague = {
@@ -63,7 +106,10 @@ type RemoveSleeperLeagueDispatchTypes =
 // STORE_PRELOADED_LEAGUES
 type StorePreloadedLeagues = {
     type: LeagueActionTypes.STORE_PRELOADED_LEAGUES;
-    payload: SleeperLeague[];
+    payload: {
+        sleeperLeagues: SleeperLeague[];
+        espnLeagues: ESPNLeague[];
+    };
 };
 type StorePreloadedLeaguesDispatchTypes = StorePreloadedLeagues;
 
@@ -71,4 +117,6 @@ export type LeagueDispatchTypes =
     | FindSleeperLeaguesForUserDispatchTypes
     | AddSleeperLeagueDispatchTypes
     | RemoveSleeperLeagueDispatchTypes
-    | StorePreloadedLeaguesDispatchTypes;
+    | StorePreloadedLeaguesDispatchTypes
+    | FindESPNLeagueDispatchTypes
+    | AddESPNLeagueDispatchTypes;

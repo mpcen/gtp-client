@@ -43,6 +43,37 @@ export const findSleeperLeaguesForUser = (username: string) => {
     };
 };
 
+export const findESPNLeague = (leagueId: string, seasonId: string) => {
+    return async (dispatch: Dispatch<LeagueDispatchTypes>) => {
+        const token = await AsyncStorage.getItem('gtp-token');
+
+        dispatch({ type: LeagueActionTypes.FIND_ESPN_LEAGUE });
+
+        try {
+            const response = await axios.get(
+                `${API_URI}/api/findleague/espn?leagueId=${leagueId}&seasonId=${seasonId}`,
+                {
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            dispatch({
+                type: LeagueActionTypes.FIND_ESPN_LEAGUE_SUCCESS,
+                payload: response.data,
+            });
+        } catch (e) {
+            dispatch({
+                type: LeagueActionTypes.FIND_ESPN_LEAGUE_FAIL,
+                payload: {
+                    error: 'League not found',
+                },
+            });
+        }
+    };
+};
+
 export const addSleeperLeague = (leagueId: string) => {
     return async (dispatch: Dispatch<LeagueDispatchTypes>) => {
         const token = await AsyncStorage.getItem('gtp-token');
@@ -74,6 +105,34 @@ export const addSleeperLeague = (leagueId: string) => {
     };
 };
 
+export const addESPNLeague = (leagueId: string, seasonId: string) => {
+    return async (dispatch: Dispatch<LeagueDispatchTypes>) => {
+        const token = await AsyncStorage.getItem('gtp-token');
+
+        dispatch({ type: LeagueActionTypes.ADD_ESPN_LEAGUE });
+
+        try {
+            const response = await axios.post(
+                `${API_URI}/api/addleague/espn`,
+                { leagueId, seasonId },
+                { headers: { authorization: `Bearer ${token}` } }
+            );
+
+            dispatch({
+                type: LeagueActionTypes.ADD_ESPN_LEAGUE_SUCCESS,
+                payload: response.data,
+            });
+        } catch (e) {
+            dispatch({
+                type: LeagueActionTypes.ADD_ESPN_LEAGUE_FAIL,
+                payload: {
+                    error: 'Error adding ESPN league',
+                },
+            });
+        }
+    };
+};
+
 export const removeSleeperLeague = (leagueId: string) => {
     return async (dispatch: Dispatch<LeagueDispatchTypes>) => {
         const token = await AsyncStorage.getItem('gtp-token');
@@ -99,13 +158,4 @@ export const removeSleeperLeague = (leagueId: string) => {
             });
         }
     };
-};
-
-export const storePreloadedLeagues = (
-    preloadedSleeperLeagues: SleeperLeague[]
-) => async (dispatch: Dispatch<LeagueDispatchTypes>) => {
-    dispatch({
-        type: LeagueActionTypes.STORE_PRELOADED_LEAGUES,
-        payload: preloadedSleeperLeagues,
-    });
 };

@@ -1,30 +1,24 @@
 import React from 'react';
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-    Image,
-    TouchableOpacity,
-} from 'react-native';
-import { Divider, Button, Icon } from 'react-native-elements';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Asset } from 'expo-asset';
 
 import * as Constants from '../constants';
-import { SleeperLeague } from '../store/storeTypes';
+import { ESPNLeague, League, SleeperLeague } from '../store/storeTypes';
 
 import { LeagueInfoListItem } from './LeagueInfoListItem';
 import { Color } from '../../common/styles/colors';
+import { LeaguePlatform } from '../types';
 
 type Props = {
-    leagues: SleeperLeague[];
+    leaguePlatform: LeaguePlatform;
+    leagues: SleeperLeague[] | ESPNLeague[];
     isLoading: boolean;
     setIsOverlayVisible: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectedLeague: React.Dispatch<React.SetStateAction<SleeperLeague>>;
 };
 
 export const LeagueModule = ({
+    leaguePlatform,
     leagues,
     isLoading,
     setIsOverlayVisible,
@@ -34,37 +28,19 @@ export const LeagueModule = ({
 
     return (
         <View style={styles.container}>
-            {/* <View style={styles.headerContainer}>
-                <Image
-                    style={[
-                        styles.leaguePlatformImageStyle,
-                        styles.sleeperImageStyle,
-                    ]}
-                    source={{ uri: sleeperLogoUri }}
-                />
-                <Button
-                    buttonStyle={styles.button}
-                    titleStyle={styles.addLeagueButtonTitle}
-                    type="outline"
-                    title="Add League"
-                    onPress={() => navigate('ImportSleeperLeagues')}
-                />
-            </View> */}
-
             <FlatList
                 contentContainerStyle={
                     leagues.length ? null : styles.emptyLeaguesContainer
                 }
-                data={leagues}
-                keyExtractor={(item) => item.leagueId}
+                data={leagues as League[]}
+                keyExtractor={(item: SleeperLeague | ESPNLeague) =>
+                    item.leagueId
+                }
                 renderItem={({ item }) => (
                     <LeagueInfoListItem
-                        leagueName={item.leagueName}
-                        seasonId={item.seasonId}
-                        totalTeams={item.teams.length}
+                        league={item}
                         itemAdded={true}
                         icon="minus-circle"
-                        leagueAvatar={item.avatar}
                         onButtonPressCallback={() => {
                             setSelectedLeague(item);
                             setIsOverlayVisible(true);

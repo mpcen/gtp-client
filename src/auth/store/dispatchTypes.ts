@@ -1,5 +1,9 @@
 import { AuthActionTypes } from './actionTypes';
-import { SleeperLeague, UserLeagues } from '../../leagues/store/storeTypes';
+import {
+    ESPNLeague,
+    SleeperLeague,
+    UserLeagues,
+} from '../../leagues/store/storeTypes';
 import { CurrentUser } from './storeTypes';
 
 // RESOLVE_AUTH
@@ -23,6 +27,7 @@ type PreloadData_success = {
     payload: {
         currentUserInfo: CurrentUser;
         userSleeperLeagues: SleeperLeague[];
+        userESPNLeagues: ESPNLeague[];
     };
 };
 type PreloadData_fail = {

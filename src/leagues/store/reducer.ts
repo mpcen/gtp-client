@@ -10,8 +10,10 @@ const INITIAL_STATE: LeagueState = {
     importSleeperLeagues: {
         leagues: [],
     },
+    espnLeagueExternal: null,
     userLeagues: {
         sleeper: [],
+        espn: [],
     },
     isLoading: false,
     error: '',
@@ -65,6 +67,44 @@ export const leagueReducer = (
                 error: action.payload.error,
             };
 
+        // FIND_ESPN_LEAGUE
+        case LeagueActionTypes.FIND_ESPN_LEAGUE:
+            return {
+                ...state,
+                isLoading: true,
+            };
+
+        case LeagueActionTypes.FIND_ESPN_LEAGUE_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                error: '',
+                espnLeagueExternal: action.payload,
+            };
+
+        case LeagueActionTypes.FIND_ESPN_LEAGUE_FAIL:
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload.error,
+            };
+
+        // ADD_ESPN_LEAGUE
+        case LeagueActionTypes.ADD_ESPN_LEAGUE:
+            return {
+                ...state,
+            };
+
+        case LeagueActionTypes.ADD_ESPN_LEAGUE_SUCCESS:
+            return {
+                ...state,
+            };
+
+        case LeagueActionTypes.ADD_ESPN_LEAGUE_FAIL:
+            return {
+                ...state,
+            };
+
         // ADD_SLEEPER_LEAGUE
         case LeagueActionTypes.ADD_SLEEPER_LEAGUE:
             return {
@@ -92,6 +132,7 @@ export const leagueReducer = (
                     leagues: [...updatedImportSleeperLeagues],
                 },
                 userLeagues: {
+                    ...state.userLeagues,
                     sleeper: [...state.userLeagues.sleeper, action.payload],
                 },
                 error: '',
@@ -136,6 +177,7 @@ export const leagueReducer = (
                 ...state,
                 isLoading: false,
                 userLeagues: {
+                    ...state.userLeagues,
                     sleeper: filteredSleeperLeagues,
                 },
                 importSleeperLeagues: {
@@ -156,7 +198,9 @@ export const leagueReducer = (
             return {
                 ...state,
                 userLeagues: {
-                    sleeper: action.payload,
+                    ...state.userLeagues,
+                    sleeper: action.payload.sleeperLeagues,
+                    espn: action.payload.espnLeagues,
                 },
             };
 

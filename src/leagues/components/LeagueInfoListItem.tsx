@@ -1,13 +1,13 @@
+import { Asset } from 'expo-asset';
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Avatar } from 'react-native-elements';
 import { Color } from '../../common/styles/colors';
+import { ESPNLeague, SleeperLeague } from '../store/storeTypes';
+import { LeaguePlatform } from '../types';
 
 type Props = {
-    leagueName: string;
-    seasonId: string;
-    totalTeams: string | number;
-    leagueAvatar: string;
+    league: SleeperLeague | ESPNLeague;
     itemAdded?: boolean;
     isLoading?: boolean;
     icon?: string;
@@ -15,19 +15,21 @@ type Props = {
     onButtonPressCallback?: () => void;
 };
 
+const espnAvatarUrl = Asset.fromModule(
+    require('../../../assets/espn-ff-thumb.png')
+).uri;
+
 export const LeagueInfoListItem = ({
-    leagueName,
-    seasonId,
-    totalTeams,
+    league,
     itemAdded,
-    leagueAvatar,
     isLoading,
     onItemPressCallback,
     onButtonPressCallback,
 }: Props) => {
-    const avatarUrl = leagueAvatar
-        ? `https://sleepercdn.com/avatars/thumbs/${leagueAvatar}`
-        : 'https://sleepercdn.com/images/v2/icons/league/league_avatar_mint.png';
+    const sleeperAvatarUrl: string =
+        leaguePlatform === LeaguePlatform.Sleeper && sleeperLeagueAvatar
+            ? `https://sleepercdn.com/avatars/thumbs/${sleeperLeagueAvatar}`
+            : 'https://sleepercdn.com/images/v2/icons/league/league_avatar_mint.png';
 
     return (
         <View style={styles.itemContainer}>
@@ -38,9 +40,16 @@ export const LeagueInfoListItem = ({
             >
                 <Avatar
                     containerStyle={{ marginRight: 4 }}
-                    rounded={leagueAvatar?.length > 0}
+                    rounded={
+                        leaguePlatform === LeaguePlatform.Sleeper
+                            ? sleeperLeagueAvatar!.length > 0
+                            : true
+                    }
                     source={{
-                        uri: avatarUrl,
+                        uri:
+                            leaguePlatform === LeaguePlatform.Sleeper
+                                ? sleeperAvatarUrl
+                                : espnAvatarUrl,
                     }}
                 />
                 <View>

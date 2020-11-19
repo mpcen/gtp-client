@@ -1,3 +1,5 @@
+import { LeagueModule } from '../components/LeagueModule';
+
 export type SleeperLeagueMember = {
     memberId: string;
     displayName: string;
@@ -56,15 +58,68 @@ export type SleeperLeague = {
     matchups: SleeperLeagueMatchup[];
 };
 
+export type ESPNLeague = {
+    leagueId: string;
+    seasonId: string;
+    leagueName: string;
+    currentSeasonWeek: number;
+    currentLeagueWeek: number;
+    playoffWeekStart: number;
+    lastRegularSeasonWeek: number;
+    totalLeagueWeeks: number;
+    members: ESPNLeagueMember[];
+    teams: ESPNLeagueTeam[];
+    matchups: ESPNLeagueMatchup[];
+};
+
+export type League = SleeperLeague | ESPNLeague;
+
+export type ESPNLeagueMember = {
+    id: string;
+    displayName: string;
+    isLeagueManager: boolean;
+};
+
+export type ESPNLeagueTeam = {
+    id: number;
+    nickname: string;
+    location: string;
+    abbrev: string;
+    owners: string[];
+};
+
+export type ESPNLeagueMatchup = {
+    matchupId: number;
+    matchupWeek: number;
+    winner: string;
+    away: {
+        teamId: number;
+        totalPoints: string;
+    };
+    home: {
+        teamId: number;
+        totalPoints: string;
+    };
+};
+
 export type UserLeagues = {
     sleeper: SleeperLeague[];
+    espn: ESPNLeague[];
 };
 
 export type LeagueState = {
     importSleeperLeagues: {
         leagues: ImportedSleeperLeague[];
     };
+    espnLeagueExternal: ESPNLeagueExternal | null;
     userLeagues: UserLeagues;
     isLoading: boolean;
     error: string;
+};
+
+export type ESPNLeagueExternal = {
+    id: number;
+    seasonId: number;
+    settings: { name: string };
+    teams: { id: number }[];
 };

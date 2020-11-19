@@ -2,132 +2,186 @@ import React, { useState } from 'react';
 import {
     View,
     Text,
-    ActivityIndicator,
     Keyboard,
     TextInput,
     StyleSheet,
     FlatList,
     SafeAreaView,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from 'react-native-elements';
+import { Button, Icon, ListItem, Overlay } from 'react-native-elements';
 
 import { RootState } from '../../../store/rootReducer';
 import { ImportedSleeperLeague } from '../../store/storeTypes';
 import {
-    findSleeperLeaguesForUser,
-    addSleeperLeague,
     removeSleeperLeague,
+    findESPNLeague,
 } from '../../store/actionCreators';
 
 import { RemoveLeagueOverlay } from '../../components/RemoveLeagueOverlay';
 import { LeagueInfoListItem } from '../../components/LeagueInfoListItem';
 import { Color } from '../../../common/styles/colors';
+import { Font } from '../../../common/fonts/fonts';
+import { OverlayTypes } from '../../../garbageTimeMatchups/types';
+import { LeaguePlatform } from '../../types';
 
 export const ImportESPNLeaguesScreen = () => {
-    const [username, setUsername] = useState('');
-    const dispatch = useDispatch();
-    const { importSleeperLeagues, isLoading, error } = useSelector(
-        (state: RootState) => state.leagues
-    );
-    const [isOverlayVisible, setIsOverlayVisible] = useState(false);
+    // state
+    const [leagueId, setLeagueId] = useState('');
     const [selectedLeague, setSelectedLeague] = useState(
         {} as ImportedSleeperLeague
     );
-    const [textInputFocused, setTextInputFocused] = useState(false);
+    const [overlay, setOverlay] = useState(OverlayTypes.None);
+    const [seasonId, setSeasonId] = useState('');
+
+    // store
+    const dispatch = useDispatch();
+    const { isLoading, error, espnLeagueExternal } = useSelector(
+        (state: RootState) => state.leagues
+    );
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.searchContainer}>
-                <View style={styles.textInputContainer}>
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="Enter ESPN League ID"
-                        value={username}
-                        onChangeText={setUsername}
-                        onFocus={() => setTextInputFocused(true)}
-                        onBlur={() => setTextInputFocused(false)}
-                        onSubmitEditing={() => {
-                            Keyboard.dismiss();
-                            if (username) {
-                                dispatch(findSleeperLeaguesForUser(username));
-                            }
-                        }}
-                    />
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.dismissableContainer}>
+                    <View style={styles.searchContainer}>
+                        {/* LEAGUE ID */}
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder="Enter ESPN League ID"
+                            value={leagueId}
+                            keyboardType="number-pad"
+                            onChangeText={setLeagueId}
+                            onSubmitEditing={() => {
+                                Keyboard.dismiss();
+                                if (leagueId) {
+                                    dispatch(
+                                        findESPNLeague(leagueId, seasonId)
+                                    );
+                                }
+                            }}
+                        />
 
-                    {isLoading && (
-                        <ActivityIndicator
-                            style={styles.searchSpinner}
-                            size="small"
+                        {/* SEASON */}
+                        <TouchableOpacity
+                            style={styles.seasonDropdownContainer}
+                            onPress={() => {
+                                setOverlay(OverlayTypes.YearSelect);
+                                Keyboard.dismiss();
+                            }}
+                        >
+                            <Text style={styles.seasonText}>
+                                {seasonId ? seasonId : 'Season'}
+                            </Text>
+
+                            <Icon name="menu-down" type="material-community" />
+                        </TouchableOpacity>
+
+                        {/* CLEAR LEAGUE ID BUTTON */}
+                        {leagueId && !isLoading ? (
+                            <Button
+                                iconContainerStyle={
+                                    styles.clearButtonIconContainer
+                                }
+                                style={styles.clearButtonStyle}
+                                containerStyle={[
+                                    styles.clearButtonContainer,
+                                    seasonId
+                                        ? styles.clearButtonContainerSearchable
+                                        : null,
+                                ]}
+                                type="clear"
+                                icon={{
+                                    name: 'close',
+                                    type: 'material-community',
+                                    size: 12,
+                                    color: Color.PureWhite,
+                                }}
+                                onPress={() => setLeagueId('')}
+                            />
+                        ) : null}
+
+                        {/* SEARCH BUTTON */}
+                        {leagueId && seasonId && !isLoading ? (
+                            <Button
+                                containerStyle={styles.searchButtonContainer}
+                                buttonStyle={styles.searchButtonStyle}
+                                title="Search"
+                                onPress={() => {
+                                    Keyboard.dismiss();
+                                    dispatch(
+                                        findESPNLeague(leagueId, seasonId)
+                                    );
+                                }}
+                            />
+                        ) : null}
+                    </View>
+
+                    {/* ERROR TEXT */}
+                    {error ? (
+                        <View style={styles.errorTextContainer}>
+                            <Text testID="text-error" style={styles.errorText}>
+                                {error}
+                            </Text>
+                        </View>
+                    ) : null}
+
+                    {/* LEAGUE ITEM */}
+                    {espnLeagueExternal && (
+                        <LeagueInfoListItem
+                            leagueName={espnLeagueExternal.settings.name}
+                            seasonId={espnLeagueExternal.seasonId.toString()}
+                            leaguePlatform={LeaguePlatform.ESPN}
+                            totalTeams={espnLeagueExternal.teams.length}
+                            itemAdded={false}
+                            icon={'plus-circle'}
+                            isLoading={isLoading}
+                            onButtonPressCallback={() => null}
                         />
                     )}
-
-                    {username && !isLoading ? (
-                        <Button
-                            iconContainerStyle={styles.closeButtonIconContainer}
-                            style={styles.clearButtonStyle}
-                            containerStyle={styles.clearButtonContainer}
-                            type="clear"
-                            icon={{
-                                name: 'close',
-                                type: 'material-community',
-                                size: 12,
-                                color: Color.PureWhite,
-                            }}
-                            onPress={() => setUsername('')}
-                        />
-                    ) : null}
                 </View>
+            </TouchableWithoutFeedback>
 
-                {textInputFocused && (
-                    <Button
-                        containerStyle={styles.cancelButtonContainerStyle}
-                        type="clear"
-                        title="Cancel"
-                        titleStyle={styles.cancelButtonTitle}
-                        onPress={() => Keyboard.dismiss()}
-                    />
-                )}
-            </View>
-            {error ? (
-                <View style={styles.errorTextContainer}>
-                    <Text testID="text-error" style={styles.errorText}>
-                        {error}
-                    </Text>
-                </View>
-            ) : null}
-            <FlatList
-                data={importSleeperLeagues.leagues}
-                keyExtractor={({ leagueId }) => leagueId}
-                renderItem={({ item }: { item: ImportedSleeperLeague }) => (
-                    <LeagueInfoListItem
-                        leagueName={item.name}
-                        seasonId={item.seasonId}
-                        totalTeams={item.totalTeams}
-                        itemAdded={item.added}
-                        icon={item.added ? 'minus-circle' : 'plus-circle'}
-                        leagueAvatar={item.avatar || ''}
-                        isLoading={isLoading}
-                        onButtonPressCallback={() => {
-                            if (item.added) {
-                                setIsOverlayVisible(true);
-                                setSelectedLeague(item);
-                            } else {
-                                dispatch(addSleeperLeague(item.leagueId));
-                            }
-                        }}
-                    />
-                )}
-            />
+            {/* OVERLAYS */}
             <RemoveLeagueOverlay
                 selectedLeague={{
                     leagueId: selectedLeague.leagueId,
                     leagueName: selectedLeague.name,
                 }}
-                isOverlayVisible={isOverlayVisible}
+                isOverlayVisible={overlay === OverlayTypes.RemoveLeague}
                 removeSleeperLeague={removeSleeperLeague}
-                setIsOverlayVisible={setIsOverlayVisible}
+                setIsOverlayVisible={() =>
+                    setOverlay(OverlayTypes.RemoveLeague)
+                }
             />
+
+            <Overlay
+                overlayStyle={styles.seasonOverlay}
+                isVisible={overlay === OverlayTypes.YearSelect}
+                onBackdropPress={() => setOverlay(OverlayTypes.None)}
+            >
+                <FlatList
+                    data={new Array(17)
+                        .fill('')
+                        .map((_, i) => (2004 + i).toString())
+                        .reverse()}
+                    keyExtractor={(item) => item}
+                    renderItem={({ item }: { item: string }) => (
+                        <ListItem
+                            titleStyle={styles.seasonListItem}
+                            key={item}
+                            bottomDivider
+                            title={item}
+                            onPress={() => {
+                                setSeasonId(item);
+                                setOverlay(OverlayTypes.None);
+                            }}
+                        />
+                    )}
+                />
+            </Overlay>
         </SafeAreaView>
     );
 };
@@ -146,11 +200,6 @@ const styles = StyleSheet.create({
         marginLeft: 12,
         marginRight: 12,
     },
-    textInputContainer: {
-        flex: 1,
-        height: 40,
-        justifyContent: 'center',
-    },
     textInput: {
         flex: 1,
         height: 40,
@@ -159,37 +208,58 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         fontFamily: 'BebasNeue_400Regular',
     },
+    clearButtonIconContainer: {
+        borderRadius: 10,
+        backgroundColor: Color.CancelGray,
+        padding: 3,
+    },
     clearButtonStyle: {
         flex: 1,
         justifyContent: 'center',
     },
     clearButtonContainer: {
         position: 'absolute',
-        right: 0,
+        right: 106,
         top: 0,
         bottom: 0,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
     },
+    clearButtonContainerSearchable: {
+        right: 208,
+    },
     errorTextContainer: {
         alignItems: 'center',
     },
     errorText: { color: 'red' },
-    cancelButtonContainerStyle: { marginLeft: 12 },
-    searchSpinner: {
-        position: 'absolute',
-        right: 12,
-        bottom: 0,
-        top: 0,
+    seasonDropdownContainer: {
+        height: '100%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 90,
+        marginLeft: 16,
     },
-    closeButtonIconContainer: {
-        borderRadius: 10,
-        backgroundColor: Color.CancelGray,
-        padding: 3,
+    seasonText: {
+        fontFamily: Font.BebasNeue_400Regular,
+        fontSize: 20,
     },
-    cancelButtonTitle: {
-        color: Color.MainBlack,
-        fontFamily: 'BebasNeue_400Regular',
+    seasonListItem: {
+        fontSize: 20,
+        textAlign: 'center',
+        width: '100%',
+        fontFamily: Font.BebasNeue_400Regular,
+    },
+    seasonOverlay: {
+        width: 200,
+        height: 400,
+        justifyContent: 'center',
+    },
+    dismissableContainer: { flex: 1 },
+    searchButtonContainer: { width: 86, marginLeft: 16 },
+    searchButtonStyle: {
+        backgroundColor: Color.ActiveBlue,
+        height: 40,
     },
 });
