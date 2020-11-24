@@ -4,20 +4,14 @@ import {
     StyleSheet,
     SafeAreaView,
     Text,
-    FlatList,
     ActivityIndicator,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Divider, Overlay } from 'react-native-elements';
-import { TabView, SceneMap } from 'react-native-tab-view';
 
 import * as constants from './constants';
 import { RootState } from '../store/rootReducer';
-import {
-    ESPNLeague,
-    SleeperLeague,
-    SleeperLeagueTeam,
-} from '../leagues/store/storeTypes';
+import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
 import { useMemberMap } from './hooks/useMemberMap';
 import { useGarbageTimeMatchups } from './hooks/useGarbageTimeMatchups';
 import { OverlayTypes } from './types';
@@ -25,7 +19,6 @@ import { OverlayTypes } from './types';
 import { GarbageTimeMatchupsTeamHeader } from './components/h2hGTM/GarbageTimeMatchupsTeamHeader';
 import { GarbageTimeTeamSelectList } from './components/h2hGTM/GarbageTimeTeamSelectList';
 import { GarbageTimeMatchupsList } from './components/h2hGTM/GarbageTimeMatchupsList';
-import { LeagueInfoListItem } from '../leagues/components/LeagueInfoListItem';
 import { GarbageTimeMatchupsLeaguePicker } from './components/GarbageTimeMatchupsLeaguePicker';
 import { GarbageTimeMatchupsCompareSelector } from './components/GarbageTimeMatchupsCompareSelector';
 import { GarbageTimeMatchupsTeamPicker } from './components/soloGTM/GarbageTimeMatchupTeamPicker';
@@ -36,7 +29,6 @@ import { GarbageTimeMatchupsLeagueSelectOverlay } from './components/leagueSelec
 
 export const GarbageTimeMatchupsScreen = () => {
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
-    const [selectedLeagueId, setSelectedLeagueId] = useState('');
     const [selectedLeague, setSelectedLeague] = useState({} as SleeperLeague);
     const [team1, setTeam1] = useState({} as SleeperLeagueTeam);
     const [team2, setTeam2] = useState({} as SleeperLeagueTeam);
@@ -54,13 +46,14 @@ export const GarbageTimeMatchupsScreen = () => {
         if (userLeagues.sleeper.length) {
             const defaultSelectedLeague = userLeagues.sleeper[0];
 
-            setSelectedLeagueId(defaultSelectedLeague.leagueId);
             setSelectedLeague(defaultSelectedLeague);
             setTeam1(defaultSelectedLeague.teams[0]);
             setTeam2(defaultSelectedLeague.teams[1]);
             setSoloTeam(defaultSelectedLeague.teams[0]);
-        } else if (!userLeagues.sleeper.length && selectedLeagueId) {
-            setSelectedLeagueId('');
+        } else if (
+            !userLeagues.sleeper.length &&
+            Object.keys(selectedLeague).length
+        ) {
             setSelectedLeague({} as SleeperLeague);
             setTeam1({} as SleeperLeagueTeam);
             setTeam2({} as SleeperLeagueTeam);
@@ -69,17 +62,17 @@ export const GarbageTimeMatchupsScreen = () => {
     }, [userLeagues.sleeper]);
 
     useEffect(() => {
-        if (selectedLeagueId && userLeagues.sleeper.length) {
-            const selectedLeague: SleeperLeague = userLeagues.sleeper.find(
-                (league) => league.leagueId === selectedLeagueId
+        if (Object.keys(selectedLeague).length && userLeagues.sleeper.length) {
+            const updatedSelectedLeague: SleeperLeague = userLeagues.sleeper.find(
+                (league) => league.leagueId === selectedLeague.leagueId
             )!;
 
-            setSelectedLeague(selectedLeague);
+            setSelectedLeague(updatedSelectedLeague);
             setTeam1(selectedLeague.teams[0]);
             setTeam2(selectedLeague.teams[1]);
             setSoloTeam(selectedLeague.teams[0]);
         }
-    }, [selectedLeagueId]);
+    }, [selectedLeague]);
 
     const {
         team1GTMResults,
@@ -100,7 +93,7 @@ export const GarbageTimeMatchupsScreen = () => {
     }
 
     // RENDER EMPTY LEAGUES
-    if (!userLeagues.sleeper.length || !selectedLeague || !selectedLeagueId) {
+    if (!userLeagues.sleeper.length || !Object.keys(selectedLeague).length) {
         return (
             <View style={styles.emptyContainer}>
                 <Text style={styles.emptyContainerText}>
@@ -115,7 +108,7 @@ export const GarbageTimeMatchupsScreen = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.leagueHeaderContainer}>
                 <GarbageTimeMatchupsLeaguePicker
-                    selectedLeagueId={selectedLeagueId}
+                    selectedLeague={selectedLeague}
                     userLeagues={userLeagues}
                     setOverlay={setOverlay}
                 />

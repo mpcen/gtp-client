@@ -3,22 +3,22 @@ import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 
 import { OverlayTypes } from '../types';
-import { UserLeagues } from '../../leagues/store/storeTypes';
+import { SleeperLeague, UserLeagues } from '../../leagues/store/storeTypes';
 import { Color } from '../../common/styles/colors';
 
 type Props = {
-    selectedLeagueId: string;
+    selectedLeague: SleeperLeague;
     userLeagues: UserLeagues;
     setOverlay: React.Dispatch<SetStateAction<OverlayTypes>>;
 };
 
 export const GarbageTimeMatchupsLeaguePicker = ({
-    selectedLeagueId,
+    selectedLeague,
     userLeagues,
     setOverlay,
 }: Props) => {
     const league = userLeagues.sleeper.find(
-        (userLeague) => userLeague.leagueId === selectedLeagueId
+        (userLeague) => userLeague.leagueId === selectedLeague.leagueId
     );
 
     const avatarUrl = league?.avatar

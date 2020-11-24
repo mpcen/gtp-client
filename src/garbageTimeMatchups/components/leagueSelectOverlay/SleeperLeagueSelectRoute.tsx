@@ -19,6 +19,7 @@ export const SleeperLeagueSelectRoute = ({ leagues }: Props) => (
                     leagueAvatar={item.avatar}
                     totalTeams={item.teams.length}
                     isLoading={false}
+                    // onItemPressCallback={}
                 />
             )}
         />
