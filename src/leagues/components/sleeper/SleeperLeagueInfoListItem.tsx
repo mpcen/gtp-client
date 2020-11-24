@@ -8,9 +8,9 @@ type Props = {
     leagueName: string;
     seasonId: string;
     totalTeams: number;
-    itemAdded: boolean | undefined;
     isLoading: boolean;
     leagueAvatar: string;
+    itemAdded?: boolean;
     onItemPressCallback?: () => void;
     onButtonPressCallback?: () => void;
 };
@@ -38,7 +38,7 @@ export const SleeperLeagueInfoListItem = ({
             >
                 <Avatar
                     containerStyle={styles.avatarContainerStyle}
-                    rounded={leagueAvatar!.length > 0}
+                    rounded={leagueAvatar?.length > 0}
                     source={{ uri: avatarUrl }}
                 />
                 <View>

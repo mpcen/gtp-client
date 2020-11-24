@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Divider, Overlay } from 'react-native-elements';
+import { TabView, SceneMap } from 'react-native-tab-view';
 
 import * as constants from './constants';
 import { RootState } from '../store/rootReducer';
@@ -31,6 +32,7 @@ import { GarbageTimeMatchupsTeamPicker } from './components/soloGTM/GarbageTimeM
 import { Color } from '../common/styles/colors';
 import { Font } from '../common/fonts/fonts';
 import { GarbageTimeMatchupsListSolo } from './components/soloGTM/GarbageTimeMatchupsListSolo';
+import { GarbageTimeMatchupsLeagueSelectOverlay } from './components/leagueSelectOverlay/GarbageTimeMatchupsLeagueSelectOverlay';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
@@ -193,32 +195,11 @@ export const GarbageTimeMatchupsScreen = () => {
 
             {/* OVERLAYS */}
             {/* LEAGUE SELECT */}
-            <Overlay
-                overlayStyle={styles.leagueSelectOverlayStyle}
-                isVisible={overlay === OverlayTypes.LeagueSelect}
-                onBackdropPress={() => setOverlay(OverlayTypes.None)}
-            >
-                <FlatList
-                    data={[...userLeagues.sleeper, ...userLeagues.espn]}
-                    keyExtractor={(item) => item.leagueId}
-                    renderItem={({
-                        item,
-                    }: {
-                        item: SleeperLeague | ESPNLeague;
-                    }) => (
-                        <LeagueInfoListItem
-                            leagueName={item.leagueName}
-                            seasonId={item.seasonId}
-                            totalTeams={item.teams.length}
-                            leagueAvatar={''}
-                            onItemPressCallback={() => {
-                                setSelectedLeagueId(item.leagueId);
-                                setOverlay(OverlayTypes.None);
-                            }}
-                        />
-                    )}
-                />
-            </Overlay>
+            <GarbageTimeMatchupsLeagueSelectOverlay
+                overlay={overlay}
+                userLeagues={userLeagues}
+                setOverlay={setOverlay}
+            />
 
             {/* TEAM SELECT */}
             <Overlay
