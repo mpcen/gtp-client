@@ -5,7 +5,7 @@ import Constants from 'expo-constants';
 
 import { LeagueActionTypes } from './actionTypes';
 import { LeagueDispatchTypes } from './dispatchTypes';
-import { ImportedSleeperLeague, SleeperLeague } from './storeTypes';
+import { SleeperLeagueExternal } from './storeTypes';
 
 const { API_URI } = Constants.manifest.extra;
 
@@ -27,7 +27,7 @@ export const findSleeperLeaguesForUser = (username: string) => {
 
             dispatch({
                 type: LeagueActionTypes.FIND_SLEEPER_LEAGUES_FOR_USER_SUCCESS,
-                payload: response.data.map((league: ImportedSleeperLeague) => ({
+                payload: response.data.map((league: SleeperLeagueExternal) => ({
                     ...league,
                     added: false,
                 })),
@@ -154,6 +154,34 @@ export const removeSleeperLeague = (leagueId: string) => {
                 type: LeagueActionTypes.REMOVE_SLEEPER_LEAGUE_FAIL,
                 payload: {
                     error: 'Error removing Sleeper league',
+                },
+            });
+        }
+    };
+};
+
+export const removeESPNLeague = (leagueId: string, seasonId: string) => {
+    return async (dispatch: Dispatch<LeagueDispatchTypes>) => {
+        const token = await AsyncStorage.getItem('gtp-token');
+
+        dispatch({ type: LeagueActionTypes.REMOVE_ESPN_LEAGUE });
+
+        try {
+            await axios.delete(`${API_URI}/api/removeleague/espn`, {
+                headers: { authorization: `Bearer ${token}` },
+                data: { leagueId, seasonId },
+            });
+
+            dispatch({
+                type: LeagueActionTypes.REMOVE_ESPN_LEAGUE_SUCCESS,
+                payload: { leagueId, seasonId },
+            });
+        } catch (e) {
+            debugger;
+            dispatch({
+                type: LeagueActionTypes.REMOVE_ESPN_LEAGUE_FAIL,
+                payload: {
+                    error: 'Error removing ESPN league',
                 },
             });
         }

@@ -1,32 +1,21 @@
-import { Asset } from 'expo-asset';
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Avatar } from 'react-native-elements';
-import { Color } from '../../common/styles/colors';
-import {
-    ESPNLeague,
-    ESPNLeagueExternal,
-    SleeperLeagueExternal,
-    SleeperLeague,
-} from '../store/storeTypes';
-import { LeaguePlatform } from '../types';
+import { Asset } from 'expo-asset';
+
+import { Color } from '../../../common/styles/colors';
 
 type Props = {
     leagueName: string;
     seasonId: string;
     totalTeams: number;
-    itemAdded?: boolean;
-    leagueAvatar?: string;
-    isLoading?: boolean;
+    itemAdded: boolean | undefined;
+    isLoading: boolean;
     onItemPressCallback?: () => void;
     onButtonPressCallback?: () => void;
 };
 
-const espnAvatarUrl = Asset.fromModule(
-    require('../../../assets/espn-ff-thumb.png')
-).uri;
-
-export const LeagueInfoListItem = ({
+export const ESPNLeagueInfoListItem = ({
     leagueName,
     seasonId,
     totalTeams,
@@ -35,31 +24,21 @@ export const LeagueInfoListItem = ({
     onItemPressCallback,
     onButtonPressCallback,
 }: Props) => {
-    // const sleeperAvatarUrl: string =
-    //     leaguePlatform === LeaguePlatform.Sleeper && sleeperLeagueAvatar
-    //         ? `https://sleepercdn.com/avatars/thumbs/${sleeperLeagueAvatar}`
-    //         : 'https://sleepercdn.com/images/v2/icons/league/league_avatar_mint.png';
+    const espnAvatarUrl = Asset.fromModule(
+        require('../../../../assets/espn-ff-thumb.png')
+    ).uri;
 
     return (
         <View style={styles.itemContainer}>
-            {/* <TouchableOpacity
+            <TouchableOpacity
                 style={styles.teamInfoContainer}
                 disabled={onItemPressCallback === undefined}
                 onPress={onItemPressCallback}
             >
                 <Avatar
-                    containerStyle={{ marginRight: 4 }}
-                    rounded={
-                        leaguePlatform === LeaguePlatform.Sleeper
-                            ? sleeperLeagueAvatar!.length > 0
-                            : true
-                    }
-                    source={{
-                        uri:
-                            leaguePlatform === LeaguePlatform.Sleeper
-                                ? sleeperAvatarUrl
-                                : espnAvatarUrl,
-                    }}
+                    containerStyle={styles.avatarContainerStyle}
+                    rounded={true}
+                    source={{ uri: espnAvatarUrl }}
                 />
                 <View>
                     <Text>{leagueName}</Text>
@@ -82,10 +61,7 @@ export const LeagueInfoListItem = ({
                             : Color.AddLeagueGreen,
                     }}
                 />
-            )} */}
-            <Text>{leagueName}</Text>
-            <Text>{seasonId}</Text>
-            <Text>{totalTeams}</Text>
+            )}
         </View>
     );
 };
@@ -106,4 +82,5 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
     },
+    avatarContainerStyle: { marginRight: 4 },
 });

@@ -14,27 +14,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Icon, ListItem, Overlay } from 'react-native-elements';
 
 import { RootState } from '../../../store/rootReducer';
-import { ImportedSleeperLeague } from '../../store/storeTypes';
-import {
-    removeSleeperLeague,
-    findESPNLeague,
-} from '../../store/actionCreators';
+import { findESPNLeague, addESPNLeague } from '../../store/actionCreators';
 
 import { RemoveLeagueOverlay } from '../../components/RemoveLeagueOverlay';
-import { LeagueInfoListItem } from '../../components/LeagueInfoListItem';
 import { Color } from '../../../common/styles/colors';
 import { Font } from '../../../common/fonts/fonts';
 import { OverlayTypes } from '../../../garbageTimeMatchups/types';
+import { ESPNLeagueInfoListItem } from '../../components/espn/ESPNLeagueInfoListItem';
 import { LeaguePlatform } from '../../types';
+import { ESPNLeagueExternal } from '../../store/storeTypes';
 
 export const ImportESPNLeaguesScreen = () => {
     // state
     const [leagueId, setLeagueId] = useState('');
+    const [seasonId, setSeasonId] = useState('');
     const [selectedLeague, setSelectedLeague] = useState(
-        {} as ImportedSleeperLeague
+        {} as ESPNLeagueExternal
     );
     const [overlay, setOverlay] = useState(OverlayTypes.None);
-    const [seasonId, setSeasonId] = useState('');
 
     // store
     const dispatch = useDispatch();
@@ -128,60 +125,77 @@ export const ImportESPNLeaguesScreen = () => {
                         </View>
                     ) : null}
 
-                    {/* LEAGUE ITEM */}
-                    {espnLeagueExternal && (
-                        <LeagueInfoListItem
+                    {/* LEAGUE LIST ITEM */}
+                    {espnLeagueExternal?.id && (
+                        <ESPNLeagueInfoListItem
                             leagueName={espnLeagueExternal.settings.name}
                             seasonId={espnLeagueExternal.seasonId.toString()}
-                            leaguePlatform={LeaguePlatform.ESPN}
                             totalTeams={espnLeagueExternal.teams.length}
-                            itemAdded={false}
-                            icon={'plus-circle'}
                             isLoading={isLoading}
-                            onButtonPressCallback={() => null}
+                            itemAdded={espnLeagueExternal.added}
+                            onButtonPressCallback={() => {
+                                if (espnLeagueExternal.added) {
+                                    setOverlay(OverlayTypes.RemoveLeague);
+                                    setSelectedLeague(espnLeagueExternal);
+                                } else {
+                                    dispatch(
+                                        addESPNLeague(
+                                            espnLeagueExternal.id.toString(),
+                                            espnLeagueExternal.seasonId.toString()
+                                        )
+                                    );
+                                }
+                            }}
                         />
                     )}
                 </View>
             </TouchableWithoutFeedback>
 
             {/* OVERLAYS */}
-            <RemoveLeagueOverlay
-                selectedLeague={{
-                    leagueId: selectedLeague.leagueId,
-                    leagueName: selectedLeague.name,
-                }}
-                isOverlayVisible={overlay === OverlayTypes.RemoveLeague}
-                removeSleeperLeague={removeSleeperLeague}
-                setIsOverlayVisible={() =>
-                    setOverlay(OverlayTypes.RemoveLeague)
-                }
-            />
-
-            <Overlay
-                overlayStyle={styles.seasonOverlay}
-                isVisible={overlay === OverlayTypes.YearSelect}
-                onBackdropPress={() => setOverlay(OverlayTypes.None)}
-            >
-                <FlatList
-                    data={new Array(17)
-                        .fill('')
-                        .map((_, i) => (2004 + i).toString())
-                        .reverse()}
-                    keyExtractor={(item) => item}
-                    renderItem={({ item }: { item: string }) => (
-                        <ListItem
-                            titleStyle={styles.seasonListItem}
-                            key={item}
-                            bottomDivider
-                            title={item}
-                            onPress={() => {
-                                setSeasonId(item);
-                                setOverlay(OverlayTypes.None);
-                            }}
-                        />
-                    )}
+            {overlay === OverlayTypes.RemoveLeague && (
+                <RemoveLeagueOverlay
+                    leaguePlatform={LeaguePlatform.ESPN}
+                    league={{
+                        leagueId: selectedLeague.id.toString(),
+                        seasonId: selectedLeague.seasonId.toString(),
+                        leagueName: selectedLeague.settings.name,
+                    }}
+                    isOverlayVisible={overlay === OverlayTypes.RemoveLeague}
+                    closeOverlay={() => setOverlay(OverlayTypes.None)}
                 />
-            </Overlay>
+            )}
+
+            {overlay === OverlayTypes.YearSelect && (
+                <Overlay
+                    overlayStyle={styles.seasonOverlay}
+                    isVisible={overlay === OverlayTypes.YearSelect}
+                    onBackdropPress={() => setOverlay(OverlayTypes.None)}
+                >
+                    <FlatList
+                        data={new Array(17)
+                            .fill('')
+                            .map((_, i) => (2004 + i).toString())
+                            .reverse()}
+                        keyExtractor={(item) => item}
+                        renderItem={({ item }: { item: string }) => (
+                            <ListItem
+                                key={item}
+                                bottomDivider
+                                onPress={() => {
+                                    setSeasonId(item);
+                                    setOverlay(OverlayTypes.None);
+                                }}
+                            >
+                                <ListItem.Title
+                                    style={styles.seasonListItemTitle}
+                                >
+                                    {item}
+                                </ListItem.Title>
+                            </ListItem>
+                        )}
+                    />
+                </Overlay>
+            )}
         </SafeAreaView>
     );
 };
@@ -245,7 +259,7 @@ const styles = StyleSheet.create({
         fontFamily: Font.BebasNeue_400Regular,
         fontSize: 20,
     },
-    seasonListItem: {
+    seasonListItemTitle: {
         fontSize: 20,
         textAlign: 'center',
         width: '100%',

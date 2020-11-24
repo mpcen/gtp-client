@@ -12,7 +12,11 @@ import { Divider, Overlay } from 'react-native-elements';
 
 import * as constants from './constants';
 import { RootState } from '../store/rootReducer';
-import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
+import {
+    ESPNLeague,
+    SleeperLeague,
+    SleeperLeagueTeam,
+} from '../leagues/store/storeTypes';
 import { useMemberMap } from './hooks/useMemberMap';
 import { useGarbageTimeMatchups } from './hooks/useGarbageTimeMatchups';
 import { OverlayTypes } from './types';
@@ -195,14 +199,18 @@ export const GarbageTimeMatchupsScreen = () => {
                 onBackdropPress={() => setOverlay(OverlayTypes.None)}
             >
                 <FlatList
-                    data={userLeagues.sleeper}
+                    data={[...userLeagues.sleeper, ...userLeagues.espn]}
                     keyExtractor={(item) => item.leagueId}
-                    renderItem={({ item }: { item: SleeperLeague }) => (
+                    renderItem={({
+                        item,
+                    }: {
+                        item: SleeperLeague | ESPNLeague;
+                    }) => (
                         <LeagueInfoListItem
                             leagueName={item.leagueName}
                             seasonId={item.seasonId}
                             totalTeams={item.teams.length}
-                            leagueAvatar={item.avatar}
+                            leagueAvatar={''}
                             onItemPressCallback={() => {
                                 setSelectedLeagueId(item.leagueId);
                                 setOverlay(OverlayTypes.None);
@@ -312,9 +320,6 @@ const styles = StyleSheet.create({
     },
     addLeagueButton: {
         backgroundColor: Color.MainBlack,
-    },
-    addLeagueButtonTitleStyle: {
-        fontFamily: Font.BebasNeue_400Regular,
     },
     gtrInfoContaier: {
         padding: 8,

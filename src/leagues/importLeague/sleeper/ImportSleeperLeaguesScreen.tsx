@@ -13,29 +13,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-native-elements';
 
 import { RootState } from '../../../store/rootReducer';
-import { ImportedSleeperLeague } from '../../store/storeTypes';
+import { SleeperLeagueExternal } from '../../store/storeTypes';
 import {
     findSleeperLeaguesForUser,
     addSleeperLeague,
-    removeSleeperLeague,
 } from '../../store/actionCreators';
 
 import { RemoveLeagueOverlay } from '../../components/RemoveLeagueOverlay';
-import { LeagueInfoListItem } from '../../components/LeagueInfoListItem';
 import { Color } from '../../../common/styles/colors';
+import { SleeperLeagueInfoListItem } from '../../components/sleeper/SleeperLeagueInfoListItem';
+import { OverlayTypes } from '../../../garbageTimeMatchups/types';
 import { LeaguePlatform } from '../../types';
 
 export const ImportSleeperLeaguesScreen = () => {
     // state
     const [username, setUsername] = useState('');
-    const [isOverlayVisible, setIsOverlayVisible] = useState(false);
+    const [overlay, setOverlay] = useState(OverlayTypes.None);
     const [selectedLeague, setSelectedLeague] = useState(
-        {} as ImportedSleeperLeague
+        {} as SleeperLeagueExternal
     );
 
     // store
     const dispatch = useDispatch();
-    const { importSleeperLeagues, isLoading, error } = useSelector(
+    const { sleeperLeaguesExternal, isLoading, error } = useSelector(
         (state: RootState) => state.leagues
     );
 
@@ -110,27 +110,23 @@ export const ImportSleeperLeaguesScreen = () => {
 
                     {/* LEAGUE LIST */}
                     <FlatList
-                        data={importSleeperLeagues.leagues}
+                        data={sleeperLeaguesExternal}
                         keyExtractor={({ leagueId }) => leagueId}
                         renderItem={({
                             item,
                         }: {
-                            item: ImportedSleeperLeague;
+                            item: SleeperLeagueExternal;
                         }) => (
-                            <LeagueInfoListItem
+                            <SleeperLeagueInfoListItem
                                 leagueName={item.name}
                                 seasonId={item.seasonId}
-                                leaguePlatform={LeaguePlatform.Sleeper}
                                 totalTeams={item.totalTeams}
+                                leagueAvatar={item.avatar || ''}
                                 itemAdded={item.added}
-                                icon={
-                                    item.added ? 'minus-circle' : 'plus-circle'
-                                }
-                                sleeperLeagueAvatar={item.avatar || ''}
                                 isLoading={isLoading}
                                 onButtonPressCallback={() => {
                                     if (item.added) {
-                                        setIsOverlayVisible(true);
+                                        setOverlay(OverlayTypes.RemoveLeague);
                                         setSelectedLeague(item);
                                     } else {
                                         dispatch(
@@ -145,15 +141,17 @@ export const ImportSleeperLeaguesScreen = () => {
             </TouchableWithoutFeedback>
 
             {/* OVERLAY */}
-            <RemoveLeagueOverlay
-                selectedLeague={{
-                    leagueId: selectedLeague.leagueId,
-                    leagueName: selectedLeague.name,
-                }}
-                isOverlayVisible={isOverlayVisible}
-                removeSleeperLeague={removeSleeperLeague}
-                setIsOverlayVisible={setIsOverlayVisible}
-            />
+            {overlay === OverlayTypes.RemoveLeague && (
+                <RemoveLeagueOverlay
+                    leaguePlatform={LeaguePlatform.Sleeper}
+                    league={{
+                        leagueId: selectedLeague.leagueId,
+                        leagueName: selectedLeague.name,
+                    }}
+                    isOverlayVisible={overlay === OverlayTypes.RemoveLeague}
+                    closeOverlay={() => setOverlay(OverlayTypes.None)}
+                />
+            )}
         </SafeAreaView>
     );
 };

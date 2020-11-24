@@ -1,26 +1,24 @@
-import React, { SetStateAction } from 'react';
+import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Overlay, Button } from 'react-native-elements';
 import { useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
 import { Color } from '../../common/styles/colors';
 
-import { LeagueDispatchTypes } from '../store/dispatchTypes';
+import { LeaguePlatform } from '../types';
+import { removeESPNLeague, removeSleeperLeague } from '../store/actionCreators';
 
 type Props = {
-    selectedLeague: { leagueId: string; leagueName: string };
+    leaguePlatform: LeaguePlatform;
+    league: { leagueId: string; seasonId?: string; leagueName: string };
     isOverlayVisible: boolean;
-    removeSleeperLeague: (
-        leagueId: string
-    ) => (dispatch: Dispatch<LeagueDispatchTypes>) => Promise<void>;
-    setIsOverlayVisible: React.Dispatch<SetStateAction<boolean>>;
+    closeOverlay: () => void;
 };
 
 export const RemoveLeagueOverlay = ({
-    selectedLeague,
+    leaguePlatform,
+    league,
     isOverlayVisible,
-    removeSleeperLeague,
-    setIsOverlayVisible,
+    closeOverlay,
 }: Props) => {
     const dispatch = useDispatch();
 
@@ -28,13 +26,13 @@ export const RemoveLeagueOverlay = ({
         <Overlay
             overlayStyle={styles.overlayStyle}
             isVisible={isOverlayVisible}
-            onBackdropPress={() => setIsOverlayVisible(false)}
+            onBackdropPress={closeOverlay}
         >
             <View style={styles.overlayBodyStyle}>
                 {/* TEXT */}
                 <View style={styles.messageContainer}>
                     <Text style={styles.removeText}>
-                        Remove {selectedLeague.leagueName}?
+                        Remove {league.leagueName}?
                     </Text>
                 </View>
 
@@ -44,7 +42,7 @@ export const RemoveLeagueOverlay = ({
                         type="clear"
                         titleStyle={styles.cancelButtonText}
                         title="Cancel"
-                        onPress={() => setIsOverlayVisible(false)}
+                        onPress={() => closeOverlay()}
                     />
                     {/* REMOVE BUTTON */}
                     <Button
@@ -53,10 +51,15 @@ export const RemoveLeagueOverlay = ({
                         buttonStyle={styles.removeButton}
                         titleStyle={styles.removeButtonText}
                         onPress={() => {
-                            dispatch(
-                                removeSleeperLeague(selectedLeague.leagueId)
-                            );
-                            setIsOverlayVisible(false);
+                            leaguePlatform === LeaguePlatform.Sleeper
+                                ? dispatch(removeSleeperLeague(league.leagueId))
+                                : dispatch(
+                                      removeESPNLeague(
+                                          league.leagueId,
+                                          league.seasonId!
+                                      )
+                                  );
+                            closeOverlay();
                         }}
                     />
                 </View>
