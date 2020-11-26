@@ -90,6 +90,7 @@ export const GarbageTimeMatchupsScreen = () => {
                 setSleeperTeam1(selectedSleeperLeague.teams[0]);
                 setTeam2(selectedSleeperLeague.teams[1]);
                 setSoloTeam(selectedSleeperLeague.teams[0]);
+                setOverlay(OverlayTypes.None);
             }
         }
     }, [selectedPlatform, selectedSleeperLeague]);
@@ -222,6 +223,8 @@ export const GarbageTimeMatchupsScreen = () => {
             <GarbageTimeMatchupsLeagueSelectOverlay
                 overlay={overlay}
                 userLeagues={userLeagues}
+                setSelectedPlatform={setSelectedPlatform}
+                setSelectedSleeperLeague={setSelectedSleeperLeague}
                 setOverlay={setOverlay}
             />
 
