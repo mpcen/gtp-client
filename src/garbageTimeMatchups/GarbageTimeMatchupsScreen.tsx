@@ -11,9 +11,13 @@ import { Divider, Overlay } from 'react-native-elements';
 
 import * as constants from './constants';
 import { RootState } from '../store/rootReducer';
-import { SleeperLeague, SleeperLeagueTeam } from '../leagues/store/storeTypes';
-import { useMemberMap } from './hooks/useMemberMap';
-import { useGarbageTimeMatchups } from './hooks/useGarbageTimeMatchups';
+import {
+    ESPNLeague,
+    SleeperLeague,
+    SleeperLeagueTeam,
+} from '../leagues/store/storeTypes';
+import { useSleeperMemberMap } from './hooks/useSleeperMemberMap';
+import { useSleeperGarbageTimeMatchups } from './hooks/useSleeperGarbageTimeMatchups';
 import { OverlayTypes } from './types';
 
 import { GarbageTimeMatchupsTeamHeader } from './components/h2hGTM/GarbageTimeMatchupsTeamHeader';
@@ -26,62 +30,84 @@ import { Color } from '../common/styles/colors';
 import { Font } from '../common/fonts/fonts';
 import { GarbageTimeMatchupsListSolo } from './components/soloGTM/GarbageTimeMatchupsListSolo';
 import { GarbageTimeMatchupsLeagueSelectOverlay } from './components/leagueSelectOverlay/GarbageTimeMatchupsLeagueSelectOverlay';
+import { LeaguePlatform } from '../leagues/types';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
-    const [selectedLeague, setSelectedLeague] = useState({} as SleeperLeague);
-    const [team1, setTeam1] = useState({} as SleeperLeagueTeam);
+    const [selectedPlatform, setSelectedPlatform] = useState(
+        LeaguePlatform.Sleeper
+    );
+    const [isH2H, setIsH2H] = useState(false);
+    const [isInitiallyLoaded, setIsInitiallyLoaded] = useState(false);
+    const [overlay, setOverlay] = useState(OverlayTypes.None);
+
+    // SLEEPER
+    const [selectedSleeperLeague, setSelectedSleeperLeague] = useState(
+        {} as SleeperLeague
+    );
+    const [sleeperTeam1, setSleeperTeam1] = useState({} as SleeperLeagueTeam);
     const [team2, setTeam2] = useState({} as SleeperLeagueTeam);
     const [soloTeam, setSoloTeam] = useState({} as SleeperLeagueTeam);
     const [selectedTeam, setSelectedTeam] = useState(0);
-    const [overlay, setOverlay] = useState(OverlayTypes.None);
-    const [isInitiallyLoaded, setIsInitiallyLoaded] = useState(false);
-    const [isH2H, setIsH2H] = useState(false);
 
     useEffect(() => {
         setIsInitiallyLoaded(true);
     }, []);
 
     useEffect(() => {
-        if (userLeagues.sleeper.length) {
-            const defaultSelectedLeague = userLeagues.sleeper[0];
+        if (selectedPlatform === LeaguePlatform.Sleeper) {
+            if (userLeagues.sleeper.length) {
+                const defaultSelectedLeague = userLeagues.sleeper[0];
 
-            setSelectedLeague(defaultSelectedLeague);
-            setTeam1(defaultSelectedLeague.teams[0]);
-            setTeam2(defaultSelectedLeague.teams[1]);
-            setSoloTeam(defaultSelectedLeague.teams[0]);
-        } else if (
-            !userLeagues.sleeper.length &&
-            Object.keys(selectedLeague).length
-        ) {
-            setSelectedLeague({} as SleeperLeague);
-            setTeam1({} as SleeperLeagueTeam);
-            setTeam2({} as SleeperLeagueTeam);
-            setSoloTeam({} as SleeperLeagueTeam);
+                setSelectedSleeperLeague(defaultSelectedLeague);
+                setSleeperTeam1(defaultSelectedLeague.teams[0]);
+                setTeam2(defaultSelectedLeague.teams[1]);
+                setSoloTeam(defaultSelectedLeague.teams[0]);
+            } else if (
+                !userLeagues.sleeper.length &&
+                Object.keys(selectedSleeperLeague).length
+            ) {
+                setSelectedSleeperLeague({} as SleeperLeague);
+                setSleeperTeam1({} as SleeperLeagueTeam);
+                setTeam2({} as SleeperLeagueTeam);
+                setSoloTeam({} as SleeperLeagueTeam);
+            }
         }
-    }, [userLeagues.sleeper]);
+    }, [selectedPlatform, userLeagues.sleeper]);
 
     useEffect(() => {
-        if (Object.keys(selectedLeague).length && userLeagues.sleeper.length) {
-            const updatedSelectedLeague: SleeperLeague = userLeagues.sleeper.find(
-                (league) => league.leagueId === selectedLeague.leagueId
-            )!;
+        if (selectedPlatform === LeaguePlatform.Sleeper) {
+            if (
+                Object.keys(selectedSleeperLeague).length &&
+                userLeagues.sleeper.length
+            ) {
+                const updatedSelectedLeague: SleeperLeague = userLeagues.sleeper.find(
+                    (league) =>
+                        league.leagueId === selectedSleeperLeague.leagueId
+                )!;
 
-            setSelectedLeague(updatedSelectedLeague);
-            setTeam1(selectedLeague.teams[0]);
-            setTeam2(selectedLeague.teams[1]);
-            setSoloTeam(selectedLeague.teams[0]);
+                setSelectedSleeperLeague(updatedSelectedLeague);
+                setSleeperTeam1(selectedSleeperLeague.teams[0]);
+                setTeam2(selectedSleeperLeague.teams[1]);
+                setSoloTeam(selectedSleeperLeague.teams[0]);
+            }
         }
-    }, [selectedLeague]);
+    }, [selectedPlatform, selectedSleeperLeague]);
 
     const {
         team1GTMResults,
         team2GTMResults,
         combinedGTMResults,
         soloGTMResults,
-    } = useGarbageTimeMatchups(selectedLeague, isH2H, team1, team2, soloTeam);
+    } = useSleeperGarbageTimeMatchups(
+        selectedSleeperLeague,
+        isH2H,
+        sleeperTeam1,
+        team2,
+        soloTeam
+    );
 
-    const { memberMap } = useMemberMap(selectedLeague);
+    const { memberMap } = useSleeperMemberMap(selectedSleeperLeague);
 
     // RENDER INITIALLY LOADING
     if (!isInitiallyLoaded) {
@@ -93,7 +119,10 @@ export const GarbageTimeMatchupsScreen = () => {
     }
 
     // RENDER EMPTY LEAGUES
-    if (!userLeagues.sleeper.length || !Object.keys(selectedLeague).length) {
+    if (
+        !userLeagues.sleeper.length ||
+        !Object.keys(selectedSleeperLeague).length
+    ) {
         return (
             <View style={styles.emptyContainer}>
                 <Text style={styles.emptyContainerText}>
@@ -108,7 +137,7 @@ export const GarbageTimeMatchupsScreen = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.leagueHeaderContainer}>
                 <GarbageTimeMatchupsLeaguePicker
-                    selectedLeague={selectedLeague}
+                    selectedLeague={selectedSleeperLeague}
                     userLeagues={userLeagues}
                     setOverlay={setOverlay}
                 />
@@ -123,7 +152,9 @@ export const GarbageTimeMatchupsScreen = () => {
             <Divider />
 
             {/* ALL GTM VIEW */}
-            {!isH2H && selectedLeague.teams && Object.keys(memberMap).length ? (
+            {!isH2H &&
+            selectedSleeperLeague.teams &&
+            Object.keys(memberMap).length ? (
                 <>
                     <View
                         style={{
@@ -133,7 +164,7 @@ export const GarbageTimeMatchupsScreen = () => {
                         }}
                     >
                         <GarbageTimeMatchupsTeamPicker
-                            league={selectedLeague}
+                            league={selectedSleeperLeague}
                             team={soloTeam}
                             memberMap={memberMap}
                             setOverlay={setOverlay}
@@ -144,7 +175,7 @@ export const GarbageTimeMatchupsScreen = () => {
                         soloTeam={soloTeam}
                         memberMap={memberMap}
                         soloGTMResults={soloGTMResults}
-                        league={selectedLeague}
+                        league={selectedSleeperLeague}
                         setOverlay={setOverlay}
                     />
                 </>
@@ -152,18 +183,18 @@ export const GarbageTimeMatchupsScreen = () => {
 
             {/* H2H GTM VIEW */}
             {isH2H &&
-            selectedLeague.teams &&
+            selectedSleeperLeague.teams &&
             Object.keys(memberMap).length &&
             Object.keys(team1GTMResults).length &&
             Object.keys(team2GTMResults).length ? (
                 <>
                     <View style={styles.teamsHeaderContainer}>
                         <GarbageTimeMatchupsTeamHeader
-                            team={team1}
+                            team={sleeperTeam1}
                             teamNumber={1}
                             memberMap={memberMap}
                             gtmResults={team1GTMResults}
-                            selectedLeague={selectedLeague}
+                            selectedLeague={selectedSleeperLeague}
                             setSelectedTeam={setSelectedTeam}
                             setOverlay={setOverlay}
                         />
@@ -173,14 +204,14 @@ export const GarbageTimeMatchupsScreen = () => {
                             teamNumber={2}
                             memberMap={memberMap}
                             gtmResults={team2GTMResults}
-                            selectedLeague={selectedLeague}
+                            selectedLeague={selectedSleeperLeague}
                             setSelectedTeam={setSelectedTeam}
                             setOverlay={setOverlay}
                         />
                     </View>
 
                     <GarbageTimeMatchupsList
-                        selectedLeague={selectedLeague}
+                        selectedLeague={selectedSleeperLeague}
                         combinedGTMResults={combinedGTMResults}
                     />
                 </>
@@ -201,14 +232,14 @@ export const GarbageTimeMatchupsScreen = () => {
                 onBackdropPress={() => setOverlay(OverlayTypes.None)}
             >
                 <GarbageTimeTeamSelectList
-                    selectedLeague={selectedLeague}
-                    team1={team1}
+                    selectedLeague={selectedSleeperLeague}
+                    team1={sleeperTeam1}
                     team2={team2}
                     soloTeam={soloTeam}
                     selectedTeam={selectedTeam}
                     memberMap={memberMap}
                     isH2H={isH2H}
-                    setTeam1={setTeam1}
+                    setTeam1={setSleeperTeam1}
                     setTeam2={setTeam2}
                     setSoloTeam={setSoloTeam}
                     setOverlay={setOverlay}
