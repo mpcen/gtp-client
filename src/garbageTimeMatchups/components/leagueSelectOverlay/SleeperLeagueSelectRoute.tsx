@@ -3,14 +3,17 @@ import { View, StyleSheet, FlatList } from 'react-native';
 
 import { SleeperLeagueInfoListItem } from '../../../leagues/components/sleeper/SleeperLeagueInfoListItem';
 import { SleeperLeague } from '../../../leagues/store/storeTypes';
+import { LeaguePlatform } from '../../../leagues/types';
 
 type Props = {
     leagues: SleeperLeague[];
+    setSelectedPlatform: React.Dispatch<SetStateAction<LeaguePlatform>>;
     setSelectedSleeperLeague: React.Dispatch<SetStateAction<SleeperLeague>>;
 };
 
 export const SleeperLeagueSelectRoute = ({
     leagues,
+    setSelectedPlatform,
     setSelectedSleeperLeague,
 }: Props) => (
     <View style={styles.container}>
@@ -24,7 +27,10 @@ export const SleeperLeagueSelectRoute = ({
                     leagueAvatar={item.avatar}
                     totalTeams={item.teams.length}
                     isLoading={false}
-                    onItemPressCallback={() => setSelectedSleeperLeague(item)} // might need to pass overlay type none here
+                    onItemPressCallback={() => {
+                        setSelectedPlatform(LeaguePlatform.Sleeper);
+                        setSelectedSleeperLeague(item);
+                    }}
                 />
             )}
         />

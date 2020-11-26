@@ -37,20 +37,13 @@ export const GarbageTimeMatchupsLeagueSelectOverlay = ({
         { key: 'espn', title: 'ESPN' },
     ]);
 
-    useEffect(() => {
-        if (index === 0) {
-            setSelectedPlatform(LeaguePlatform.Sleeper);
-        } else if (index === 1) {
-            setSelectedPlatform(LeaguePlatform.ESPN);
-        }
-    }, [index]);
-
     const renderScene = ({ route }: { route: RenderSceneRouteProps }) => {
         switch (route.key) {
             case 'sleeper':
                 return (
                     <SleeperLeagueSelectRoute
                         leagues={userLeagues.sleeper}
+                        setSelectedPlatform={setSelectedPlatform}
                         setSelectedSleeperLeague={setSelectedSleeperLeague}
                     />
                 );
