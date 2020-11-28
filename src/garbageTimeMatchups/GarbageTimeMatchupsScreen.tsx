@@ -94,18 +94,10 @@ export const GarbageTimeMatchupsScreen = () => {
         }
     }, [leaguePlatform, userLeagues.sleeper]);
 
+    // ANY-CHANGE EFFECT
     useEffect(() => {
         if (leaguePlatform === LeaguePlatform.Sleeper) {
-            if (
-                Object.keys(selectedSleeperLeague).length &&
-                userLeagues.sleeper.length
-            ) {
-                const updatedSelectedLeague: SleeperLeague = userLeagues.sleeper.find(
-                    (league) =>
-                        league.leagueId === selectedSleeperLeague.leagueId
-                )!;
-
-                setSelectedSleeperLeague(updatedSelectedLeague);
+            if (Object.keys(selectedSleeperLeague).length) {
                 setSleeperTeam1(selectedSleeperLeague.teams[0]);
                 setSleeperTeam2(selectedSleeperLeague.teams[1]);
                 setSoloTeam(selectedSleeperLeague.teams[0]);
