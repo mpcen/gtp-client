@@ -13,6 +13,7 @@ import * as constants from './constants';
 import { RootState } from '../store/rootReducer';
 import {
     ESPNLeague,
+    ESPNLeagueTeam,
     SleeperLeague,
     SleeperLeagueTeam,
 } from '../leagues/store/storeTypes';
@@ -47,13 +48,21 @@ export const GarbageTimeMatchupsScreen = () => {
     );
     const [sleeperTeam1, setSleeperTeam1] = useState({} as SleeperLeagueTeam);
     const [sleeperTeam2, setSleeperTeam2] = useState({} as SleeperLeagueTeam);
-    const [soloTeam, setSoloTeam] = useState({} as SleeperLeagueTeam);
-    const [selectedTeam, setSelectedTeam] = useState(0);
+    const [sleeperSoloTeam, setSleeperSoloTeam] = useState(
+        {} as SleeperLeagueTeam
+    );
+    const [selectedSleeperTeamNumber, setSelectedSleeperTeamNumber] = useState(
+        0
+    );
 
     // ESPN
     const [selectedESPNLeague, setSelectedESPNLeague] = useState(
         {} as ESPNLeague
     );
+    const [espnTeam1, setESPNTeam1] = useState({} as ESPNLeagueTeam);
+    const [espnTeam2, setESPNTeam2] = useState({} as ESPNLeagueTeam);
+    const [espnSoloTeam, setESPNSoloTeam] = useState({} as ESPNLeagueTeam);
+    const [selectedESPNTeamNumber, setSelectedESPNTeamNumber] = useState(0);
 
     // INITIAL LOAD EFFECT
     useEffect(() => {
@@ -79,7 +88,7 @@ export const GarbageTimeMatchupsScreen = () => {
                 setSelectedSleeperLeague(defaultSelectedLeague);
                 setSleeperTeam1(defaultSelectedLeague.teams[0]);
                 setSleeperTeam2(defaultSelectedLeague.teams[1]);
-                setSoloTeam(defaultSelectedLeague.teams[0]);
+                setSleeperSoloTeam(defaultSelectedLeague.teams[0]);
             }
             // IF ALL SLEEPER LEAGUES WERE REMOVED
             else if (
@@ -89,7 +98,7 @@ export const GarbageTimeMatchupsScreen = () => {
                 setSelectedSleeperLeague({} as SleeperLeague);
                 setSleeperTeam1({} as SleeperLeagueTeam);
                 setSleeperTeam2({} as SleeperLeagueTeam);
-                setSoloTeam({} as SleeperLeagueTeam);
+                setSleeperSoloTeam({} as SleeperLeagueTeam);
             }
         }
     }, [leaguePlatform, userLeagues.sleeper]);
@@ -100,7 +109,7 @@ export const GarbageTimeMatchupsScreen = () => {
             if (Object.keys(selectedSleeperLeague).length) {
                 setSleeperTeam1(selectedSleeperLeague.teams[0]);
                 setSleeperTeam2(selectedSleeperLeague.teams[1]);
-                setSoloTeam(selectedSleeperLeague.teams[0]);
+                setSleeperSoloTeam(selectedSleeperLeague.teams[0]);
                 setOverlay(OverlayTypes.None);
             }
         }
@@ -120,7 +129,7 @@ export const GarbageTimeMatchupsScreen = () => {
         isH2H,
         sleeperTeam1,
         sleeperTeam2,
-        soloTeam
+        sleeperSoloTeam
     );
 
     const { memberMap } = useSleeperMemberMap(selectedSleeperLeague);
@@ -183,14 +192,14 @@ export const GarbageTimeMatchupsScreen = () => {
                     >
                         <GarbageTimeMatchupsTeamPicker
                             league={selectedSleeperLeague}
-                            team={soloTeam}
+                            team={sleeperSoloTeam}
                             memberMap={memberMap}
                             setOverlay={setOverlay}
                         />
                     </View>
 
                     <GarbageTimeMatchupsListSolo
-                        soloTeam={soloTeam}
+                        soloTeam={sleeperSoloTeam}
                         memberMap={memberMap}
                         soloGTMResults={soloGTMResults}
                         league={selectedSleeperLeague}
@@ -213,7 +222,7 @@ export const GarbageTimeMatchupsScreen = () => {
                             memberMap={memberMap}
                             gtmResults={team1GTMResults}
                             selectedLeague={selectedSleeperLeague}
-                            setSelectedTeam={setSelectedTeam}
+                            setSelectedTeam={setSelectedSleeperTeamNumber}
                             setOverlay={setOverlay}
                         />
 
@@ -223,7 +232,7 @@ export const GarbageTimeMatchupsScreen = () => {
                             memberMap={memberMap}
                             gtmResults={team2GTMResults}
                             selectedLeague={selectedSleeperLeague}
-                            setSelectedTeam={setSelectedTeam}
+                            setSelectedTeam={setSelectedSleeperTeamNumber}
                             setOverlay={setOverlay}
                         />
                     </View>
@@ -256,13 +265,13 @@ export const GarbageTimeMatchupsScreen = () => {
                     selectedLeague={selectedSleeperLeague}
                     team1={sleeperTeam1}
                     team2={sleeperTeam2}
-                    soloTeam={soloTeam}
-                    selectedTeam={selectedTeam}
+                    soloTeam={sleeperSoloTeam}
+                    selectedTeam={selectedSleeperTeamNumber}
                     memberMap={memberMap}
                     isH2H={isH2H}
                     setTeam1={setSleeperTeam1}
                     setTeam2={setSleeperTeam2}
-                    setSoloTeam={setSoloTeam}
+                    setSoloTeam={setSleeperSoloTeam}
                     setOverlay={setOverlay}
                 />
             </Overlay>
