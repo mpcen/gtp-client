@@ -61,14 +61,26 @@ export const GarbageTimeMatchupsScreen = () => {
 
     useEffect(() => {
         if (leaguePlatform === LeaguePlatform.Sleeper) {
-            if (userLeagues.sleeper.length) {
+            // IF WE HAVE SLEEPER LEAGUES BUT HAVENT LOADED ANYTHING YET. USUALLY THE FIRST LOAD
+            if (
+                (userLeagues.sleeper.length &&
+                    !Object.keys(selectedSleeperLeague).length) ||
+                // IF WE HAVE SLEEPER LEAGUES BUT HAVE REMOVED THE SELECTED LEAGUE, CHOOSE THE DEFAULT
+                (userLeagues.sleeper.length &&
+                    userLeagues.sleeper.find(
+                        (league: SleeperLeague) =>
+                            league.leagueId === selectedSleeperLeague.leagueId
+                    ) === undefined)
+            ) {
                 const defaultSelectedLeague = userLeagues.sleeper[0];
 
                 setSelectedSleeperLeague(defaultSelectedLeague);
                 setSleeperTeam1(defaultSelectedLeague.teams[0]);
                 setSleeperTeam2(defaultSelectedLeague.teams[1]);
                 setSoloTeam(defaultSelectedLeague.teams[0]);
-            } else if (
+            }
+            // IF ALL SLEEPER LEAGUES WERE REMOVED
+            else if (
                 !userLeagues.sleeper.length &&
                 Object.keys(selectedSleeperLeague).length
             ) {
@@ -80,29 +92,29 @@ export const GarbageTimeMatchupsScreen = () => {
         }
     }, [leaguePlatform, userLeagues.sleeper]);
 
-    useEffect(() => {
-        if (leaguePlatform === LeaguePlatform.Sleeper) {
-            if (
-                Object.keys(selectedSleeperLeague).length &&
-                userLeagues.sleeper.length
-            ) {
-                const updatedSelectedLeague: SleeperLeague = userLeagues.sleeper.find(
-                    (league) =>
-                        league.leagueId === selectedSleeperLeague.leagueId
-                )!;
+    // useEffect(() => {
+    //     if (leaguePlatform === LeaguePlatform.Sleeper) {
+    //         if (
+    //             Object.keys(selectedSleeperLeague).length &&
+    //             userLeagues.sleeper.length
+    //         ) {
+    //             const updatedSelectedLeague: SleeperLeague = userLeagues.sleeper.find(
+    //                 (league) =>
+    //                     league.leagueId === selectedSleeperLeague.leagueId
+    //             )!;
 
-                setSelectedSleeperLeague(updatedSelectedLeague);
-                setSleeperTeam1(selectedSleeperLeague.teams[0]);
-                setSleeperTeam2(selectedSleeperLeague.teams[1]);
-                setSoloTeam(selectedSleeperLeague.teams[0]);
-                setOverlay(OverlayTypes.None);
-            }
-        }
+    //             setSelectedSleeperLeague(updatedSelectedLeague);
+    //             setSleeperTeam1(selectedSleeperLeague.teams[0]);
+    //             setSleeperTeam2(selectedSleeperLeague.teams[1]);
+    //             setSoloTeam(selectedSleeperLeague.teams[0]);
+    //             setOverlay(OverlayTypes.None);
+    //         }
+    //     }
 
-        if (leaguePlatform === LeaguePlatform.ESPN) {
-            setOverlay(OverlayTypes.None);
-        }
-    }, [leaguePlatform, selectedSleeperLeague, selectedESPNLeague]);
+    //     if (leaguePlatform === LeaguePlatform.ESPN) {
+    //         setOverlay(OverlayTypes.None);
+    //     }
+    // }, [leaguePlatform, selectedSleeperLeague, selectedESPNLeague]);
 
     const {
         team1GTMResults,
