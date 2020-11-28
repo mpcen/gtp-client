@@ -55,10 +55,12 @@ export const GarbageTimeMatchupsScreen = () => {
         {} as ESPNLeague
     );
 
+    // INITIAL LOAD EFFECT
     useEffect(() => {
         setIsInitiallyLoaded(true);
     }, []);
 
+    // EDGE CASE EFFECT
     useEffect(() => {
         if (leaguePlatform === LeaguePlatform.Sleeper) {
             // IF WE HAVE SLEEPER LEAGUES BUT HAVENT LOADED ANYTHING YET. USUALLY THE FIRST LOAD
@@ -92,29 +94,29 @@ export const GarbageTimeMatchupsScreen = () => {
         }
     }, [leaguePlatform, userLeagues.sleeper]);
 
-    // useEffect(() => {
-    //     if (leaguePlatform === LeaguePlatform.Sleeper) {
-    //         if (
-    //             Object.keys(selectedSleeperLeague).length &&
-    //             userLeagues.sleeper.length
-    //         ) {
-    //             const updatedSelectedLeague: SleeperLeague = userLeagues.sleeper.find(
-    //                 (league) =>
-    //                     league.leagueId === selectedSleeperLeague.leagueId
-    //             )!;
+    useEffect(() => {
+        if (leaguePlatform === LeaguePlatform.Sleeper) {
+            if (
+                Object.keys(selectedSleeperLeague).length &&
+                userLeagues.sleeper.length
+            ) {
+                const updatedSelectedLeague: SleeperLeague = userLeagues.sleeper.find(
+                    (league) =>
+                        league.leagueId === selectedSleeperLeague.leagueId
+                )!;
 
-    //             setSelectedSleeperLeague(updatedSelectedLeague);
-    //             setSleeperTeam1(selectedSleeperLeague.teams[0]);
-    //             setSleeperTeam2(selectedSleeperLeague.teams[1]);
-    //             setSoloTeam(selectedSleeperLeague.teams[0]);
-    //             setOverlay(OverlayTypes.None);
-    //         }
-    //     }
+                setSelectedSleeperLeague(updatedSelectedLeague);
+                setSleeperTeam1(selectedSleeperLeague.teams[0]);
+                setSleeperTeam2(selectedSleeperLeague.teams[1]);
+                setSoloTeam(selectedSleeperLeague.teams[0]);
+                setOverlay(OverlayTypes.None);
+            }
+        }
 
-    //     if (leaguePlatform === LeaguePlatform.ESPN) {
-    //         setOverlay(OverlayTypes.None);
-    //     }
-    // }, [leaguePlatform, selectedSleeperLeague, selectedESPNLeague]);
+        if (leaguePlatform === LeaguePlatform.ESPN) {
+            setOverlay(OverlayTypes.None);
+        }
+    }, [leaguePlatform, selectedSleeperLeague, selectedESPNLeague]);
 
     const {
         team1GTMResults,
