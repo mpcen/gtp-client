@@ -34,7 +34,7 @@ import { LeaguePlatform } from '../leagues/types';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
-    const [selectedPlatform, setSelectedPlatform] = useState(
+    const [leaguePlatform, setLeaguePlatform] = useState(
         LeaguePlatform.Sleeper
     );
     const [isH2H, setIsH2H] = useState(false);
@@ -46,22 +46,27 @@ export const GarbageTimeMatchupsScreen = () => {
         {} as SleeperLeague
     );
     const [sleeperTeam1, setSleeperTeam1] = useState({} as SleeperLeagueTeam);
-    const [team2, setTeam2] = useState({} as SleeperLeagueTeam);
+    const [sleeperTeam2, setSleeperTeam2] = useState({} as SleeperLeagueTeam);
     const [soloTeam, setSoloTeam] = useState({} as SleeperLeagueTeam);
     const [selectedTeam, setSelectedTeam] = useState(0);
+
+    // ESPN
+    const [selectedESPNLeague, setSelectedESPNLeague] = useState(
+        {} as ESPNLeague
+    );
 
     useEffect(() => {
         setIsInitiallyLoaded(true);
     }, []);
 
     useEffect(() => {
-        if (selectedPlatform === LeaguePlatform.Sleeper) {
+        if (leaguePlatform === LeaguePlatform.Sleeper) {
             if (userLeagues.sleeper.length) {
                 const defaultSelectedLeague = userLeagues.sleeper[0];
 
                 setSelectedSleeperLeague(defaultSelectedLeague);
                 setSleeperTeam1(defaultSelectedLeague.teams[0]);
-                setTeam2(defaultSelectedLeague.teams[1]);
+                setSleeperTeam2(defaultSelectedLeague.teams[1]);
                 setSoloTeam(defaultSelectedLeague.teams[0]);
             } else if (
                 !userLeagues.sleeper.length &&
@@ -69,14 +74,14 @@ export const GarbageTimeMatchupsScreen = () => {
             ) {
                 setSelectedSleeperLeague({} as SleeperLeague);
                 setSleeperTeam1({} as SleeperLeagueTeam);
-                setTeam2({} as SleeperLeagueTeam);
+                setSleeperTeam2({} as SleeperLeagueTeam);
                 setSoloTeam({} as SleeperLeagueTeam);
             }
         }
-    }, [selectedPlatform, userLeagues.sleeper]);
+    }, [leaguePlatform, userLeagues.sleeper]);
 
     useEffect(() => {
-        if (selectedPlatform === LeaguePlatform.Sleeper) {
+        if (leaguePlatform === LeaguePlatform.Sleeper) {
             if (
                 Object.keys(selectedSleeperLeague).length &&
                 userLeagues.sleeper.length
@@ -88,12 +93,16 @@ export const GarbageTimeMatchupsScreen = () => {
 
                 setSelectedSleeperLeague(updatedSelectedLeague);
                 setSleeperTeam1(selectedSleeperLeague.teams[0]);
-                setTeam2(selectedSleeperLeague.teams[1]);
+                setSleeperTeam2(selectedSleeperLeague.teams[1]);
                 setSoloTeam(selectedSleeperLeague.teams[0]);
                 setOverlay(OverlayTypes.None);
             }
         }
-    }, [selectedPlatform, selectedSleeperLeague]);
+
+        if (leaguePlatform === LeaguePlatform.ESPN) {
+            setOverlay(OverlayTypes.None);
+        }
+    }, [leaguePlatform, selectedSleeperLeague, selectedESPNLeague]);
 
     const {
         team1GTMResults,
@@ -104,7 +113,7 @@ export const GarbageTimeMatchupsScreen = () => {
         selectedSleeperLeague,
         isH2H,
         sleeperTeam1,
-        team2,
+        sleeperTeam2,
         soloTeam
     );
 
@@ -137,9 +146,11 @@ export const GarbageTimeMatchupsScreen = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.leagueHeaderContainer}>
+                {/* LEAGUE SELECT */}
                 <GarbageTimeMatchupsLeaguePicker
-                    selectedLeague={selectedSleeperLeague}
-                    userLeagues={userLeagues}
+                    leaguePlatform={leaguePlatform}
+                    selectedSleeperLeague={selectedSleeperLeague}
+                    selectedESPNLeague={selectedESPNLeague}
                     setOverlay={setOverlay}
                 />
 
@@ -201,7 +212,7 @@ export const GarbageTimeMatchupsScreen = () => {
                         />
 
                         <GarbageTimeMatchupsTeamHeader
-                            team={team2}
+                            team={sleeperTeam2}
                             teamNumber={2}
                             memberMap={memberMap}
                             gtmResults={team2GTMResults}
@@ -223,8 +234,9 @@ export const GarbageTimeMatchupsScreen = () => {
             <GarbageTimeMatchupsLeagueSelectOverlay
                 overlay={overlay}
                 userLeagues={userLeagues}
-                setSelectedPlatform={setSelectedPlatform}
+                setLeaguePlatform={setLeaguePlatform}
                 setSelectedSleeperLeague={setSelectedSleeperLeague}
+                setSelectedESPNLeague={setSelectedESPNLeague}
                 setOverlay={setOverlay}
             />
 
@@ -237,13 +249,13 @@ export const GarbageTimeMatchupsScreen = () => {
                 <GarbageTimeTeamSelectList
                     selectedLeague={selectedSleeperLeague}
                     team1={sleeperTeam1}
-                    team2={team2}
+                    team2={sleeperTeam2}
                     soloTeam={soloTeam}
                     selectedTeam={selectedTeam}
                     memberMap={memberMap}
                     isH2H={isH2H}
                     setTeam1={setSleeperTeam1}
-                    setTeam2={setTeam2}
+                    setTeam2={setSleeperTeam2}
                     setSoloTeam={setSoloTeam}
                     setOverlay={setOverlay}
                 />

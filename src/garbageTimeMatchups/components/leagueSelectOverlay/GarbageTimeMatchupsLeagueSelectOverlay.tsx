@@ -3,7 +3,11 @@ import { StyleSheet, Dimensions } from 'react-native';
 import { Overlay } from 'react-native-elements';
 import { TabView } from 'react-native-tab-view';
 
-import { SleeperLeague, UserLeagues } from '../../../leagues/store/storeTypes';
+import {
+    ESPNLeague,
+    SleeperLeague,
+    UserLeagues,
+} from '../../../leagues/store/storeTypes';
 import { LeaguePlatform } from '../../../leagues/types';
 import { OverlayTypes } from '../../types';
 import { ESPNLeagueSelectRoute } from './ESPNLeagueSelectRoute';
@@ -12,8 +16,9 @@ import { SleeperLeagueSelectRoute } from './SleeperLeagueSelectRoute';
 type Props = {
     overlay: OverlayTypes;
     userLeagues: UserLeagues;
-    setSelectedPlatform: React.Dispatch<SetStateAction<LeaguePlatform>>;
+    setLeaguePlatform: React.Dispatch<SetStateAction<LeaguePlatform>>;
     setSelectedSleeperLeague: React.Dispatch<SetStateAction<SleeperLeague>>;
+    setSelectedESPNLeague: React.Dispatch<SetStateAction<ESPNLeague>>;
     setOverlay: React.Dispatch<SetStateAction<OverlayTypes>>;
 };
 
@@ -27,8 +32,9 @@ const initialLayout = { width: Dimensions.get('window').width };
 export const GarbageTimeMatchupsLeagueSelectOverlay = ({
     overlay,
     userLeagues,
-    setSelectedPlatform,
+    setLeaguePlatform,
     setSelectedSleeperLeague,
+    setSelectedESPNLeague,
     setOverlay,
 }: Props) => {
     const [index, setIndex] = React.useState(0);
@@ -43,13 +49,19 @@ export const GarbageTimeMatchupsLeagueSelectOverlay = ({
                 return (
                     <SleeperLeagueSelectRoute
                         leagues={userLeagues.sleeper}
-                        setSelectedPlatform={setSelectedPlatform}
+                        setLeaguePlatform={setLeaguePlatform}
                         setSelectedSleeperLeague={setSelectedSleeperLeague}
                     />
                 );
 
             case 'espn':
-                return <ESPNLeagueSelectRoute leagues={userLeagues.espn} />;
+                return (
+                    <ESPNLeagueSelectRoute
+                        leagues={userLeagues.espn}
+                        setLeaguePlatform={setLeaguePlatform}
+                        setSelectedESPNLeague={setSelectedESPNLeague}
+                    />
+                );
 
             default:
                 return null;

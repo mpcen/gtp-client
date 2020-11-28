@@ -7,13 +7,13 @@ import { LeaguePlatform } from '../../../leagues/types';
 
 type Props = {
     leagues: SleeperLeague[];
-    setSelectedPlatform: React.Dispatch<SetStateAction<LeaguePlatform>>;
+    setLeaguePlatform: React.Dispatch<SetStateAction<LeaguePlatform>>;
     setSelectedSleeperLeague: React.Dispatch<SetStateAction<SleeperLeague>>;
 };
 
 export const SleeperLeagueSelectRoute = ({
     leagues,
-    setSelectedPlatform,
+    setLeaguePlatform,
     setSelectedSleeperLeague,
 }: Props) => (
     <View style={styles.container}>
@@ -28,7 +28,7 @@ export const SleeperLeagueSelectRoute = ({
                     totalTeams={item.teams.length}
                     isLoading={false}
                     onItemPressCallback={() => {
-                        setSelectedPlatform(LeaguePlatform.Sleeper);
+                        setLeaguePlatform(LeaguePlatform.Sleeper);
                         setSelectedSleeperLeague(item);
                     }}
                 />
