@@ -177,7 +177,6 @@ export const removeESPNLeague = (leagueId: string, seasonId: string) => {
                 payload: { leagueId, seasonId },
             });
         } catch (e) {
-            debugger;
             dispatch({
                 type: LeagueActionTypes.REMOVE_ESPN_LEAGUE_FAIL,
                 payload: {

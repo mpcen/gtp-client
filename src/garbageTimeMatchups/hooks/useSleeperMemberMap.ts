@@ -5,12 +5,12 @@ import {
     SleeperLeague,
 } from '../../leagues/store/storeTypes';
 
-export type MemberMap = {
+export type SleeperMemberMap = {
     [key: string]: SleeperLeagueMember;
 };
 
-const createMemberMap = (members: SleeperLeagueMember[]): MemberMap => {
-    const map = {} as MemberMap;
+const createMemberMap = (members: SleeperLeagueMember[]): SleeperMemberMap => {
+    const map = {} as SleeperMemberMap;
 
     members.forEach((member) => {
         map[member.memberId] = member;
@@ -20,7 +20,7 @@ const createMemberMap = (members: SleeperLeagueMember[]): MemberMap => {
 };
 
 export const useSleeperMemberMap = (selectedLeague: SleeperLeague) => {
-    const [memberMap, setMemberMap] = useState({} as MemberMap);
+    const [memberMap, setMemberMap] = useState({} as SleeperMemberMap);
 
     useEffect(() => {
         if (selectedLeague?.leagueId) {
@@ -30,5 +30,5 @@ export const useSleeperMemberMap = (selectedLeague: SleeperLeague) => {
         }
     }, [selectedLeague?.leagueId]);
 
-    return { memberMap };
+    return { sleeperMemberMap: memberMap };
 };

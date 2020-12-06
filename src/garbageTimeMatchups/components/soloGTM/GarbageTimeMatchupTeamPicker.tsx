@@ -7,13 +7,13 @@ import {
     SleeperLeague,
     SleeperLeagueTeam,
 } from '../../../leagues/store/storeTypes';
-import { MemberMap } from '../../hooks/useSleeperMemberMap';
+import { SleeperMemberMap } from '../../hooks/useSleeperMemberMap';
 import { Color } from '../../../common/styles/colors';
 
 type Props = {
     league: SleeperLeague;
     team: SleeperLeagueTeam;
-    memberMap: MemberMap;
+    memberMap: SleeperMemberMap;
     setOverlay: React.Dispatch<SetStateAction<OverlayTypes>>;
 };
 

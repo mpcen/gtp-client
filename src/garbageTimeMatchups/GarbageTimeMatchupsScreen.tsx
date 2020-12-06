@@ -32,6 +32,8 @@ import { Font } from '../common/fonts/fonts';
 import { GarbageTimeMatchupsListSolo } from './components/soloGTM/GarbageTimeMatchupsListSolo';
 import { GarbageTimeMatchupsLeagueSelectOverlay } from './components/leagueSelectOverlay/GarbageTimeMatchupsLeagueSelectOverlay';
 import { LeaguePlatform } from '../leagues/types';
+import { useESPNGarbageTimeMatchups } from './hooks/espn/useESPNGarbageTimeMatchups';
+import { useESPNMemberMap } from './hooks/espn/useESPNMemberMap';
 
 export const GarbageTimeMatchupsScreen = () => {
     const { userLeagues } = useSelector((state: RootState) => state.leagues);
@@ -67,28 +69,37 @@ export const GarbageTimeMatchupsScreen = () => {
     // INITIAL LOAD EFFECT
     useEffect(() => {
         setIsInitiallyLoaded(true);
+
+        if (userLeagues.sleeper.length) {
+            setSelectedSleeperLeague(userLeagues.sleeper[0]);
+            setSleeperTeam1(userLeagues.sleeper[0].teams[0]);
+            setSleeperTeam2(userLeagues.sleeper[0].teams[1]);
+            setSleeperSoloTeam(userLeagues.sleeper[0].teams[0]);
+        }
+
+        if (userLeagues.espn.length) {
+            setSelectedESPNLeague(userLeagues.espn[0]);
+            setESPNTeam1(userLeagues.espn[0].teams[0]);
+            setESPNTeam2(userLeagues.espn[0].teams[1]);
+            setESPNSoloTeam(userLeagues.espn[0].teams[0]);
+        }
     }, []);
 
     // EDGE CASE EFFECT
     useEffect(() => {
         if (leaguePlatform === LeaguePlatform.Sleeper) {
-            // IF WE HAVE SLEEPER LEAGUES BUT HAVENT LOADED ANYTHING YET. USUALLY THE FIRST LOAD
+            // IF WE HAVE SLEEPER LEAGUES BUT HAVE REMOVED THE SELECTED LEAGUE, CHOOSE THE FIRST SLEEPER LEAGUE
             if (
-                (userLeagues.sleeper.length &&
-                    !Object.keys(selectedSleeperLeague).length) ||
-                // IF WE HAVE SLEEPER LEAGUES BUT HAVE REMOVED THE SELECTED LEAGUE, CHOOSE THE DEFAULT
-                (userLeagues.sleeper.length &&
-                    userLeagues.sleeper.find(
-                        (league: SleeperLeague) =>
-                            league.leagueId === selectedSleeperLeague.leagueId
-                    ) === undefined)
+                userLeagues.sleeper.length &&
+                userLeagues.sleeper.find(
+                    (league: SleeperLeague) =>
+                        league.leagueId === selectedSleeperLeague.leagueId
+                ) === undefined
             ) {
-                const defaultSelectedLeague = userLeagues.sleeper[0];
-
-                setSelectedSleeperLeague(defaultSelectedLeague);
-                setSleeperTeam1(defaultSelectedLeague.teams[0]);
-                setSleeperTeam2(defaultSelectedLeague.teams[1]);
-                setSleeperSoloTeam(defaultSelectedLeague.teams[0]);
+                setSelectedSleeperLeague(userLeagues.sleeper[0]);
+                setSleeperTeam1(userLeagues.sleeper[0].teams[0]);
+                setSleeperTeam2(userLeagues.sleeper[0].teams[1]);
+                setSleeperSoloTeam(userLeagues.sleeper[0].teams[0]);
             }
             // IF ALL SLEEPER LEAGUES WERE REMOVED
             else if (
@@ -101,10 +112,37 @@ export const GarbageTimeMatchupsScreen = () => {
                 setSleeperSoloTeam({} as SleeperLeagueTeam);
             }
         }
-    }, [leaguePlatform, userLeagues.sleeper]);
+
+        // IF WE HAVE ESPN LEAGUES BUT HAVE REMOVED THE SELECTED LEAGUE, CHOOSE THE FIRST ESPN LEAGUE
+        else if (leaguePlatform === LeaguePlatform.ESPN) {
+            if (
+                userLeagues.espn.length &&
+                userLeagues.espn.find(
+                    (league: ESPNLeague) =>
+                        league.leagueId === selectedESPNLeague.leagueId
+                ) === undefined
+            ) {
+                setSelectedESPNLeague(userLeagues.espn[0]);
+                setESPNTeam1(userLeagues.espn[0].teams[0]);
+                setESPNTeam2(userLeagues.espn[0].teams[1]);
+                setESPNSoloTeam(userLeagues.espn[0].teams[0]);
+            }
+
+            // IF ALL ESPN LEAGUES WERE REMOVED
+            else if (
+                !userLeagues.espn.length &&
+                Object.keys(selectedESPNLeague).length
+            ) {
+                setSelectedESPNLeague({} as ESPNLeague);
+                setESPNTeam1({} as ESPNLeagueTeam);
+                setESPNTeam2({} as ESPNLeagueTeam);
+            }
+        }
+    }, [leaguePlatform, userLeagues.sleeper, userLeagues.espn]);
 
     // ANY-CHANGE EFFECT
     useEffect(() => {
+        // SLEEPER
         if (leaguePlatform === LeaguePlatform.Sleeper) {
             if (Object.keys(selectedSleeperLeague).length) {
                 setSleeperTeam1(selectedSleeperLeague.teams[0]);
@@ -114,11 +152,18 @@ export const GarbageTimeMatchupsScreen = () => {
             }
         }
 
+        // ESPN
         if (leaguePlatform === LeaguePlatform.ESPN) {
-            setOverlay(OverlayTypes.None);
+            if (Object.keys(selectedESPNLeague).length) {
+                setESPNTeam1(selectedESPNLeague.teams[0]);
+                setESPNTeam2(selectedESPNLeague.teams[1]);
+                setESPNSoloTeam(selectedESPNLeague.teams[0]);
+                setOverlay(OverlayTypes.None);
+            }
         }
     }, [leaguePlatform, selectedSleeperLeague, selectedESPNLeague]);
 
+    // USE SLEEPER GTM
     const {
         team1GTMResults,
         team2GTMResults,
@@ -132,7 +177,22 @@ export const GarbageTimeMatchupsScreen = () => {
         sleeperSoloTeam
     );
 
-    const { memberMap } = useSleeperMemberMap(selectedSleeperLeague);
+    // USE ESPN GTM
+    const {
+        espnTeam1GTMResults,
+        espnTeam2GTMResults,
+        espnCombinedGTMResults,
+        espnSoloGTMResults,
+    } = useESPNGarbageTimeMatchups(
+        selectedESPNLeague,
+        isH2H,
+        espnTeam1,
+        espnTeam2,
+        espnSoloTeam
+    );
+
+    const { sleeperMemberMap } = useSleeperMemberMap(selectedSleeperLeague);
+    const { espnMemberMap } = useESPNMemberMap(selectedESPNLeague);
 
     // RENDER INITIALLY LOADING
     if (!isInitiallyLoaded) {
@@ -181,7 +241,7 @@ export const GarbageTimeMatchupsScreen = () => {
             {/* ALL GTM VIEW */}
             {!isH2H &&
             selectedSleeperLeague.teams &&
-            Object.keys(memberMap).length ? (
+            Object.keys(sleeperMemberMap).length ? (
                 <>
                     <View
                         style={{
@@ -193,14 +253,14 @@ export const GarbageTimeMatchupsScreen = () => {
                         <GarbageTimeMatchupsTeamPicker
                             league={selectedSleeperLeague}
                             team={sleeperSoloTeam}
-                            memberMap={memberMap}
+                            memberMap={sleeperMemberMap}
                             setOverlay={setOverlay}
                         />
                     </View>
 
                     <GarbageTimeMatchupsListSolo
                         soloTeam={sleeperSoloTeam}
-                        memberMap={memberMap}
+                        memberMap={sleeperMemberMap}
                         soloGTMResults={soloGTMResults}
                         league={selectedSleeperLeague}
                         setOverlay={setOverlay}
@@ -211,7 +271,7 @@ export const GarbageTimeMatchupsScreen = () => {
             {/* H2H GTM VIEW */}
             {isH2H &&
             selectedSleeperLeague.teams &&
-            Object.keys(memberMap).length &&
+            Object.keys(sleeperMemberMap).length &&
             Object.keys(team1GTMResults).length &&
             Object.keys(team2GTMResults).length ? (
                 <>
@@ -219,7 +279,7 @@ export const GarbageTimeMatchupsScreen = () => {
                         <GarbageTimeMatchupsTeamHeader
                             team={sleeperTeam1}
                             teamNumber={1}
-                            memberMap={memberMap}
+                            memberMap={sleeperMemberMap}
                             gtmResults={team1GTMResults}
                             selectedLeague={selectedSleeperLeague}
                             setSelectedTeam={setSelectedSleeperTeamNumber}
@@ -229,7 +289,7 @@ export const GarbageTimeMatchupsScreen = () => {
                         <GarbageTimeMatchupsTeamHeader
                             team={sleeperTeam2}
                             teamNumber={2}
-                            memberMap={memberMap}
+                            memberMap={sleeperMemberMap}
                             gtmResults={team2GTMResults}
                             selectedLeague={selectedSleeperLeague}
                             setSelectedTeam={setSelectedSleeperTeamNumber}
@@ -267,7 +327,7 @@ export const GarbageTimeMatchupsScreen = () => {
                     team2={sleeperTeam2}
                     soloTeam={sleeperSoloTeam}
                     selectedTeam={selectedSleeperTeamNumber}
-                    memberMap={memberMap}
+                    memberMap={sleeperMemberMap}
                     isH2H={isH2H}
                     setTeam1={setSleeperTeam1}
                     setTeam2={setSleeperTeam2}
