@@ -17,8 +17,8 @@ import {
     SleeperLeague,
     SleeperLeagueTeam,
 } from '../leagues/store/storeTypes';
-import { useSleeperMemberMap } from './hooks/useSleeperMemberMap';
-import { useSleeperGarbageTimeMatchups } from './hooks/useSleeperGarbageTimeMatchups';
+import { useSleeperMemberMap } from './hooks/sleeper/useSleeperMemberMap';
+import { useSleeperGarbageTimeMatchups } from './hooks/sleeper/useSleeperGarbageTimeMatchups';
 import { OverlayTypes } from './types';
 
 import { GarbageTimeMatchupsTeamHeader } from './components/h2hGTM/GarbageTimeMatchupsTeamHeader';
@@ -238,7 +238,7 @@ export const GarbageTimeMatchupsScreen = () => {
 
             <Divider />
 
-            {/* ALL GTM VIEW */}
+            {/* SOLO GTM VIEW */}
             {!isH2H &&
             selectedSleeperLeague.teams &&
             Object.keys(sleeperMemberMap).length ? (
@@ -251,9 +251,31 @@ export const GarbageTimeMatchupsScreen = () => {
                         }}
                     >
                         <GarbageTimeMatchupsTeamPicker
-                            league={selectedSleeperLeague}
-                            team={sleeperSoloTeam}
-                            memberMap={sleeperMemberMap}
+                            teamName={
+                                sleeperSoloTeam.nickname ||
+                                selectedSleeperLeague.members.find(
+                                    (member) =>
+                                        member.memberId ===
+                                        sleeperSoloTeam.ownerIds[0]
+                                )?.displayName!
+                            }
+                            teamRecord={{
+                                wins: sleeperSoloTeam.wins,
+                                losses: sleeperSoloTeam.losses,
+                                ties: sleeperSoloTeam.ties,
+                            }}
+                            totalPointsFor={
+                                sleeperSoloTeam.totalPointsFor['$numberDecimal']
+                            }
+                            totalPointsAgainst={
+                                sleeperSoloTeam.totalPointsAgainst[
+                                    '$numberDecimal'
+                                ]
+                            }
+                            avatarUrl={`https://sleepercdn.com/avatars/thumbs/${
+                                sleeperMemberMap[sleeperSoloTeam.ownerIds[0]]
+                                    ?.avatar
+                            }`}
                             setOverlay={setOverlay}
                         />
                     </View>

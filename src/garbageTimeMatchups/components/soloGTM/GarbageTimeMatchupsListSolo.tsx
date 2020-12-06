@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 
-import { SoloGTMResult } from '../../hooks/useSleeperGarbageTimeMatchups';
-import { SleeperMemberMap } from '../../hooks/useSleeperMemberMap';
+import { SoloGTMResult } from '../../hooks/sleeper/useSleeperGarbageTimeMatchups';
+import { SleeperMemberMap } from '../../hooks/sleeper/useSleeperMemberMap';
 import { OverlayTypes } from '../../types';
 
 import { Color } from '../../../common/styles/colors';

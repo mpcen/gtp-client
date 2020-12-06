@@ -3,8 +3,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 
 import { OverlayTypes } from '../../types';
-import { SleeperMemberMap } from '../../hooks/useSleeperMemberMap';
-import { GTMResult } from '../../hooks/useSleeperGarbageTimeMatchups';
+import { SleeperMemberMap } from '../../hooks/sleeper/useSleeperMemberMap';
+import { GTMResult } from '../../hooks/sleeper/useSleeperGarbageTimeMatchups';
 import {
     SleeperLeagueTeam,
     SleeperLeague,

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { GarbageTimeMatchupCard } from './GarbageTimeMatchupCard';
 import { TeamInfoMap } from './GarbageTimeMatchupsList';
-import { CombinedGTMResult } from '../../hooks/useSleeperGarbageTimeMatchups';
+import { CombinedGTMResult } from '../../hooks/sleeper/useSleeperGarbageTimeMatchups';
 import { Color } from '../../../common/styles/colors';
 import { Font } from '../../../common/fonts/fonts';
 

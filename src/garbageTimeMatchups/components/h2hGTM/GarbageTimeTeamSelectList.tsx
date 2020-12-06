@@ -7,7 +7,7 @@ import {
     SleeperLeagueTeam,
 } from '../../../leagues/store/storeTypes';
 import { OverlayTypes } from '../../types';
-import { SleeperMemberMap } from '../../hooks/useSleeperMemberMap';
+import { SleeperMemberMap } from '../../hooks/sleeper/useSleeperMemberMap';
 
 type Props = {
     selectedLeague: SleeperLeague;
