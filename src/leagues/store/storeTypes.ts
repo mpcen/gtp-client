@@ -108,6 +108,11 @@ export type ESPNLeagueTeam = {
     location: string;
     abbrev: string;
     owners: string[];
+    wins: number;
+    losses: number;
+    ties: number;
+    totalPointsFor: string;
+    totalPointsAgainst: string;
 };
 
 export type ESPNLeagueMatchup = {

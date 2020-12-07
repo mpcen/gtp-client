@@ -252,25 +252,42 @@ export const GarbageTimeMatchupsScreen = () => {
                     >
                         <GarbageTimeMatchupsTeamPicker
                             teamName={
-                                sleeperSoloTeam.nickname ||
-                                selectedSleeperLeague.members.find(
-                                    (member) =>
-                                        member.memberId ===
-                                        sleeperSoloTeam.ownerIds[0]
-                                )?.displayName!
+                                leaguePlatform === LeaguePlatform.Sleeper
+                                    ? sleeperSoloTeam.nickname ||
+                                      selectedSleeperLeague.members.find(
+                                          (member) =>
+                                              member.memberId ===
+                                              sleeperSoloTeam.ownerIds[0]
+                                      )?.displayName!
+                                    : espnSoloTeam.nickname
                             }
                             teamRecord={{
-                                wins: sleeperSoloTeam.wins,
-                                losses: sleeperSoloTeam.losses,
-                                ties: sleeperSoloTeam.ties,
+                                wins:
+                                    leaguePlatform === LeaguePlatform.Sleeper
+                                        ? sleeperSoloTeam.wins
+                                        : espnSoloTeam.wins,
+                                losses:
+                                    leaguePlatform === LeaguePlatform.Sleeper
+                                        ? sleeperSoloTeam.losses
+                                        : espnSoloTeam.losses,
+                                ties:
+                                    leaguePlatform === LeaguePlatform.Sleeper
+                                        ? sleeperSoloTeam.ties
+                                        : espnSoloTeam.ties,
                             }}
                             totalPointsFor={
-                                sleeperSoloTeam.totalPointsFor['$numberDecimal']
+                                leaguePlatform === LeaguePlatform.Sleeper
+                                    ? sleeperSoloTeam.totalPointsFor[
+                                          '$numberDecimal'
+                                      ]
+                                    : espnSoloTeam.totalPointsFor
                             }
                             totalPointsAgainst={
-                                sleeperSoloTeam.totalPointsAgainst[
-                                    '$numberDecimal'
-                                ]
+                                leaguePlatform === LeaguePlatform.Sleeper
+                                    ? sleeperSoloTeam.totalPointsAgainst[
+                                          '$numberDecimal'
+                                      ]
+                                    : espnSoloTeam.totalPointsAgainst
                             }
                             avatarUrl={`https://sleepercdn.com/avatars/thumbs/${
                                 sleeperMemberMap[sleeperSoloTeam.ownerIds[0]]
@@ -280,13 +297,13 @@ export const GarbageTimeMatchupsScreen = () => {
                         />
                     </View>
 
-                    <GarbageTimeMatchupsListSolo
+                    {/* <GarbageTimeMatchupsListSolo
                         soloTeam={sleeperSoloTeam}
                         memberMap={sleeperMemberMap}
                         soloGTMResults={soloGTMResults}
                         league={selectedSleeperLeague}
                         setOverlay={setOverlay}
-                    />
+                    /> */}
                 </>
             ) : null}
 
@@ -344,7 +361,11 @@ export const GarbageTimeMatchupsScreen = () => {
                 onBackdropPress={() => setOverlay(OverlayTypes.None)}
             >
                 <GarbageTimeTeamSelectList
-                    selectedLeague={selectedSleeperLeague}
+                    selectedLeague={
+                        leaguePlatform === LeaguePlatform.Sleeper
+                            ? selectedSleeperLeague
+                            : selectedESPNLeague
+                    }
                     team1={sleeperTeam1}
                     team2={sleeperTeam2}
                     soloTeam={sleeperSoloTeam}
