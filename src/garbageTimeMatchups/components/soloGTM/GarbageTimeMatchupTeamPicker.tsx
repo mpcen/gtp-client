@@ -3,24 +3,23 @@ import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 
 import { OverlayTypes } from '../../types';
-import {
-    SleeperLeague,
-    SleeperLeagueTeam,
-} from '../../../leagues/store/storeTypes';
-import { MemberMap } from '../../hooks/useMemberMap';
 import { Color } from '../../../common/styles/colors';
 
 type Props = {
-    league: SleeperLeague;
-    team: SleeperLeagueTeam;
-    memberMap: MemberMap;
+    teamName: string;
+    teamRecord: { wins: number; losses: number; ties: number };
+    totalPointsFor: string;
+    totalPointsAgainst: string;
+    avatarUrl: string;
     setOverlay: React.Dispatch<SetStateAction<OverlayTypes>>;
 };
 
 export const GarbageTimeMatchupsTeamPicker = ({
-    league,
-    team,
-    memberMap,
+    teamName,
+    teamRecord,
+    totalPointsFor,
+    totalPointsAgainst,
+    avatarUrl,
     setOverlay,
 }: Props) => {
     return (
@@ -34,26 +33,20 @@ export const GarbageTimeMatchupsTeamPicker = ({
                 containerStyle={styles.avatarContainer}
                 size="medium"
                 rounded
-                source={{
-                    uri: `https://sleepercdn.com/avatars/thumbs/${
-                        memberMap[team.ownerIds[0]]?.avatar
-                    }`,
-                }}
+                source={{ uri: avatarUrl }}
             />
 
             <View>
                 <View style={[styles.row, styles.teamHeaderContainer]}>
                     {/* TEAM NAME */}
                     <Text style={styles.teamNameText} allowFontScaling={false}>
-                        {team.nickname ||
-                            league.members.find(
-                                (member) => member.memberId === team.ownerIds[0]
-                            )?.displayName}
+                        {teamName}
                     </Text>
 
                     {/* RECORD */}
                     <Text style={styles.record} allowFontScaling={false}>
-                        ({team.wins}-{team.losses}-{team.ties})
+                        ({teamRecord.wins}-{teamRecord.losses}-{teamRecord.ties}
+                        )
                     </Text>
                 </View>
 
@@ -73,7 +66,7 @@ export const GarbageTimeMatchupsTeamPicker = ({
                             style={styles.pointsText}
                             allowFontScaling={false}
                         >
-                            {team.totalPointsFor['$numberDecimal']}
+                            {totalPointsFor}
                         </Text>
                     </View>
 
@@ -92,7 +85,7 @@ export const GarbageTimeMatchupsTeamPicker = ({
                             style={styles.pointsText}
                             allowFontScaling={false}
                         >
-                            {team.totalPointsAgainst['$numberDecimal']}
+                            {totalPointsAgainst}
                         </Text>
                     </View>
                 </View>

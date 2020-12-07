@@ -7,7 +7,7 @@ import {
     SleeperLeagueTeam,
 } from '../../../leagues/store/storeTypes';
 import { OverlayTypes } from '../../types';
-import { MemberMap } from '../../hooks/useMemberMap';
+import { SleeperMemberMap } from '../../hooks/sleeper/useSleeperMemberMap';
 
 type Props = {
     selectedLeague: SleeperLeague;
@@ -15,7 +15,7 @@ type Props = {
     team2: SleeperLeagueTeam;
     soloTeam: SleeperLeagueTeam;
     selectedTeam: number;
-    memberMap: MemberMap;
+    memberMap: SleeperMemberMap;
     isH2H: boolean;
     setTeam1: React.Dispatch<React.SetStateAction<SleeperLeagueTeam>>;
     setTeam2: React.Dispatch<React.SetStateAction<SleeperLeagueTeam>>;

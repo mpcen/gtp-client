@@ -38,6 +38,7 @@ export const LeaguesTopTabNavigator = () => {
             <LeaguesTopTab.Screen
                 name="SleeperTab"
                 component={LeaguesScreen}
+                initialParams={{ platform: LeaguePlatform.Sleeper }}
                 options={{
                     tabBarLabel: ({ focused }) => (
                         <LeagueTab
@@ -50,6 +51,7 @@ export const LeaguesTopTabNavigator = () => {
             <LeaguesTopTab.Screen
                 name="ESPNTab"
                 component={LeaguesScreen}
+                initialParams={{ platform: LeaguePlatform.ESPN }}
                 options={{
                     tabBarLabel: ({ focused }) => (
                         <LeagueTab

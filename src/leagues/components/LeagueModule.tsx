@@ -1,76 +1,70 @@
 import React from 'react';
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-    Image,
-    TouchableOpacity,
-} from 'react-native';
-import { Divider, Button, Icon } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
-import { Asset } from 'expo-asset';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 
 import * as Constants from '../constants';
-import { SleeperLeague } from '../store/storeTypes';
+import { ESPNLeague, League, SleeperLeague } from '../store/storeTypes';
 
-import { LeagueInfoListItem } from './LeagueInfoListItem';
 import { Color } from '../../common/styles/colors';
+import { LeaguePlatform } from '../types';
+import { SleeperLeagueInfoListItem } from './sleeper/SleeperLeagueInfoListItem';
+import { ESPNLeagueInfoListItem } from './espn/ESPNLeagueInfoListItem';
+import { OverlayTypes } from '../../garbageTimeMatchups/types';
 
 type Props = {
-    leagues: SleeperLeague[];
+    leaguePlatform: LeaguePlatform;
+    leagues: SleeperLeague[] | ESPNLeague[];
     isLoading: boolean;
-    setIsOverlayVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    setSelectedLeague: React.Dispatch<React.SetStateAction<SleeperLeague>>;
+    setOverlay: React.Dispatch<React.SetStateAction<OverlayTypes>>;
+    setSelectedLeague: React.Dispatch<
+        React.SetStateAction<SleeperLeague | ESPNLeague>
+    >;
 };
 
 export const LeagueModule = ({
+    leaguePlatform,
     leagues,
     isLoading,
-    setIsOverlayVisible,
+    setOverlay,
     setSelectedLeague,
 }: Props) => {
-    const { navigate } = useNavigation();
-
     return (
         <View style={styles.container}>
-            {/* <View style={styles.headerContainer}>
-                <Image
-                    style={[
-                        styles.leaguePlatformImageStyle,
-                        styles.sleeperImageStyle,
-                    ]}
-                    source={{ uri: sleeperLogoUri }}
-                />
-                <Button
-                    buttonStyle={styles.button}
-                    titleStyle={styles.addLeagueButtonTitle}
-                    type="outline"
-                    title="Add League"
-                    onPress={() => navigate('ImportSleeperLeagues')}
-                />
-            </View> */}
-
             <FlatList
                 contentContainerStyle={
                     leagues.length ? null : styles.emptyLeaguesContainer
                 }
-                data={leagues}
-                keyExtractor={(item) => item.leagueId}
-                renderItem={({ item }) => (
-                    <LeagueInfoListItem
-                        leagueName={item.leagueName}
-                        seasonId={item.seasonId}
-                        totalTeams={item.teams.length}
-                        itemAdded={true}
-                        icon="minus-circle"
-                        leagueAvatar={item.avatar}
-                        onButtonPressCallback={() => {
-                            setSelectedLeague(item);
-                            setIsOverlayVisible(true);
-                        }}
-                    />
-                )}
+                data={leagues as League[]}
+                keyExtractor={(item: SleeperLeague | ESPNLeague) =>
+                    item.leagueId
+                }
+                renderItem={({ item }) =>
+                    leaguePlatform === LeaguePlatform.Sleeper ? (
+                        <SleeperLeagueInfoListItem
+                            leagueName={item.leagueName}
+                            seasonId={item.seasonId}
+                            totalTeams={item.teams.length}
+                            leagueAvatar={item.avatar || ''}
+                            itemAdded={true}
+                            isLoading={isLoading}
+                            onButtonPressCallback={() => {
+                                setSelectedLeague(item as SleeperLeague);
+                                setOverlay(OverlayTypes.None);
+                            }}
+                        />
+                    ) : (
+                        <ESPNLeagueInfoListItem
+                            leagueName={item.leagueName}
+                            seasonId={item.seasonId}
+                            totalTeams={item.teams.length}
+                            itemAdded={true}
+                            isLoading={isLoading}
+                            onButtonPressCallback={() => {
+                                setSelectedLeague(item as ESPNLeague);
+                                setOverlay(OverlayTypes.None);
+                            }}
+                        />
+                    )
+                }
                 ListEmptyComponent={() =>
                     isLoading ? (
                         <View style={styles.emptyLeaguesContainer}>

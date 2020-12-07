@@ -3,6 +3,8 @@ export enum OverlayTypes {
     LeagueSelect,
     TeamSelect,
     GTRInfo,
+    YearSelect,
+    RemoveLeague,
 }
 
 export enum TeamDestination {

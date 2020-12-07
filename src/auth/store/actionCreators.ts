@@ -37,13 +37,22 @@ export const preloadData = () => {
         });
 
         try {
-            const [currentUser, userSleeperLeagues] = await Promise.all([
+            const [
+                currentUser,
+                userSleeperLeagues,
+                userESPNLeagues,
+            ] = await Promise.all([
                 axios.get(`${API_URI}/api/users/currentuser`, {
                     headers: {
                         authorization: `Bearer ${token}`,
                     },
                 }),
                 axios.get(`${API_URI}/api/league/sleeper/userleagues`, {
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                }),
+                axios.get(`${API_URI}/api/league/espn/userleagues`, {
                     headers: {
                         authorization: `Bearer ${token}`,
                     },
@@ -55,12 +64,17 @@ export const preloadData = () => {
                 payload: {
                     currentUserInfo: currentUser.data.currentUser,
                     userSleeperLeagues: userSleeperLeagues.data,
+                    userESPNLeagues: userESPNLeagues.data,
                 },
             });
 
+            // STORE_PRELOADED_LEAGUES
             dispatch({
                 type: LeagueActionTypes.STORE_PRELOADED_LEAGUES,
-                payload: userSleeperLeagues.data,
+                payload: {
+                    sleeperLeagues: userSleeperLeagues.data,
+                    espnLeagues: userESPNLeagues.data,
+                },
             });
         } catch (e) {
             dispatch({

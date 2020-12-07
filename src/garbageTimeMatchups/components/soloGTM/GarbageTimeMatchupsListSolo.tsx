@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 
-import { SoloGTMResult } from '../../hooks/useGarbageTimeMatchups';
-import { MemberMap } from '../../hooks/useMemberMap';
+import { SoloGTMResult } from '../../hooks/sleeper/useSleeperGarbageTimeMatchups';
+import { SleeperMemberMap } from '../../hooks/sleeper/useSleeperMemberMap';
 import { OverlayTypes } from '../../types';
 
 import { Color } from '../../../common/styles/colors';
@@ -20,7 +20,7 @@ import {
 
 type Props = {
     soloTeam: SleeperLeagueTeam;
-    memberMap: MemberMap;
+    memberMap: SleeperMemberMap;
     soloGTMResults: SoloGTMResult[];
     league: SleeperLeague;
     setOverlay: React.Dispatch<React.SetStateAction<OverlayTypes>>;

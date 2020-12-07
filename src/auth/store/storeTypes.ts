@@ -1,4 +1,4 @@
-import { SleeperLeague } from '../../leagues/store/storeTypes';
+import { ESPNLeague, SleeperLeague } from '../../leagues/store/storeTypes';
 
 export type CurrentUser = {
     id: string;
@@ -16,6 +16,7 @@ export type AuthState = {
     isDataPreloaded: boolean;
     preloadedLeagues: {
         sleeper: SleeperLeague[];
+        espn: ESPNLeague[];
     };
     resetPassword: {
         fullUrl: string;

@@ -3,8 +3,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 
 import { OverlayTypes } from '../../types';
-import { MemberMap } from '../../hooks/useMemberMap';
-import { GTMResult } from '../../hooks/useGarbageTimeMatchups';
+import { SleeperMemberMap } from '../../hooks/sleeper/useSleeperMemberMap';
+import { GTMResult } from '../../hooks/sleeper/useSleeperGarbageTimeMatchups';
 import {
     SleeperLeagueTeam,
     SleeperLeague,
@@ -14,7 +14,7 @@ import { Color } from '../../../common/styles/colors';
 type Props = {
     team: SleeperLeagueTeam;
     teamNumber: number;
-    memberMap: MemberMap;
+    memberMap: SleeperMemberMap;
     gtmResults: GTMResult;
     selectedLeague: SleeperLeague;
     setSelectedTeam: React.Dispatch<React.SetStateAction<number>>;
